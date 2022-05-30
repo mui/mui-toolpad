@@ -1,0 +1,31 @@
+{
+  "name": "@mui/toolpad-ee",
+  "version": "0.0.5-alpha.4",
+  "description": "Build MUI apps quickly",
+  "author": "MUI Toolpad team",
+  "homepage": "https://github.com/mui/mui-toolpad#readme",
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mui/mui-toolpad.git"
+  },
+  "scripts": {
+    "build": "yarn workspace @mui/toolpad-app build:prisma && concurrently \"yarn:build:*\" && rimraf ./.next/cache",
+    "dev": "concurrently \"yarn:dev:*\"",
+    "build:public": "PUBLIC_FOLDER=\"$PWD/public\" yarn workspace @mui/toolpad-app build:public",
+    "build:next": "next build",
+    "dev:next": "next dev",
+    "dev:public": "PUBLIC_FOLDER=\"$PWD/public\" yarn workspace @mui/toolpad-app dev:public"
+  },
+  "bugs": {
+    "url": "https://github.com/mui/mui-toolpad/issues"
+  },
+  "dependencies": {
+    "@mui/toolpad-app": "^0.0.5-alpha.4",
+    "next": "^12.1.4"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.1",
+    "next-transpile-modules": "^9.0.0"
+  }
+}

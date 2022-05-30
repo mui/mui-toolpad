@@ -3,3 +3,4 @@
 /packages/*/.next
 
 /packages/toolpad-app/public
+/enterprise/toolpad-ee/public

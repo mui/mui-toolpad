@@ -3,6 +3,8 @@ import * as path from 'path';
 import globCb from 'glob';
 import { promisify } from 'util';
 
+const PUBLIC_FOLDER = process.env.PUBLIC_FOLDER || path.resolve(__dirname, '../public');
+
 const glob = promisify(globCb);
 
 const LIBS = [
@@ -91,7 +93,7 @@ async function main() {
     )),
   );
 
-  await fs.writeFile(path.resolve(__dirname, '../public/typings.json'), JSON.stringify(result), {
+  await fs.writeFile(path.resolve(PUBLIC_FOLDER, './typings.json'), JSON.stringify(result), {
     encoding: 'utf-8',
   });
 }

@@ -4,8 +4,9 @@ packages/*/dist
 packages/toolpad-app/.next
 packages/toolpad-app/prisma/generated
 packages/toolpad-app/public/editorRuntime
-packages/toolpad-app/public/web_modules
 packages/toolpad-app/public/typings.json
+enterprise/toolpad-ee/public/editorRuntime
+enterprise/toolpad-ee/public/typings.json
 .git
 .env
 docker

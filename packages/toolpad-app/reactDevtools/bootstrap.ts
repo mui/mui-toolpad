@@ -1,3 +1,5 @@
 import { initialize as initializeDevtoolsBackend } from 'react-devtools-inline/backend';
 
-initializeDevtoolsBackend(window);
+if (typeof window !== 'undefined') {
+  initializeDevtoolsBackend(window);
+}
