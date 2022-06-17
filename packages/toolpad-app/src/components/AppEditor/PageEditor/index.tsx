@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled } from '@mui/material';
+import { styled, Box } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { NodeId } from '@mui/toolpad-core';
 import RenderPanel from './RenderPanel';
@@ -10,18 +10,25 @@ import * as appDom from '../../../appDom';
 import ComponentCatalog from './ComponentCatalog';
 import NotFoundEditor from '../NotFoundEditor';
 import usePageTitle from '../../../utils/usePageTitle';
+import SplitPane from '../../SplitPane';
+import NonRenderedPageContent from './NonRenderedPageContent';
 
 const classes = {
   componentPanel: 'Toolpad_ComponentPanel',
+  pageContentPanel: 'Toolpad_PageContentPanel',
   renderPanel: 'Toolpad_RenderPanel',
 };
 
 const PageEditorRoot = styled('div')(({ theme }) => ({
+  position: 'relative',
   width: '100%',
   height: '100%',
   display: 'flex',
   flexDirection: 'row',
   overflow: 'hidden',
+  [`& .${classes.pageContentPanel}`]: {
+    flex: 1,
+  },
   [`& .${classes.renderPanel}`]: {
     flex: 1,
   },
@@ -38,11 +45,31 @@ interface PageEditorContentProps {
 
 function PageEditorContent({ appId, node }: PageEditorContentProps) {
   usePageTitle(`${node.attributes.title.value} | Toolpad editor`);
+
   return (
     <PageEditorProvider key={node.id} appId={appId} nodeId={node.id}>
       <PageEditorRoot>
-        <ComponentCatalog />
-        <RenderPanel className={classes.renderPanel} />
+        <Box sx={{ flex: 1, position: 'relative' }}>
+          <SplitPane
+            split="horizontal"
+            allowResize
+            defaultSize="70%"
+            pane2Style={{ overflow: 'auto' }}
+          >
+            <Box
+              sx={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'row',
+              }}
+            >
+              <ComponentCatalog />
+              <RenderPanel className={classes.renderPanel} />
+            </Box>
+            <NonRenderedPageContent />
+          </SplitPane>
+        </Box>
         <ComponentPanel className={classes.componentPanel} />
       </PageEditorRoot>
     </PageEditorProvider>

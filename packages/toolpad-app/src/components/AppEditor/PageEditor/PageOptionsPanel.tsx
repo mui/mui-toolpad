@@ -30,7 +30,7 @@ export default function PageOptionsPanel() {
         </Button>
         <Divider variant="middle" sx={{ alignSelf: 'stretch' }} />
         <Typography variant="subtitle1">Page State:</Typography>
-        <UrlQueryEditor pageNodeId={pageNodeId} />
+        <UrlQueryEditor />
         <QueryEditor />
       </Stack>
     </div>
