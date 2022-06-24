@@ -2,6 +2,15 @@
 # yarn lockfile v1
 
 
+"@agoric/babel-generator@^7.17.6":
+  version "7.17.6"
+  resolved "https://registry.yarnpkg.com/@agoric/babel-generator/-/babel-generator-7.17.6.tgz#75ff4629468a481d670b4154bcfade11af6de674"
+  integrity sha512-D2wnk5fGajxMN5SCRSaA/triQGEaEX2Du0EzrRqobuD4wRXjvtF1e7jC1PPOk/RC2bZ8/0fzp0CHOiB7YLwb5w==
+  dependencies:
+    "@babel/types" "^7.17.0"
+    jsesc "^2.5.1"
+    source-map "^0.5.0"
+
 "@ampproject/remapping@^2.1.0":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@ampproject/remapping/-/remapping-2.1.2.tgz#4edca94973ded9630d20101cd8559cedb8d8bd34"
@@ -477,6 +486,17 @@
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
+
+"@endo/static-module-record@^0.7.5":
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/@endo/static-module-record/-/static-module-record-0.7.5.tgz#ff5eafb0507ed335535a9aead8bdc7f045e06427"
+  integrity sha512-M1Ra54v3a3pkjV8Y5lvXsQRAmXvW3MyHm+j5EAVJDLmhugbFBVIW3jnG3My1hQuAwX2P8B1JMxR38SzJd+35mw==
+  dependencies:
+    "@agoric/babel-generator" "^7.17.6"
+    "@babel/parser" "^7.17.3"
+    "@babel/traverse" "^7.17.3"
+    "@babel/types" "^7.17.0"
+    ses "^0.15.16"
 
 "@es-joy/jsdoccomment@~0.29.0":
   version "0.29.0"
@@ -8126,6 +8146,11 @@ serialize-javascript@^6.0.0:
   integrity sha512-Qr3TosvguFt8ePWqsvRfrKyQXIiW+nGbYpy8XK24NQHE83caxWt+mIymTT19DGFbNWNLfEwsrkSmN64lVWB9ag==
   dependencies:
     randombytes "^2.1.0"
+
+ses@^0.15.16:
+  version "0.15.16"
+  resolved "https://registry.yarnpkg.com/ses/-/ses-0.15.16.tgz#7e762dfabf214f00f446985e81eda52befcf03ab"
+  integrity sha512-ib8tD6XAnJ8jJzzEQy+PZu2clQZryPRiYOw5vqVxw7uV/816bpdnTI/f/yF+DJQDea30Ye4QrPD2oOeARF8Khw==
 
 set-blocking@~2.0.0:
   version "2.0.0"
