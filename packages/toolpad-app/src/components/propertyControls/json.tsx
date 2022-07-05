@@ -94,6 +94,7 @@ function JsonPropEditor({ label, argType, value, onChange, disabled }: EditorPro
             language="json"
             options={{ readOnly: disabled }}
             onMount={HandleEditorMount}
+            theme="vs-dark"
           />
         </DialogContent>
         <DialogActions>

@@ -99,6 +99,7 @@ export default function TsModuleEditor({ path, extraLibs, value, onChange }: TsM
       path={path}
       language="typescript"
       onMount={HandleEditorMount}
+      theme="vs-dark"
     />
   );
 }

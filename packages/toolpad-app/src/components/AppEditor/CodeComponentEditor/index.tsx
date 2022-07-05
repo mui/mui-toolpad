@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Box, Button, Stack, styled, Toolbar, Typography } from '@mui/material';
+import { Box, Button, CssBaseline, Stack, styled, Toolbar, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
@@ -175,6 +175,7 @@ function CodeComponentEditorContent({ theme, codeComponentNode }: CodeComponentE
                   fallbackRender={({ error: runtimeError }) => <ErrorAlert error={runtimeError} />}
                 >
                   <AppThemeProvider node={theme}>
+                    <CssBaseline />
                     <CodeComponent {...defaultProps} />
                   </AppThemeProvider>
                 </ErrorBoundary>

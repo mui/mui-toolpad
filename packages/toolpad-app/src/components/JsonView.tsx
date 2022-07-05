@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { ObjectInspector, ObjectInspectorProps, ObjectValue, ObjectLabel } from 'react-inspector';
+import {
+  ObjectInspector,
+  ObjectInspectorProps,
+  ObjectValue,
+  ObjectLabel,
+  chromeDark,
+} from 'react-inspector';
 
 const nodeRenderer: ObjectInspectorProps['nodeRenderer'] = ({
   depth,
@@ -28,6 +34,7 @@ export default function JsonView({ src }: JsonViewProps) {
         expandLevel={1}
         expandPaths={expandPaths}
         data={src}
+        theme={{ ...chromeDark, BASE_BACKGROUND_COLOR: 'rgba(0,0,0,0)' }}
       />
     </div>
   );

@@ -137,6 +137,7 @@ export function JsExpressionEditor({
         options={{
           readOnly: disabled,
         }}
+        theme="vs-dark"
       />
     </JsExpressionEditorRoot>
   );
