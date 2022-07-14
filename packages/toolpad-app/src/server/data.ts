@@ -233,6 +233,21 @@ export async function updateApp(appId: string, name: string): Promise<App> {
   });
 }
 
+export async function duplicateApp(appId: string): Promise<App> {
+  const app = await prisma.app.findUnique({ where: { id: appId } });
+  const dom = await loadPreviewDom(appId);
+  const duplicateDom = appDom.duplicateDom(dom);
+  if (!app) {
+    throw new Error(`App "${appId}" not found`);
+  }
+
+  const newApp = await prisma.app.create({
+    data: { name: `${app.name} (copy)` },
+  });
+  await saveDom(newApp.id, duplicateDom);
+  return newApp;
+}
+
 export async function deleteApp(id: string) {
   return prisma.app.delete({
     where: { id },

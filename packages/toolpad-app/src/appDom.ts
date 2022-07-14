@@ -383,6 +383,18 @@ function createNodeInternal<T extends AppDomNodeType>(
   } as AppDomNodeOfType<T>;
 }
 
+function duplicateDomNodeInternal<T extends AppDomNodeType>(
+  id: NodeId,
+  parentId: NodeId,
+  source: AppDomNodeOfType<T>,
+): AppDomNodeOfType<T> {
+  return {
+    ...source,
+    id,
+    parentId,
+  } as AppDomNodeOfType<T>;
+}
+
 function slugifyNodeName(dom: AppDom, nameCandidate: string, fallback: string): string {
   // try to replace accents with relevant ascii
   let slug = removeDiacritics(nameCandidate);
@@ -790,4 +802,30 @@ export function createRenderTree(dom: AppDom): RenderTree {
     ...dom,
     nodes: filterValues(dom.nodes, (node) => frontendNodes.has(node.type)) as RenderTreeNodes,
   };
+}
+
+export function duplicateDom(dom: AppDom): AppDom {
+  const root = getNode(dom, dom.root);
+
+  const newRootId = cuid() as NodeId;
+
+  const newDom: AppDom = {
+    root: newRootId,
+    nodes: {
+      [newRootId]: createNodeInternal(newRootId, 'app', {
+        name: root.name,
+        attributes: { ...root.attributes },
+      }),
+    },
+  };
+
+  const domNodes: readonly AppDomNode[] = getDescendants(dom, root);
+
+  for (const domNode of domNodes) {
+    const newNodeId = cuid() as NodeId;
+    const newDomNode = duplicateDomNodeInternal(newNodeId, newRootId, domNode);
+    newDom.nodes[newNodeId] = newDomNode;
+  }
+
+  return newDom;
 }

@@ -26,6 +26,7 @@ import { LoadingButton } from '@mui/lab';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import client from '../api';
 import DialogForm from './DialogForm';
@@ -146,6 +147,11 @@ function AppCard({ app, activeDeployment, onDelete }: AppCardProps) {
   const [editingTitle, setEditingTitle] = React.useState<boolean>(false);
   const [appTitle, setAppTitle] = React.useState<string | undefined>(app?.name);
   const appTitleInput = React.useRef<HTMLInputElement | null>(null);
+  const duplicateAppMutation = client.useMutation('duplicateApp', {
+    onSuccess: (duplicateApp) => {
+      window.location.href = `/_toolpad/app/${duplicateApp.id}/editor`;
+    },
+  });
 
   const menuOpen = Boolean(menuAnchorEl);
 
@@ -161,6 +167,14 @@ function AppCard({ app, activeDeployment, onDelete }: AppCardProps) {
     setMenuAnchorEl(null);
     setEditingTitle(true);
   }, []);
+
+  const handleDuplicateClick = React.useCallback(async () => {
+    setMenuAnchorEl(null);
+    if (app?.id) {
+      await duplicateAppMutation.mutateAsync([app.id]);
+    }
+    await client.invalidateQueries('getApps');
+  }, [duplicateAppMutation, app?.id]);
 
   const handleDeleteClick = React.useCallback(() => {
     setMenuAnchorEl(null);
@@ -312,13 +326,19 @@ function AppCard({ app, activeDeployment, onDelete }: AppCardProps) {
       >
         <MenuItem onClick={handleRenameClick}>
           <ListItemIcon>
-            <DriveFileRenameOutlineIcon />
+            <DriveFileRenameOutlineIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText>Rename</ListItemText>
         </MenuItem>
+        <MenuItem onClick={handleDuplicateClick}>
+          <ListItemIcon>
+            <ContentCopyOutlinedIcon fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Duplicate</ListItemText>
+        </MenuItem>
         <MenuItem onClick={handleDeleteClick}>
           <ListItemIcon>
-            <DeleteIcon />
+            <DeleteIcon fontSize="small" />
           </ListItemIcon>
           <ListItemText>Delete</ListItemText>
         </MenuItem>
