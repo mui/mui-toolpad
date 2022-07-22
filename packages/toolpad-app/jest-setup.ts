@@ -19,6 +19,7 @@ if (!global.TextEncoder) {
 if (!global.fetch) {
   // @ts-expect-error
   global.fetch = fetch;
+  // @ts-expect-error
   global.Headers = Headers;
   // @ts-expect-error
   global.Request = Request;
