@@ -18,4 +18,6 @@ export { default as Paper } from './Paper.js';
 
 export { default as Image } from './Image.js';
 
+export { default as Map } from './Map.js';
+
 export { inferColumns } from './DataGrid';

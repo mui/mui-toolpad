@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as builtins from '@mui/toolpad-components';
+
 import {
   ToolpadComponent,
   ToolpadComponents,
@@ -7,6 +7,7 @@ import {
   createComponent,
 } from '@mui/toolpad-core';
 import * as ReactIs from 'react-is';
+import * as builtins from '../../../toolpad-components/dist/index';
 import * as appDom from '../appDom';
 import { getToolpadComponents } from '../toolpadComponents';
 import { ensureToolpadComponent } from './loadCodeComponent';
@@ -51,7 +52,6 @@ export default function ComponentsContext({ dom, children }: ComponentsContextPr
       if (componentDef) {
         if (componentDef.builtin) {
           const builtin = (builtins as any)[componentDef.builtin];
-
           if (!isToolpadComponent(builtin)) {
             result[id] = createToolpadComponentThatThrows(
               new Error(`Imported builtin "${componentDef.builtin}" is not a ToolpadComponent`),

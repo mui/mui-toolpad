@@ -31,7 +31,9 @@
   "dependencies": {
     "@mui/material": "^5.8.6",
     "@mui/toolpad-core": "^0.0.9",
-    "@mui/x-data-grid-pro": "^5.12.3"
+    "@mui/x-data-grid-pro": "^5.12.3",
+    "mapbox-gl": "^2.9.2",
+    "react-map-gl": "^7.0.17"
   },
   "devDependencies": {
     "react": "^18.1.0"

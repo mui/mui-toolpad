@@ -22,7 +22,10 @@ import { RUNTIME_CONFIG_WINDOW_PROPERTY } from './constants';
  */
 
 // These are inlined at build time
-export type BuildEnvVars = Record<'TOOLPAD_TARGET' | 'TOOLPAD_DEMO' | 'TOOLPAD_VERSION', string>;
+export type BuildEnvVars = Record<
+  'TOOLPAD_TARGET' | 'TOOLPAD_DEMO' | 'TOOLPAD_VERSION' | 'MAPBOX_ACCESS_TOKEN',
+  string
+>;
 
 // These are set at runtime and passed to the browser.
 // Do not add secrets
