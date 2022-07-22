@@ -11,10 +11,12 @@ import createEmotionServer from '@emotion/server/create-instance';
 import serializeJavascript from 'serialize-javascript';
 import theme from '../src/theme';
 import createEmotionCache from '../src/createEmotionCache';
+import { generateNonce, getCsp } from '../src/csp';
 import config, { RuntimeConfig } from '../src/config';
 import { RUNTIME_CONFIG_WINDOW_PROPERTY } from '../src/constants';
 
 interface ToolpadDocumentProps {
+  nonce: string;
   config: RuntimeConfig;
 }
 
@@ -50,18 +52,26 @@ export default class MyDocument extends Document<ToolpadDocumentProps> {
       />
     ));
 
+    const nonce = generateNonce();
+    const res = ctx?.res;
+    if (res != null) {
+      const csp = getCsp(nonce);
+      res.setHeader('Content-Security-Policy', csp);
+    }
+
     return {
       ...initialProps,
       // Styles fragment is rendered after the app and page rendering finish.
       styles: [...React.Children.toArray(initialProps.styles), ...emotionStyleTags],
       config,
+      nonce,
     };
   }
 
   render() {
     return (
       <Html lang="en">
-        <Head>
+        <Head nonce={this.props.nonce}>
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link
@@ -69,6 +79,7 @@ export default class MyDocument extends Document<ToolpadDocumentProps> {
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
           <script
+            nonce={this.props.nonce}
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: `
