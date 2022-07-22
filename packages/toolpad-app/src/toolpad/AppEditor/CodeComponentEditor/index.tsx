@@ -151,13 +151,8 @@ function CodeComponentEditorContent({ codeComponentNode }: CodeComponentEditorCo
   return (
     <React.Fragment>
       <Stack sx={{ height: '100%' }}>
-        <Toolbar sx={{ mt: 2 }}>
+        <Toolbar sx={{ mt: 2, mb: 2 }}>
           <NodeNameEditor node={codeComponentNode} sx={{ maxWidth: 300 }} />
-        </Toolbar>
-        <Toolbar>
-          <Button disabled={allChangesAreCommitted} onClick={handleSave}>
-            Update
-          </Button>
         </Toolbar>
         <Box flex={1}>
           <SplitPane split="vertical" allowResize size="50%">
@@ -170,6 +165,15 @@ function CodeComponentEditorContent({ codeComponentNode }: CodeComponentEditorCo
             <CanvasFrame ref={frameRef} title="Code component sandbox" onLoad={onLoad} />
           </SplitPane>
         </Box>
+        <Toolbar
+          sx={{
+            justifyContent: 'end',
+          }}
+        >
+          <Button disabled={allChangesAreCommitted} onClick={handleSave} variant="contained">
+            Update
+          </Button>
+        </Toolbar>
       </Stack>
       {iframeLoaded && frameDocument
         ? ReactDOM.createPortal(

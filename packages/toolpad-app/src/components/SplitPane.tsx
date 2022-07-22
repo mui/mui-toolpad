@@ -38,6 +38,9 @@ const WrappedSplitPane = React.forwardRef<
       // Some sensible defaults
       minSize={20}
       maxSize={-20}
+      style={{
+        position: 'relative',
+      }}
       paneStyle={{
         display: 'block',
         // Prevent the content from stretching the Panel out
