@@ -154,7 +154,7 @@ function CodeComponentEditorContent({ codeComponentNode }: CodeComponentEditorCo
         <Toolbar sx={{ mt: 2, mb: 2 }}>
           <NodeNameEditor node={codeComponentNode} sx={{ maxWidth: 300 }} />
         </Toolbar>
-        <Box flex={1}>
+        <Box sx={{ flex: 1, position: 'relative' }}>
           <SplitPane split="vertical" allowResize size="50%">
             <TypescriptEditor
               value={input}
