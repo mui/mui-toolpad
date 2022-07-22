@@ -55,7 +55,7 @@ export default createComponent(Button, {
       },
       label: 'Horizontal alignment',
       control: { type: 'HorizontalAlign' },
-      defaultValue: 'center',
+      defaultValue: 'start',
     },
     fullWidth: {
       typeDef: { type: 'boolean' },

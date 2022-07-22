@@ -62,7 +62,7 @@ export default createComponent(Select, {
       },
       label: 'Horizontal alignment',
       control: { type: 'HorizontalAlign' },
-      defaultValue: 'center',
+      defaultValue: 'start',
     },
     fullWidth: {
       typeDef: { type: 'boolean' },

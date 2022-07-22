@@ -2,6 +2,7 @@ import { NodeId, LiveBindings } from '@mui/toolpad-core';
 import * as React from 'react';
 import * as appDom from '../../../appDom';
 import { PageViewState } from '../../../types';
+import { RectangleEdge } from '../../../utils/geometry';
 import { update } from '../../../utils/immutability';
 
 export type ComponentPanelTab = 'component' | 'theme';
@@ -25,10 +26,12 @@ export interface PageEditorState {
   readonly selection: NodeId | null;
   readonly componentPanelTab: ComponentPanelTab;
   readonly newNode: appDom.ElementNode | null;
-  readonly highlightLayout: boolean;
+  readonly draggedNodeId: NodeId | null;
+  readonly isDraggingOver: boolean;
   readonly dragOverNodeId: NodeId | null;
   readonly dragOverSlotParentProp: string | null;
   readonly dragOverZone: DropZone | null;
+  readonly draggedEdge: RectangleEdge | null;
   readonly viewState: PageViewState;
   readonly pageState: Record<string, unknown>;
   readonly bindings: LiveBindings;
@@ -55,6 +58,17 @@ export type PageEditorAction =
       newNode: appDom.ElementNode;
     }
   | {
+      type: 'PAGE_EXISTING_NODE_DRAG_START';
+      node: appDom.ElementNode;
+    }
+  | {
+      type: 'PAGE_EDGE_DRAG_START';
+      edgeDragState: {
+        nodeId: NodeId | null;
+        edge: RectangleEdge;
+      };
+    }
+  | {
       type: 'PAGE_NODE_DRAG_OVER';
       dragOverState: {
         nodeId: NodeId | null;
@@ -63,7 +77,7 @@ export type PageEditorAction =
       };
     }
   | {
-      type: 'PAGE_NODE_DRAG_END';
+      type: 'PAGE_DRAG_END';
     }
   | {
       type: 'PAGE_STATE_UPDATE';
@@ -86,10 +100,12 @@ export function createPageEditorState(appId: string, nodeId: NodeId): PageEditor
     selection: null,
     componentPanelTab: 'component',
     newNode: null,
-    highlightLayout: false,
+    draggedNodeId: null,
+    isDraggingOver: false,
     dragOverNodeId: null,
     dragOverSlotParentProp: null,
     dragOverZone: null,
+    draggedEdge: null,
     viewState: { nodes: {} },
     pageState: {},
     bindings: {},
@@ -127,17 +143,34 @@ export function pageEditorReducer(
         newNode: action.newNode,
       });
     }
-    case 'PAGE_NODE_DRAG_END':
+    case 'PAGE_EXISTING_NODE_DRAG_START': {
+      return update(state, {
+        draggedNodeId: action.node.id,
+      });
+    }
+    case 'PAGE_EDGE_DRAG_START': {
+      const { nodeId, edge } = action.edgeDragState;
+
+      return update(state, {
+        draggedNodeId: nodeId,
+        draggedEdge: edge,
+      });
+    }
+    case 'PAGE_DRAG_END':
       return update(state, {
         newNode: null,
-        highlightLayout: false,
+        draggedNodeId: null,
+        isDraggingOver: false,
         dragOverNodeId: null,
+        dragOverSlotParentProp: null,
+        dragOverZone: null,
+        draggedEdge: null,
       });
     case 'PAGE_NODE_DRAG_OVER': {
       const { nodeId, parentProp, zone } = action.dragOverState;
 
       return update(state, {
-        highlightLayout: true,
+        isDraggingOver: true,
         dragOverNodeId: nodeId,
         dragOverSlotParentProp: parentProp,
         dragOverZone: zone,
@@ -177,8 +210,17 @@ function createPageEditorApi(dispatch: React.Dispatch<PageEditorAction>) {
     newNodeDragStart(newNode: appDom.ElementNode) {
       dispatch({ type: 'PAGE_NEW_NODE_DRAG_START', newNode });
     },
-    nodeDragEnd() {
-      dispatch({ type: 'PAGE_NODE_DRAG_END' });
+    existingNodeDragStart(node: appDom.ElementNode) {
+      dispatch({ type: 'PAGE_EXISTING_NODE_DRAG_START', node });
+    },
+    edgeDragStart({ nodeId, edge }: { nodeId: NodeId | null; edge: RectangleEdge }) {
+      dispatch({
+        type: 'PAGE_EDGE_DRAG_START',
+        edgeDragState: { nodeId, edge },
+      });
+    },
+    dragEnd() {
+      dispatch({ type: 'PAGE_DRAG_END' });
     },
     nodeDragOver({
       nodeId,

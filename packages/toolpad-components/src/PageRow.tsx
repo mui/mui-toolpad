@@ -3,19 +3,24 @@ import { Box } from '@mui/material';
 import { createComponent } from '@mui/toolpad-core';
 
 export interface PageRowProps {
+  layoutColumnSizes: number[];
   gap?: number;
   children?: React.ReactNode;
 }
 
-function PageRow({ gap, children }: PageRowProps) {
+function PageRow({ layoutColumnSizes = [], gap, children }: PageRowProps) {
+  const gridAutoColumns = layoutColumnSizes.reduce(
+    (acc, layoutColumnSize) => `${acc}${`${acc && ' '}minmax(0, ${layoutColumnSize || 1}fr)`}`,
+    '',
+  );
+
   return (
     <Box
       sx={{
         gap,
         display: 'grid',
         gridAutoFlow: 'column',
-        gridAutoColumns: 'minmax(0, 1fr)',
-        overflow: 'hidden',
+        gridAutoColumns,
       }}
     >
       {children}
