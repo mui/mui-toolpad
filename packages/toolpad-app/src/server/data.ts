@@ -371,14 +371,10 @@ export async function setConnectionParams<P>(
   await saveDom(appId, dom);
 }
 
-async function applyTransform<Q>(
-  node: appDom.QueryNode<Q>,
-  result: ApiResult<{}>,
-): Promise<ApiResult<{}>> {
+async function applyTransform(transform: string, result: ApiResult<{}>): Promise<ApiResult<{}>> {
+  const transformFn = `(data) => {${transform}}`;
   return {
-    data: await evalExpression(
-      `${node.attributes.transform?.value}(${JSON.stringify(result.data)})`,
-    ),
+    data: await evalExpression(`${transformFn}(${JSON.stringify(result.data)})`),
   };
 }
 
@@ -398,9 +394,10 @@ export async function execQuery<P, Q>(
   const connectionParams = await getConnectionParams<P>(appId, query.attributes.connectionId.value);
 
   const transformEnabled = query.attributes.transformEnabled?.value;
+  const transform = query.attributes.transform?.value;
   let result = await dataSource.exec(connectionParams, query.attributes.query.value, params);
-  if (transformEnabled) {
-    result = await applyTransform(query, result);
+  if (transformEnabled && transform) {
+    result = await applyTransform(transform, result);
   }
   return result;
 }
