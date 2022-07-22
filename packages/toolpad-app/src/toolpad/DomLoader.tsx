@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Alert, Snackbar } from '@mui/material';
 import { NodeId, BindableAttrValue, BindableAttrValues } from '@mui/toolpad-core';
+import invariant from 'invariant';
 import * as appDom from '../appDom';
 import { update } from '../utils/immutability';
 import client from '../api';
@@ -257,9 +258,7 @@ export interface DomContextProps {
 export default function DomProvider({ appId, children }: DomContextProps) {
   const { data: dom } = client.useQuery('loadDom', [appId], { suspense: true });
 
-  if (!dom) {
-    throw new Error(`Invariant: suspense should load the dom`);
-  }
+  invariant(dom, `Suspense should load the dom`);
 
   const [state, dispatch] = React.useReducer(domLoaderReducer, {
     saving: false,

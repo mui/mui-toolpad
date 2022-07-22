@@ -3,6 +3,7 @@ import { Box, Collapse, styled, Typography } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
+import invariant from 'invariant';
 import * as appDom from '../../../appDom';
 import { useDom } from '../../DomLoader';
 import { usePageEditorApi } from './PageEditorProvider';
@@ -105,11 +106,8 @@ export default function ComponentCatalog({ className }: ComponentCatalogProps) {
                     ),
                 )
                 .map(([componentId, componentType]) => {
-                  if (!componentType) {
-                    throw new Error(
-                      `Invariant: Component definition for "${componentId}" is undefined`,
-                    );
-                  }
+                  invariant(componentType, `No component definition found for "${componentId}"`);
+
                   return (
                     <ComponentCatalogItem
                       key={componentId}

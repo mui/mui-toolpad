@@ -8,6 +8,7 @@ import * as monaco from 'monaco-editor';
 import { styled, SxProps } from '@mui/material';
 import clsx from 'clsx';
 import cuid from 'cuid';
+import invariant from 'invariant';
 import monacoEditorTheme from '../monacoEditorTheme';
 
 function getExtension(language: string): string {
@@ -145,9 +146,7 @@ export default React.forwardRef<MonacoEditorHandle, MonacoEditorProps>(function 
   const instanceRef = React.useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
   React.useEffect(() => {
-    if (!rootRef.current) {
-      return;
-    }
+    invariant(rootRef.current, 'Ref not attached');
 
     const extraOptions: EditorOptions = {
       readOnly: disabled,

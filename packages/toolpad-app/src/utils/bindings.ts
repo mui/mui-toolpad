@@ -1,4 +1,5 @@
 import { BindingAttrValueFormat } from '@mui/toolpad-core';
+import invariant from 'invariant';
 
 type ParsedBinding = string[];
 
@@ -30,7 +31,7 @@ export function formatExpression(
     case 'default':
       return expr.join('');
     default:
-      throw new Error(`Invariant: Unrecognized binding format "${bindingFormat}"`);
+      return invariant(false, `Unrecognized binding format "${bindingFormat}"`);
   }
 }
 

@@ -1,3 +1,4 @@
+import invariant from 'invariant';
 import {
   QueryClient,
   useMutation,
@@ -103,9 +104,7 @@ function createClient<D extends MethodsOf<any>>(endpoint: string): ApiClient<D> 
         enabled: !!params,
         queryKey: [key, params],
         queryFn: () => {
-          if (!params) {
-            throw new Error(`Invariant: "enabled" prop of useQuery should prevent this call'`);
-          }
+          invariant(params, `"enabled" prop of useQuery should prevent this call'`);
           return query[key](...params);
         },
       });

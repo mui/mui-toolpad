@@ -24,6 +24,7 @@ import AddIcon from '@mui/icons-material/Add';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { LoadingButton } from '@mui/lab';
 import { NodeId } from '@mui/toolpad-core';
+import invariant from 'invariant';
 import useLatest from '../../../utils/useLatest';
 import { usePageEditorState } from './PageEditorProvider';
 import * as appDom from '../../../appDom';
@@ -106,15 +107,11 @@ function ConnectionSelectorDialog<Q>({ open, onCreated, onClose }: DataSourceSel
     const connectionId = input;
     const connection = connectionId && appDom.getMaybeNode(dom, connectionId, 'connection');
 
-    if (!connection) {
-      throw new Error(`Invariant: Selected non-existing connection "${connectionId}"`);
-    }
+    invariant(connection, `Selected non-existing connection "${connectionId}"`);
 
     const dataSourceId = connection.attributes.dataSource.value;
     const dataSource = dataSources[dataSourceId];
-    if (!dataSource) {
-      throw new Error(`Invariant: Selected non-existing dataSource "${dataSourceId}"`);
-    }
+    invariant(dataSource, `Selected non-existing dataSource "${dataSourceId}"`);
 
     const queryNode = appDom.createNode(dom, 'query', {
       attributes: {

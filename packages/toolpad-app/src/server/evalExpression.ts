@@ -1,3 +1,4 @@
+import invariant from 'invariant';
 import { getQuickJS, QuickJSHandle, QuickJSContext } from 'quickjs-emscripten';
 
 export type Serializable =
@@ -47,7 +48,7 @@ export function newJson(ctx: QuickJSContext, json: Serializable): QuickJSHandle 
       return result;
     }
     default:
-      throw new Error(`Invariant: invalid value: ${json}`);
+      return invariant(false, `invalid value: ${json}`);
   }
 }
 
