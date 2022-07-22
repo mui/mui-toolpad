@@ -2,7 +2,6 @@ import {
   DataGridProProps,
   DataGridPro,
   GridToolbar,
-  LicenseInfo,
   GridColumnResizeParams,
   GridColumns,
   GridRowsProp,
@@ -121,15 +120,6 @@ export function inferColumns(rows: GridRowsProp): GridColumns {
     field,
     type: inferColumnType(value),
   }));
-}
-
-const LICENSE =
-  typeof window !== 'undefined'
-    ? window.document.querySelector('meta[name=x-data-grid-pro-license]')?.getAttribute('content')
-    : null;
-
-if (LICENSE) {
-  LicenseInfo.setLicenseKey(LICENSE);
 }
 
 const EMPTY_COLUMNS: GridColumns = [];
