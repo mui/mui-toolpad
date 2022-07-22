@@ -43,7 +43,11 @@ const WrappedSplitPane = React.forwardRef<
         // Prevent the content from stretching the Panel out
         minWidth: 0,
         minHeight: 0,
+        overflow: 'initial',
         ...props.paneStyle,
+      }}
+      style={{
+        overflow: 'initial',
       }}
       {...props}
     />
