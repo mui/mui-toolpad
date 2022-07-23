@@ -5,7 +5,7 @@ import '../utils/browserOnly';
 
 import * as React from 'react';
 import * as monaco from 'monaco-editor';
-import { styled, SxProps } from '@mui/material';
+import { styled, SxProps, useTheme } from '@mui/material';
 import clsx from 'clsx';
 import cuid from 'cuid';
 import monacoEditorTheme from '../monacoEditorTheme';
@@ -142,7 +142,11 @@ export default React.forwardRef<MonacoEditorHandle, MonacoEditorProps>(function 
   ref,
 ) {
   const rootRef = React.useRef<HTMLDivElement>(null);
+  const overflowWidgetsDomNodeRef = React.useRef<HTMLElement | null>(null);
   const instanceRef = React.useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
+
+  const theme = useTheme();
+  const overflowWidgetsDomNodeZindex = theme.zIndex.tooltip + 1;
 
   React.useEffect(() => {
     if (!rootRef.current) {
@@ -183,6 +187,15 @@ export default React.forwardRef<MonacoEditorHandle, MonacoEditorProps>(function 
       const pathUri = monaco.Uri.parse(`./scripts/${cuid()}${getExtension(language)}`);
       const model = monaco.editor.createModel(value || '', language, pathUri);
 
+      if (!overflowWidgetsDomNodeRef.current) {
+        const overflowWidgetsDomNode = document.createElement('div');
+        // See https://github.com/microsoft/monaco-editor/issues/2233#issuecomment-913170212
+        overflowWidgetsDomNode.classList.add('monaco-editor');
+        overflowWidgetsDomNode.style.zIndex = String(overflowWidgetsDomNodeZindex);
+        document.body.append(overflowWidgetsDomNode);
+        overflowWidgetsDomNodeRef.current = overflowWidgetsDomNode;
+      }
+
       instanceRef.current = monaco.editor.create(rootRef.current, {
         model,
         language,
@@ -191,6 +204,9 @@ export default React.forwardRef<MonacoEditorHandle, MonacoEditorProps>(function 
         tabSize: 2,
         automaticLayout: true,
         theme: monacoEditorTheme,
+        fixedOverflowWidgets: true,
+        // See https://github.com/microsoft/monaco-editor/issues/181
+        overflowWidgetsDomNode: overflowWidgetsDomNodeRef.current,
         ...extraOptions,
       });
 
@@ -198,7 +214,7 @@ export default React.forwardRef<MonacoEditorHandle, MonacoEditorProps>(function 
         instanceRef.current.focus();
       }
     }
-  }, [language, value, options, disabled, autoFocus]);
+  }, [language, value, options, disabled, autoFocus, overflowWidgetsDomNodeZindex]);
 
   React.useEffect(() => {
     const editor = instanceRef.current;
@@ -238,6 +254,8 @@ export default React.forwardRef<MonacoEditorHandle, MonacoEditorProps>(function 
       instanceRef.current?.getModel()?.dispose();
       instanceRef.current?.dispose();
       instanceRef.current = null;
+      overflowWidgetsDomNodeRef.current?.remove();
+      overflowWidgetsDomNodeRef.current = null;
     };
   }, []);
 
