@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: page
+spec:
+  id: xxdzQ7c
+  title: Default page
+  queries:
+    - name: dogQuery
+      query:
+        kind: rest
+        url: https://dog.ceo/api/breeds/list/all
+        headers: []
+        method: GET
+        transform: return Object.entries(data.message)
+        transformEnabled: true
+        searchParams: []
+    - name: imageQuery
+      query:
+        kind: rest
+        url:
+          $$jsExpression: |
+            `https://dog.ceo/api/breed/${parameters.breed}/images/random`
+        headers: []
+        method: GET
+        searchParams: []
+      parameters:
+        - name: breed
+          value:
+            $$jsExpression: |
+              dataGrid.selection?.[0] ?? "akita"
+  content:
+    - component: PageRow
+      name: pageRow1
+      children:
+        - component: DataGrid
+          name: dataGrid
+          props:
+            rows:
+              $$jsExpression: |
+                dogQuery.data
+            columns:
+              - field: "0"
+                type: string
+              - field: "1"
+                type: json
+                width: 276
+    - component: PageRow
+      name: pageRow
+      children:
+        - component: Image
+          name: image
+          props:
+            src:
+              $$jsExpression: |
+                imageQuery.data.message

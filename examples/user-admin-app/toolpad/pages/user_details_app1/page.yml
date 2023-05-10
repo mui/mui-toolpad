@@ -1,0 +1,296 @@
+apiVersion: v1
+kind: page
+spec:
+  id: I1VOdmU
+  title: Employees
+  content:
+    - component: PageRow
+      name: pageRow11
+      children:
+        - component: Paper
+          name: paper5
+          props:
+            sx:
+              border: 1
+            elevation: 0
+          children:
+            - component: PageRow
+              name: pageRow13
+              children:
+                - component: PageColumn
+                  name: pageColumn2
+                  layout:
+                    columnSize: 1
+                  children:
+                    - component: PageRow
+                      name: pageRow3
+                      props:
+                        justifyContent: start
+                      children:
+                        - component: Image
+                          name: image1
+                          layout:
+                            columnSize: 0.13695090439276486
+                            verticalAlign: end
+                          props:
+                            src: https://iili.io/HoCHfyv.png
+                            width: 70
+                            height: 40
+                        - component: Text
+                          name: typography3
+                          layout:
+                            columnSize: 1.8630490956072352
+                            horizontalAlign: center
+                          props:
+                            sx:
+                              fontWeight: bold
+                            value: Acme corp. admin app
+                            variant: h4
+                    - component: Text
+                      name: typography4
+                      props:
+                        value: Acme corp. is a global e-com company and this is a support application to
+                          add new users
+                    - component: PageRow
+                      name: pageRow2
+                      props:
+                        justifyContent: start
+                      children:
+                        - component: Text
+                          name: typography1
+                          layout:
+                            columnSize: 1.7057728416939433
+                            horizontalAlign: center
+                          props:
+                            value: User list
+                            variant: h4
+                        - component: Button
+                          name: button1
+                          layout:
+                            columnSize: 0.2942271583060568
+                            horizontalAlign: center
+                          props:
+                            variant: outlined
+                            size: medium
+                            content: REFRESH
+                            onClick:
+                              $$jsExpressionAction: get.refetch()
+                            color: primary
+                            loading: false
+                    - component: DataGrid
+                      name: dataGrid2
+                      props:
+                        rows:
+                          $$jsExpression: |
+                            get.data
+                        columns:
+                          - field: id
+                            type: number
+                          - field: name
+                            type: string
+                            width: 144
+                          - field: account_creation_date
+                            type: string
+                          - field: country_of_residence
+                            type: string
+                          - field: phone_number
+                            type: number
+                          - field: email
+                            type: string
+                          - field: address
+                            type: string
+                          - field: gender
+                            type: string
+                          - field: id_1
+                            type: string
+                          - field: image
+                            type: image
+                    - component: Paper
+                      name: paper
+                      props:
+                        elevation: 0
+                    - component: Text
+                      name: typography2
+                      layout:
+                        columnSize: 1
+                        horizontalAlign: center
+                      props:
+                        value: Form to add a new user
+                        variant: h4
+                    - component: Form
+                      name: form
+                      layout:
+                        columnSize: 1
+                      props:
+                        sx:
+                          color: "#EBCFB2"
+                        onSubmit:
+                          $$jsExpressionAction: get.refetch();
+                        submitButtonText: Add user
+                      children:
+                        - component: PageRow
+                          name: pageRow14
+                          children:
+                            - component: PageColumn
+                              name: pageColumn4
+                              layout:
+                                columnSize: 1
+                              children:
+                                - component: TextField
+                                  name: name
+                                  layout:
+                                    columnSize: 0.8268733850129198
+                                  props:
+                                    label: Name
+                                    disabled: false
+                                    fullWidth: true
+                                    defaultValue:
+                                      $$jsExpression: |
+                                        dataGrid2.selection.name
+                                    isRequired: true
+                                - component: PageRow
+                                  name: pageRow
+                                  props:
+                                    justifyContent: start
+                                  children:
+                                    - component: PageColumn
+                                      name: pageColumn5
+                                      layout:
+                                        columnSize: 0.4728682170542636
+                                      children:
+                                        - component: TextField
+                                          name: account_creation_date
+                                          props:
+                                            label: Account creation date
+                                            defaultValue:
+                                              $$jsExpression: >
+                                                dataGrid2.selection.account_creation_date
+                                            isRequired: true
+                                        - component: Select
+                                          name: gender
+                                          props:
+                                            label: Gender
+                                            defaultValue:
+                                              $$jsExpression: |
+                                                dataGrid2.selection.gender
+                                            options:
+                                              - Male
+                                              - Female
+                                              - Other
+                                            fullWidth: false
+                                        - component: TextField
+                                          name: phone_number
+                                          layout:
+                                            columnSize: 1
+                                          props:
+                                            label: Phone number
+                                            defaultValue:
+                                              $$jsExpression: |
+                                                dataGrid2.selection.phone_number
+                                            isRequired: true
+                                        - component: TextField
+                                          name: id_1
+                                          props:
+                                            label: ID
+                                            defaultValue:
+                                              $$jsExpression: |
+                                                dataGrid2.selection.id_1
+                                            isRequired: true
+                                    - component: PageColumn
+                                      name: pageColumn6
+                                      layout:
+                                        columnSize: 1.5271317829457365
+                                      children:
+                                        - component: TextField
+                                          name: address
+                                          layout:
+                                            columnSize: 1.17312661498708
+                                          props:
+                                            label: Address
+                                            defaultValue:
+                                              $$jsExpression: |
+                                                dataGrid2.selection.address
+                                            fullWidth: true
+                                        - component: TextField
+                                          name: country
+                                          layout:
+                                            columnSize: 1
+                                          props:
+                                            label: Country
+                                            defaultValue:
+                                              $$jsExpression: >
+                                                dataGrid2.selection.country_of_residence
+                                            fullWidth: true
+                                            isRequired: true
+                                        - component: TextField
+                                          name: email
+                                          layout:
+                                            columnSize: 1
+                                          props:
+                                            label: Email
+                                            defaultValue:
+                                              $$jsExpression: |
+                                                dataGrid2.selection.email
+                                            isRequired: true
+                                            isInvalid: false
+                                            fullWidth: true
+                                        - component: FilePicker
+                                          name: filePicker
+                                          props:
+                                            label: Image
+                                            multiple: false
+  queries:
+    - name: get
+      query:
+        kind: local
+        function: getCustomers
+      parameters:
+        - name: name
+          value: hi
+      enabled: true
+    - name: add
+      query:
+        function: addCustomer
+        kind: local
+      parameters:
+        - name: id
+          value:
+            $$jsExpression: |
+              get.data.length + 1
+        - name: name
+          value:
+            $$jsExpression: |
+              name.value
+        - name: account_creation_date
+          value:
+            $$jsExpression: |
+              account_creation_date.value
+        - name: country_of_residence
+          value:
+            $$jsExpression: |
+              country.value
+        - name: phone_number
+          value:
+            $$jsExpression: |
+              phone_number.value
+        - name: email
+          value:
+            $$jsExpression: |
+              email.value
+        - name: address
+          value:
+            $$jsExpression: |
+              address.value
+        - name: gender
+          value:
+            $$jsExpression: |
+              gender.value
+        - name: id_1
+          value:
+            $$jsExpression: |
+              id_1.value
+        - name: id_number
+          value:
+            $$jsExpression: |
+              id_number.value
+      mode: mutation

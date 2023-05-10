@@ -1,0 +1,140 @@
+apiVersion: v1
+kind: page
+spec:
+  id: ux0chdh
+  title: Default page
+  content:
+    - component: PageRow
+      name: pageRow
+      children:
+        - component: TextField
+          name: textField1
+          props:
+            fullWidth: true
+            label: Write prompt here..
+          layout:
+            columnSize: 1.6782407407407407
+        - component: Button
+          name: button1
+          layout:
+            columnSize: 0.32175925925925924
+          props:
+            onClick:
+              $$jsExpressionAction: >+
+                const storedThread =
+                JSON.parse(localStorage.getItem("gptThread"));
+
+                let newThread;
+
+                const newPrompt = {
+                    role: "user", content: textField1.value 
+                    }  
+                if(storedThread && storedThread.length) {
+                  storedThread[storedThread.length] = newPrompt;
+                  newThread = storedThread;
+                }
+
+                else newThread = [newPrompt];
+
+
+                localStorage.setItem("gptThread", JSON.stringify(newThread));
+
+
+                askGPT.call({ messages: newThread });
+
+
+            content: Ask
+            size: medium
+            variant: outlined
+            fullWidth: true
+            loading:
+              $$jsExpression: |
+                askGPT.isLoading || askGPT.isFetching
+    - component: PageRow
+      name: pageRow4
+      children:
+        - component: DataGrid
+          name: dataGrid
+          props:
+            columns:
+              [
+                { field: role, type: string, width: 123 },
+                { field: content, type: string, width: 718 }
+              ]
+            rows:
+              $$jsExpression: |
+                JSON.parse(localStorage.getItem("gptThread"))
+            hideToolbar: false
+    - component: PageRow
+      name: pageRow3
+      children:
+        - component: Text
+          name: text1
+          props:
+            value:
+              $$jsExpression: |
+                askGPT.data.content
+            sx:
+              display: none
+    - component: PageRow
+      name: pageRow2
+      children:
+        - component: Button
+          name: button
+          props:
+            onClick:
+              $$jsExpressionAction: >-
+                const storedThread =
+                JSON.parse(localStorage.getItem("gptThread"));
+
+                let newThread; let newMessage = { role: "assistant", content: askGPT?.data?.content };
+
+                if(storedThread && storedThread.length) {
+                  storedThread[storedThread.length] = newMessage;
+                    newThread = storedThread;
+                }
+
+                else { newThread = [newMessage]}
+
+
+                localStorage.setItem("gptThread", JSON.stringify(newThread));
+            size: medium
+            variant: outlined
+            content: Answer
+            fullWidth: true
+            disabled:
+              $$jsExpression: >
+                Boolean(askGPT.isFetching || askGPT.isLoading ||
+                !askGPT.data.content)
+            loading:
+              $$jsExpression: |
+                askGPT.isLoading || askGPT.isFetching
+        - component: Button
+          name: button2
+          props:
+            content: Reset
+            size: medium
+            fullWidth: true
+            variant: outlined
+            onClick:
+              $$jsExpressionAction: localStorage.setItem("gptThread", null)
+    - component: PageRow
+      name: pageRow1
+      children:
+        - component: Text
+          name: text
+          props:
+            value:
+              $$jsExpression: |
+                askGPT.data?.content
+            sx:
+              display: none
+  queries:
+    - name: askGPT
+      mode: mutation
+      query:
+        function: askGPT
+        kind: local
+      parameters:
+        - name: prompt
+          value: Hello! What's up?

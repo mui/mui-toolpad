@@ -59,6 +59,14 @@ const pages: MuiPage[] = [
     pathname: '/toolpad/deployment',
     icon: 'BuildIcon',
   },
+  {
+    pathname: '/toolpad/examples',
+    icon: 'DescriptionIcon',
+    children: [
+      { pathname: '/toolpad/examples/user-admin-app' },
+      { pathname: '/toolpad/examples/chatGPT' },
+    ],
+  },
   // {
   //   pathname: '/toolpad/versioning-and-deploying',
   //   title: 'Versioning & deploying [TODO]',

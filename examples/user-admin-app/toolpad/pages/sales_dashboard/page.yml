@@ -1,0 +1,516 @@
+apiVersion: v1
+kind: page
+spec:
+  id: y4d3lzj
+  title: page1
+  content:
+    - component: PageRow
+      name: pageRow2
+      children:
+        - component: Paper
+          name: paper3
+          props:
+            sx:
+              border: 1
+              borderColor: "#424B54"
+            elevation: 0
+          children:
+            - component: PageRow
+              name: pageRow7
+              children:
+                - component: PageColumn
+                  name: pageColumn
+                  layout:
+                    columnSize: 1
+                  children:
+                    - component: PageRow
+                      name: pageRow
+                      props:
+                        justifyContent: start
+                      children:
+                        - component: Image
+                          name: image
+                          layout:
+                            columnSize: 0.1421188630490956
+                            horizontalAlign: start
+                          props:
+                            fit: contain
+                            src: https://iili.io/HoCHfyv.png
+                            width: 70
+                            height: 40
+                        - component: Text
+                          name: typography2
+                          layout:
+                            columnSize: 1.8578811369509043
+                            horizontalAlign: center
+                          props:
+                            sx:
+                              fontWeight: bold
+                            value: Acme corp. sales dashboard
+                            variant: h4
+                    - component: Text
+                      name: typography3
+                      props:
+                        value: Acme corp. is a global ecom company and this is a sales dashboard to
+                          track sales trend.
+                    - component: PageRow
+                      name: pageRow3
+                      props:
+                        justifyContent: start
+                      children:
+                        - component: PageColumn
+                          name: pageColumn1
+                          layout:
+                            columnSize: 1
+                          children:
+                            - component: PageRow
+                              name: pageRow6
+                              props:
+                                justifyContent: start
+                              children:
+                                - component: Paper
+                                  name: paper
+                                  layout:
+                                    columnSize: 1
+                                  children:
+                                    - component: PageRow
+                                      name: pageRow9
+                                      children:
+                                        - component: Text
+                                          name: typography1
+                                          props:
+                                            value: Total Sales
+                                            variant: h5
+                                - component: Paper
+                                  name: paper2
+                                  layout:
+                                    columnSize: 1
+                                  children:
+                                    - component: PageRow
+                                      name: pageRow1
+                                      children:
+                                        - component: Text
+                                          name: typography
+                                          props:
+                                            value:
+                                              $$jsExpression: >
+                                                Intl.NumberFormat("en-US", {
+                                                style: "currency", currency:
+                                                "EUR" }).format(
+                                                  query.data.reduce((total, item) => {
+                                                    const price = parseFloat(item.price.replace(/[€,]/g, ""))
+                                                    return total + price
+                                                  }, 0) / 100
+                                                )
+                                            variant: h5
+                            - component: Paper
+                              name: paper4
+                              props:
+                                sx:
+                                  maxWidth: 100%
+                              children:
+                                - component: PageRow
+                                  name: pageRow8
+                                  children:
+                                    - component: codeComponent.bar
+                                      name: codeComponent_v41c3lqs
+                                      props:
+                                        data:
+                                          $$jsExpression: >
+                                            query.data.map((item) => {
+                                              return {
+                                                y: parseFloat(item.price.replace(/[€,]/g, "")),
+                                                x: item.dateoforder,
+                                              }
+                                            })
+                            - component: DataGrid
+                              name: dataGrid
+                              props:
+                                sx:
+                                  color: "#424B54"
+                                rows:
+                                  $$jsExpression: |
+                                    query.data
+                                height: 454
+                                columns:
+                                  - type: string
+                                    field: company
+                                  - type: string
+                                    field: contact
+                                  - type: string
+                                    field: phone
+                                    width: 160
+                                  - type: string
+                                    field: price
+                                  - type: string
+                                    field: dateoforder
+                                  - type: string
+                                    field: dateoffinish
+  queries:
+    - name: query
+      query:
+        kind: rest
+        headers: []
+        method: GET
+        transform: >-
+          return [
+            {
+              data: {
+                company: {
+                  name: "Lazz",
+                  contactperson: { name: "DioneTweedlie", phone: "374-(954)488-9771" },
+                },
+                price: "€35260,85",
+                dateoforder: "02/29/2016",
+                dateoffinish: "05/18/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Centizu",
+                  contactperson: { name: "DaltonHatherill", phone: "231-(544)896-2818" },
+                },
+                price: "€96241,02",
+                dateoforder: "09/29/2015",
+                dateoffinish: "02/26/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Fivechat",
+                  contactperson: { name: "MasonCattini", phone: "39-(979)617-5679" },
+                },
+                price: "€62070,20",
+                dateoforder: "08/20/2015",
+                dateoffinish: "06/03/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Thoughtbeat",
+                  contactperson: { name: "NorahCouvert", phone: "92-(968)758-1958" },
+                },
+                price: "€96917,71",
+                dateoforder: "01/29/2016",
+                dateoffinish: null,
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Avamm",
+                  contactperson: { name: "NessyKinny", phone: "1-(516)240-2366" },
+                },
+                price: "€60434,78",
+                dateoforder: "08/02/2015",
+                dateoffinish: "05/07/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Blogpad",
+                  contactperson: { name: "DaiseySwinney", phone: "86-(833)329-4949" },
+                },
+                price: "€60568,96",
+                dateoforder: "07/01/2015",
+                dateoffinish: "10/06/2016",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Agivu",
+                  contactperson: { name: "RandieCrocetti", phone: "46-(487)185-6109" },
+                },
+                price: "€13021,37",
+                dateoforder: "07/18/2015",
+                dateoffinish: "04/14/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Zoomdog",
+                  contactperson: {
+                    name: "WhitneyDelgardillo",
+                    phone: "86-(124)664-6824",
+                  },
+                },
+                price: "€89113,92",
+                dateoforder: "11/02/2015",
+                dateoffinish: "02/04/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Twitterbeat",
+                  contactperson: {
+                    name: "MaridelDangerfield",
+                    phone: "965-(428)772-4402",
+                  },
+                },
+                price: "€15418,15",
+                dateoforder: "12/05/2015",
+                dateoffinish: "03/06/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Dazzlesphere",
+                  contactperson: { name: "MathildeHarmon", phone: "63-(423)260-6268" },
+                },
+                price: "€65346,72",
+                dateoforder: "03/30/2016",
+                dateoffinish: "04/15/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Lazz",
+                  contactperson: { name: "DioneTweedlie", phone: "374-(954)488-9771" },
+                },
+                price: "€35260,85",
+                dateoforder: "02/29/2016",
+                dateoffinish: "05/18/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Centizu",
+                  contactperson: { name: "DaltonHatherill", phone: "231-(544)896-2818" },
+                },
+                price: "€96241,02",
+                dateoforder: "09/29/2015",
+                dateoffinish: "02/26/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Fivechat",
+                  contactperson: { name: "MasonCattini", phone: "39-(979)617-5679" },
+                },
+                price: "€62070,20",
+                dateoforder: "08/20/2015",
+                dateoffinish: "06/03/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Thoughtbeat",
+                  contactperson: { name: "NorahCouvert", phone: "92-(968)758-1958" },
+                },
+                price: "€96917,71",
+                dateoforder: "01/29/2016",
+                dateoffinish: null,
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Avamm",
+                  contactperson: { name: "NessyKinny", phone: "1-(516)240-2366" },
+                },
+                price: "€60434,78",
+                dateoforder: "08/02/2015",
+                dateoffinish: "05/07/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Blogpad",
+                  contactperson: { name: "DaiseySwinney", phone: "86-(833)329-4949" },
+                },
+                price: "€60568,96",
+                dateoforder: "07/01/2015",
+                dateoffinish: "10/06/2016",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Agivu",
+                  contactperson: { name: "RandieCrocetti", phone: "46-(487)185-6109" },
+                },
+                price: "€13021,37",
+                dateoforder: "07/18/2015",
+                dateoffinish: "04/14/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Zoomdog",
+                  contactperson: {
+                    name: "WhitneyDelgardillo",
+                    phone: "86-(124)664-6824",
+                  },
+                },
+                price: "€89113,92",
+                dateoforder: "11/02/2015",
+                dateoffinish: "02/04/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Twitterbeat",
+                  contactperson: {
+                    name: "MaridelDangerfield",
+                    phone: "965-(428)772-4402",
+                  },
+                },
+                price: "€15418,15",
+                dateoforder: "12/05/2015",
+                dateoffinish: "03/06/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Dazzlesphere",
+                  contactperson: { name: "MathildeHarmon", phone: "63-(423)260-6268" },
+                },
+                price: "€65346,72",
+                dateoforder: "03/30/2016",
+                dateoffinish: "04/15/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Lazz",
+                  contactperson: { name: "DioneTweedlie", phone: "374-(954)488-9771" },
+                },
+                price: "€35260,85",
+                dateoforder: "02/29/2016",
+                dateoffinish: "05/18/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Centizu",
+                  contactperson: { name: "DaltonHatherill", phone: "231-(544)896-2818" },
+                },
+                price: "€96241,02",
+                dateoforder: "09/29/2015",
+                dateoffinish: "02/26/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Fivechat",
+                  contactperson: { name: "MasonCattini", phone: "39-(979)617-5679" },
+                },
+                price: "€62070,20",
+                dateoforder: "08/20/2015",
+                dateoffinish: "06/03/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Thoughtbeat",
+                  contactperson: { name: "NorahCouvert", phone: "92-(968)758-1958" },
+                },
+                price: "€96917,71",
+                dateoforder: "01/29/2016",
+                dateoffinish: null,
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Avamm",
+                  contactperson: { name: "NessyKinny", phone: "1-(516)240-2366" },
+                },
+                price: "€60434,78",
+                dateoforder: "08/02/2015",
+                dateoffinish: "05/07/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Blogpad",
+                  contactperson: { name: "DaiseySwinney", phone: "86-(833)329-4949" },
+                },
+                price: "€60568,96",
+                dateoforder: "07/01/2015",
+                dateoffinish: "10/06/2016",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Agivu",
+                  contactperson: { name: "RandieCrocetti", phone: "46-(487)185-6109" },
+                },
+                price: "€13021,37",
+                dateoforder: "07/18/2015",
+                dateoffinish: "04/14/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Zoomdog",
+                  contactperson: {
+                    name: "WhitneyDelgardillo",
+                    phone: "86-(124)664-6824",
+                  },
+                },
+                price: "€89113,92",
+                dateoforder: "11/02/2015",
+                dateoffinish: "02/04/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Twitterbeat",
+                  contactperson: {
+                    name: "MaridelDangerfield",
+                    phone: "965-(428)772-4402",
+                  },
+                },
+                price: "€15418,15",
+                dateoforder: "12/05/2015",
+                dateoffinish: "03/06/2017",
+              },
+            },
+            {
+              data: {
+                company: {
+                  name: "Dazzlesphere",
+                  contactperson: { name: "MathildeHarmon", phone: "63-(423)260-6268" },
+                },
+                price: "€65346,72",
+                dateoforder: "03/30/2016",
+                dateoffinish: "04/15/2017",
+              },
+            },
+          ].map((item) => {
+            return {
+              company: item.data.company.name,
+              contact: item.data.company.contactperson.name,
+              phone: item.data.company.contactperson.phone,
+              price: item.data.price,
+              dateoforder: item.data.dateoforder,
+              dateoffinish: item.data.dateoffinish,
+            };
+          });
+        transformEnabled: true
+        searchParams: []
