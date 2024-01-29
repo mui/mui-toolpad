@@ -54,7 +54,7 @@ export default defineConfig((options) => [
     tsconfig: './tsconfig.runtime.json',
     sourcemap: true,
     esbuildPlugins: [cleanFolderOnFailure(path.resolve(__dirname, 'dist/runtime'))],
-    external: [/.*\.(svg|png|jpe?g|gif|ico|webp)$/],
+    external: [/.*\.(svg|png|jpe?g|gif|ico|webp)$/, './next-client'],
     async onSuccess() {
       // eslint-disable-next-line no-console
       console.log('runtime: build successful');

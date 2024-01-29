@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/mui/mui-toolpad/v0.1.40/docs/schemas/v1/definitions.json#properties/Page
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mui/mui-toolpad/v0.1.46/docs/schemas/v1/definitions.json#properties/Page
 
 apiVersion: v1
 kind: page
@@ -16,3 +16,15 @@ spec:
         mode: link
         value: To the Next.js app
         href: /my-next-app
+    - component: Text
+      name: text1
+      props:
+        mode: null
+        value:
+          $$jsExpression: query.data
+  queries:
+    - name: query
+      mode: query
+      query:
+        function: functions2.ts#default
+        kind: local
