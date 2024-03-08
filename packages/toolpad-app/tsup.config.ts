@@ -54,8 +54,6 @@ export default defineConfig((options) => [
     tsconfig: './tsconfig.runtime.json',
     sourcemap: true,
     esbuildPlugins: [cleanFolderOnFailure(path.resolve(__dirname, 'dist/runtime'))],
-    external: [/.*\?worker/],
-    // publicDir: 'public',
     loader: {
       '.svg': 'copy',
       '.png': 'copy',

@@ -159,6 +159,7 @@ jobs:
         environment:
           NODE_ENV: test
           TOOLPAD_TEST_RETRIES: 1
+          EXPERIMENTAL_INLINE_CANVAS: 1
 
     steps:
       - checkout

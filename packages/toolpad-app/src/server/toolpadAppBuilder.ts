@@ -184,6 +184,37 @@ import pageComponents from ${JSON.stringify(pageComponentsId)};
 ${isCanvas ? `import AppCanvas from '@mui/toolpad/canvas'` : ''}
 ${isEditor ? `import ToolpadEditor from '@mui/toolpad/editor'` : ''}
 
+// importing monaco to get around module ordering issues in esbuild
+import 'monaco-editor';
+
+window.MonacoEnvironment = {
+  getWorker: async (_, label) => {
+    // { type: 'module' } is supported in firefox but behind feature flag:
+    // you have to enable it manually via about:config and set dom.workers.modules.enabled to true.
+    if (label === 'typescript') {
+      const { default: TsWorker } = await import('monaco-editor/esm/vs/language/typescript/ts.worker?worker');
+      return new TsWorker();
+    }
+    if (label === 'json') {
+      const { default: JsonWorker } = await import('monaco-editor/esm/vs/language/json/json.worker?worker');
+      return new JsonWorker();
+    }
+    if (label === 'html') {
+      const { default: HtmlWorker } = await import('monaco-editor/esm/vs/language/html/html.worker?worker');
+      return new HtmlWorker();
+    }
+    if (label === 'css') {
+      const { default: CssWorker } = await import('monaco-editor/esm/vs/language/css/css.worker?worker');
+      return new CssWorker();
+    }
+    if (label === 'editorWorkerService') {
+      const { default: EditorWorker } = await import('monaco-editor/esm/vs/editor/editor.worker?worker');
+      return new EditorWorker();
+    }
+    throw new Error(\`Failed to resolve worker with label "\${label}"\`);
+  },
+} as monaco.Environment;
+
 const initialState = window[${JSON.stringify(INITIAL_STATE_WINDOW_PROPERTY)}];
 
 setComponents(components, pageComponents);
