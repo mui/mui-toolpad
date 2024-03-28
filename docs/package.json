@@ -25,6 +25,8 @@
     "@emotion/react": "11.11.3",
     "@emotion/server": "11.11.0",
     "@emotion/styled": "11.11.0",
+    "@mui/base": "5.0.0-beta.40",
+    "@mui/docs": "https://pkg.csb.dev/mui/material-ui/commit/37466089/@mui/docs",
     "@mui/icons-material": "5.15.14",
     "@mui/internal-markdown": "^1.0.1",
     "@mui/joy": "5.0.0-beta.32",
