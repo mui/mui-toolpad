@@ -4,6 +4,8 @@ import { createTheme, ThemeOptions, Theme, alpha } from '@mui/material/styles';
 import type {} from '@mui/x-data-grid/themeAugmentation';
 import type {} from '@mui/x-data-grid-pro/themeAugmentation';
 import type {} from '@mui/x-tree-view/themeAugmentation';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 declare module '@mui/material/styles/createPalette' {
   interface ColorRange {
@@ -921,6 +923,22 @@ export function getThemedComponents(theme: Theme): { components: Theme['componen
       MuiTable: {
         defaultProps: {
           size: 'small',
+        },
+      },
+      MuiSimpleTreeView: {
+        defaultProps: {
+          slots: {
+            collapseIcon: ExpandMoreIcon,
+            expandIcon: ChevronRightIcon,
+          },
+          slotProps: {
+            collapseIcon: {
+              style: { fontSize: '0.9rem', opacity: 0.5 },
+            },
+            expandIcon: {
+              style: { fontSize: '0.9rem', opacity: 0.5 },
+            },
+          },
         },
       },
     },

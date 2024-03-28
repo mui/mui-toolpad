@@ -16,8 +16,6 @@ import {
 import { SimpleTreeView, treeItemClasses } from '@mui/x-tree-view';
 import AddIcon from '@mui/icons-material/Add';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useBoolean from '@toolpad/utils/hooks/useBoolean';
 import * as appDom from '@toolpad/studio-runtime/appDom';
 import dataSources from '../../../../toolpadDataSources/client';
@@ -26,9 +24,6 @@ import { useAppState, useAppStateApi } from '../../../AppState';
 import EditableTreeItem, { EditableTreeItemProps } from '../../../../components/EditableTreeItem';
 import NodeMenu from '../../NodeMenu';
 import ExplorerHeader from '../../ExplorerHeader';
-
-const CollapseIcon = styled(ExpandMoreIcon)({ fontSize: '0.9rem', opacity: 0.5 });
-const ExpandIcon = styled(ChevronRightIcon)({ fontSize: '0.9rem', opacity: 0.5 });
 
 const classes = {
   treeItemMenuButton: 'Toolpad__QueryListItem',
@@ -360,8 +355,6 @@ function Explorer({ nodes, setAnchorEl, nodeName, headerText }: ExplorerProps) {
             ? currentView.view.nodeId
             : ''
         }
-        // TODO: This belongs as a default property in the theme
-        slots={{ collapseIcon: CollapseIcon, expandIcon: ExpandIcon }}
         sx={{
           flexGrow: 1,
           maxWidth: 400,

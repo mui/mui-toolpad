@@ -17,8 +17,6 @@ import {
 } from '@mui/material';
 import { errorFrom } from '@toolpad/utils/errors';
 import { treeItemClasses, TreeItem, SimpleTreeView } from '@mui/x-tree-view';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import JavascriptIcon from '@mui/icons-material/Javascript';
@@ -43,9 +41,6 @@ import { useProjectApi } from '../../projectApi';
 import ExplorerHeader from '../AppEditor/ExplorerHeader';
 import EditableTreeItem, { EditableTreeItemProps } from '../../components/EditableTreeItem';
 import { scrollIntoViewIfNeeded } from '../../utils/dom';
-
-const CollapseIcon = styled(ExpandMoreIcon)({ fontSize: '0.9rem', opacity: 0.5 });
-const ExpandIcon = styled(ChevronRightIcon)({ fontSize: '0.9rem', opacity: 0.5 });
 
 const fileTreeItemClasses = generateUtilityClasses('FileTreeItem', ['actionButton', 'handlerItem']);
 
@@ -339,8 +334,6 @@ export default function FunctionsEditor() {
                 ref={handlerTreeRef}
                 selectedItems={selectedNodeId}
                 onSelectedItemsChange={handleSelectFunction}
-                // TODO: This belongs as a default property in the theme
-                slots={{ collapseIcon: CollapseIcon, expandIcon: ExpandIcon }}
                 expandedItems={expanded}
                 onExpandedItemsChange={(_event, itemIds) => setExpanded(itemIds)}
                 sx={{

@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { styled, Box, IconButton, Stack, Tooltip } from '@mui/material';
 import { SimpleTreeView, treeItemClasses } from '@mui/x-tree-view';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { NodeId } from '@toolpad/studio-runtime';
 import clsx from 'clsx';
@@ -18,9 +16,6 @@ import { useProjectApi } from '../../../projectApi';
 import EditableTreeItem, { EditableTreeItemProps } from '../../../components/EditableTreeItem';
 import { scrollIntoViewIfNeeded } from '../../../utils/dom';
 import ExplorerHeader from '../ExplorerHeader';
-
-const CollapseIcon = styled(ExpandMoreIcon)({ fontSize: '0.9rem', opacity: 0.5 });
-const ExpandIcon = styled(ChevronRightIcon)({ fontSize: '0.9rem', opacity: 0.5 });
 
 const PagesExplorerRoot = styled(Stack)({
   height: '100%',
@@ -358,8 +353,6 @@ export default function PagesExplorer({ className }: PagesExplorerProps) {
         expandedItems={expanded}
         onExpandedItemsChange={handleToggle}
         multiSelect
-        // TODO: This belongs as a default property in the theme
-        slots={{ collapseIcon: CollapseIcon, expandIcon: ExpandIcon }}
         sx={{
           overflow: 'auto',
           scrollbarGutter: 'stable',

@@ -3,8 +3,6 @@ import clsx from 'clsx';
 import { NodeId } from '@toolpad/studio-runtime';
 import { Box, Typography, styled, IconButton } from '@mui/material';
 import { SimpleTreeView, TreeItem, TreeItemProps, treeItemClasses } from '@mui/x-tree-view';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import useBoolean from '@toolpad/utils/hooks/useBoolean';
 import * as appDom from '@toolpad/studio-runtime/appDom';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -16,9 +14,6 @@ import { removePageLayoutNode } from '../pageLayout';
 import EditableTreeItem, { EditableTreeItemProps } from '../../../components/EditableTreeItem';
 import ExplorerHeader from '../ExplorerHeader';
 import NodeMenu from '../NodeMenu';
-
-const CollapseIcon = styled(ExpandMoreIcon)({ fontSize: '0.9rem', opacity: 0.5 });
-const ExpandIcon = styled(ChevronRightIcon)({ fontSize: '0.9rem', opacity: 0.5 });
 
 const classes = {
   treeItemMenuButton: 'Toolpad__HierarchyListItem',
@@ -296,8 +291,6 @@ export default function HierarchyExplorer() {
       <ExplorerHeader headerText="Page hierarchy" />
       <SimpleTreeView
         aria-label="Page hierarchy explorer"
-        // TODO: This belongs as a default property in the theme
-        slots={{ collapseIcon: CollapseIcon, expandIcon: ExpandIcon }}
         expandedItems={Array.from(expandedDomNodeIdSet)}
         selectedItems={selectedDomNodeId}
         onSelectedItemsChange={handleNodeSelect}
