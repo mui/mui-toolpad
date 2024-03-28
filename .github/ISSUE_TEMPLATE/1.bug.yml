@@ -5,21 +5,6 @@ body:
   - type: markdown
     attributes:
       value: Thanks for contributing by creating an issue! ❤️ Please provide a searchable summary of the issue in the title above ⬆️.
-  - type: input
-    attributes:
-      label: Search keywords
-      description: |
-        Your issue may have already been reported! First search for duplicates among the [existing issues](https://github.com/mui/mui-toolpad/issues).
-        If your issue isn't a duplicate, great! Please list the keywords you used so people in the future can find this one more easily:
-    validations:
-      required: true
-  - type: checkboxes
-    attributes:
-      label: Latest version
-      description: We roll bug fixes, performance enhancements, and other improvements into new releases.
-      options:
-        - label: I have tested the latest version
-          required: true
   - type: textarea
     attributes:
       label: Steps to reproduce
@@ -59,3 +44,18 @@ body:
           Output from `npx @mui/envinfo` goes here.
         ```
         </details>
+  - type: input
+    attributes:
+      label: Search keywords
+      description: |
+        Your issue may have already been reported! First search for duplicates among the [existing issues](https://github.com/mui/mui-toolpad/issues).
+        If your issue isn't a duplicate, great! Please list the keywords you used so people in the future can find this one more easily:
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: Latest version
+      description: We roll bug fixes, performance enhancements, and other improvements into new releases.
+      options:
+        - label: I have tested the latest version
+          required: true
