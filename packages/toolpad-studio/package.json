@@ -122,7 +122,7 @@
     "recharts": "2.12.3",
     "semver": "7.6.0",
     "serialize-javascript": "6.0.2",
-    "superjson": "2.0.0",
+    "superjson": "2.2.1",
     "typescript": "5.4.3",
     "vite": "5.2.6",
     "vm-browserify": "1.1.2",
