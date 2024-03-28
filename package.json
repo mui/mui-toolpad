@@ -67,7 +67,7 @@
     "format-util": "1.0.5",
     "globby": "14.0.1",
     "jsdom": "24.0.0",
-    "lerna": "7.4.2",
+    "lerna": "8.1.2",
     "markdownlint-cli2": "0.12.1",
     "prettier": "3.2.5",
     "pretty-quick": "4.0.0",
