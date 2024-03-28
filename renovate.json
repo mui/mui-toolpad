@@ -16,14 +16,26 @@
       "rangeStrategy": "widen"
     },
     {
-      "groupName": "dependencies",
-      "matchManagers": ["npm"],
-      "matchDepTypes": ["dependencies"]
+      "groupName": "babel",
+      "matchPackagePatterns": ["^@babel/", "^@types/babel"]
     },
     {
-      "groupName": "devDependencies",
-      "matchManagers": ["npm"],
-      "matchDepTypes": ["devDependencies"]
+      "groupName": "Emotion",
+      "matchPackagePatterns": "@emotion/*"
+    },
+    {
+      "groupName": "core-js",
+      "matchPackageNames": ["core-js"],
+      "allowedVersions": "< 2.0.0"
+    },
+    {
+      "groupName": "eslint",
+      "matchPackageNames": ["eslint"],
+      "matchPackagePatterns": ["^eslint-", "^@eslint/", "^@eslint-"]
+    },
+    {
+      "groupName": "React",
+      "matchPackageNames": ["react", "react-dom", "react-is", "react-test-renderer"]
     },
     {
       "groupName": "MUI Core",
@@ -100,7 +112,7 @@
     }
   ],
   "postUpdateOptions": ["pnpmDedupe"],
-  "prConcurrentLimit": 30,
+  "prConcurrentLimit": 15,
   "prHourlyLimit": 0,
   "rangeStrategy": "bump",
   "schedule": "on sunday before 6:00am",
