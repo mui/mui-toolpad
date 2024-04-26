@@ -19,7 +19,7 @@ The roadmap does not represent a commitment, obligation, or promise to deliver a
 
 To learn more about our plans for Material UI in general, visit the [global roadmap](/material-ui/discover-more/roadmap/).
 
-## Paid Plan
+## Pro Plan
 
 A few features in Toolpad Studio are proposed to be placed under a paid plan. These:
 
@@ -31,6 +31,17 @@ The following features are currently planned to be included within this scope:
 - ### Authorization
 
   Features allowing you to grant conditional access to pages based on user roles are part of this proposed paid plan. Read more about this feature on [authorization](/toolpad/studio/concepts/rbac/).
+
+- ### Grouping and Aggregation
+
+  Feature which allows you to configure grouping and aggregation features on the data grid through visual controls. Read more about this feature on the [data grid](/toolpad/studio/components/data-grid/#grouping-and-aggregating-pro) page.
+
+:::info
+The following Pro features are included with an [X Premium license](https://mui.com/x/introduction/licensing/#premium-plan):
+
+- **Grouping and Aggregation**
+
+  :::
 
 ## How to upgrade
 

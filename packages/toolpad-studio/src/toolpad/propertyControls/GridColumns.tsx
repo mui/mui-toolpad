@@ -347,7 +347,7 @@ function GridColumnEditor({
           Grouping/aggregation
           <UpgradeChip
             sx={{ ml: 1 }}
-            url="https://mui.com/toolpad/studio/components/data-grid/#grouping"
+            url="https://mui.com/toolpad/studio/components/data-grid/#grouping-and-aggregating-pro"
           />
         </Typography>
       )}

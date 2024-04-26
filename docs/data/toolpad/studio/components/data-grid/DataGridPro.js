@@ -29,7 +29,16 @@ const COLUMNS = [
 export default function DataGridPro() {
   return (
     <AppHostProvider plan="pro">
-      <DataGrid rows={ROWS} columns={COLUMNS} height={300} />
+      <DataGrid
+        rows={ROWS}
+        columns={COLUMNS}
+        height={300}
+        initialState={{
+          rowGrouping: {
+            model: ['Location'],
+          },
+        }}
+      />
     </AppHostProvider>
   );
 }

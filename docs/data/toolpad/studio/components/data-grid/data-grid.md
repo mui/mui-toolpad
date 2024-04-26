@@ -31,6 +31,17 @@ From the `type` drop down you can also [customize a column](/toolpad/studio/how-
   Your browser does not support the video tag.
 </video>
 
+### Grouping and aggregating (Pro)
+
+When you use the Toolpad [pro plan](/toolpad/studio/getting-started/roadmap/#pro-plan), the DataGrid gains grouping and aggregating capabilities. You can turn this off for individual columns.
+
+<video controls width="100%" height="auto" style="contain" alt="datagrid-columns">
+  <source src="/static/toolpad/docs/studio/components/datagrid/datagrid_grouping.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+{{"demo": "DataGridPro.js", "hideToolbar": true, "bg": "inline"}}
+
 ### Id field
 
 Id field property is used to identify which column contains the id column. By default, the data grid looks for a property named `id` in the data set to get that identifier. If the row's identifier is not called `id`, then you need to use this prop to tell the data grid where it's located.
@@ -72,12 +83,6 @@ Takes three options: `compact`, `standard` and `comfortable`. The first two are 
 This prop is used to show – or hide – the toolbar from the data grid. The following Data Grid is rendered along with the toolbar, by setting `hideToolbar` to `true`:
 
 {{"demo": "DataGridHideToolbar.js", "hideToolbar": true, "bg": "inline"}}
-
-### Grouping and aggregating (PRO)
-
-When you use the [Toolpad pro plan](/), the DataGrid gains grouping and aggregating capabilities. You can turn this off for individual columns.
-
-{{"demo": "DataGridPro.js", "hideToolbar": true, "bg": "inline"}}
 
 ## API
 
