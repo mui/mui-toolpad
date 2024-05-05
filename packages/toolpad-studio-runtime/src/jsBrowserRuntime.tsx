@@ -3,6 +3,10 @@ import { TOOLPAD_LOADING_MARKER } from './jsRuntime';
 import { BindingEvaluationResult, JsRuntime } from './types';
 
 function getIframe(): HTMLIFrameElement {
+  if (typeof window === 'undefined') {
+    throw new Error(`Can't use browser JS runtime outside of a browser`);
+  }
+
   const iframeId = 'toolpad-browser-runtime-iframe';
   let iframe = document.getElementById(iframeId) as HTMLIFrameElement;
 
@@ -90,11 +94,8 @@ function createBrowserRuntime(): JsRuntime {
   };
 }
 
-const browserRuntime = typeof window === 'undefined' ? null : createBrowserRuntime();
+const browserRuntime = createBrowserRuntime();
 export function getBrowserRuntime(): JsRuntime {
-  if (!browserRuntime) {
-    throw new Error(`Can't use browser JS runtime outside of a browser`);
-  }
   return browserRuntime;
 }
 

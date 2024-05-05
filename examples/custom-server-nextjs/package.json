@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@toolpad/studio": "0.1.54",
+    "chokidar": "3.5.3",
+    "esbuild": "0.20.2",
     "express": "4.19.2",
     "next": "14.2.3",
     "react": "18.2.0",

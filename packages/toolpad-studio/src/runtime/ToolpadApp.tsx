@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import {
   Stack,
@@ -1708,8 +1710,14 @@ export function ToolpadAppRoutes(props: ToolpadAppProps) {
   );
 }
 
+const subscribe = () => () => {};
+const getSnapShot = () => false;
+const getServerSnapshot = () => true;
+const useIsSsr = () => React.useSyncExternalStore(subscribe, getSnapShot, getServerSnapshot);
+
 export default function ToolpadApp(props: ToolpadAppProps) {
-  return (
+  const isSsr = useIsSsr();
+  return isSsr ? null : (
     <BrowserRouter basename={props.basename}>
       <Routes>
         <Route

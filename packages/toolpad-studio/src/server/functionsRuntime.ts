@@ -12,7 +12,9 @@ async function loadExports(filePath: string): Promise<Map<string, unknown>> {
   const content = await fs.readFile(importFileUrl, 'utf-8');
   const hash = crypto.createHash('md5').update(content).digest('hex');
   importFileUrl.searchParams.set('hash', hash);
-  const exports = await import(importFileUrl.href);
+  // `webpackIgnore: true` is used to instruct webpack in Next.js to use the native import() function
+  // instead of trying to bundle the dynamic import() call
+  const exports = await import(/* webpackIgnore: true */ importFileUrl.href);
   return new Map(Object.entries(exports));
 }
 

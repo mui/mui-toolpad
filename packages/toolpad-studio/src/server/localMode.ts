@@ -26,6 +26,8 @@ import {
 import { z } from 'zod';
 import { Awaitable } from '@toolpad/utils/types';
 import * as appDom from '@toolpad/studio-runtime/appDom';
+import express from 'express';
+import { IncomingMessage, ServerResponse } from 'http';
 import insecureHash from '../utils/insecureHash';
 import {
   Page,
@@ -61,6 +63,9 @@ import { UPGRADE_URL, VERSION_CHECK_INTERVAL } from '../constants';
 import DataManager from './DataManager';
 import { PAGE_COLUMN_COMPONENT_ID, PAGE_ROW_COMPONENT_ID } from '../runtime/toolpadComponents';
 import packageInfo from '../packageInfo';
+import createRuntimeState from '../runtime/createRuntimeState';
+import { createRpcServer } from './runtimeRpcServer';
+import { createRpcHandler } from './rpc';
 
 declare global {
   // eslint-disable-next-line
@@ -104,7 +109,7 @@ function getComponentFilePath(componentsFolder: string, componentName: string): 
   return path.join(componentsFolder, `${componentName}.tsx`);
 }
 
-function getOutputFolder(root: string) {
+export function getOutputFolder(root: string) {
   return path.join(root, '.generated');
 }
 
@@ -948,6 +953,39 @@ export function getRequiredEnvVars(dom: appDom.AppDom): Set<string> {
   return new Set(allVars);
 }
 
+/**
+ * @deprecated Hack to make output compatible with Next.js getServerSideProps serialization
+ */
+function cleanUndefinedProperties(obj: any) {
+  if (Array.isArray(obj)) {
+    for (let i = obj.length - 1; i >= 0; i -= 1) {
+      const item = obj[i];
+      if (item === undefined) {
+        obj.splice(obj.indexOf(item), 1);
+      } else {
+        cleanUndefinedProperties(item);
+      }
+    }
+  } else if (obj && typeof obj === 'object') {
+    for (const key of Object.keys(obj)) {
+      if (obj[key] === undefined) {
+        delete obj[key];
+      } else {
+        cleanUndefinedProperties(obj[key]);
+      }
+    }
+  }
+  return obj;
+}
+
+export interface RequestHandler {
+  (req: IncomingMessage, res: ServerResponse): Promise<void>;
+}
+
+export interface CreateApiHandlerParams {
+  base: string;
+}
+
 const PRO_AUTH_PROVIDERS = ['azure-ad'];
 
 interface PaidFeature {
@@ -1358,6 +1396,20 @@ class ToolpadProject {
       this.pagesManifestPromise = buildPagesManifest(this.root);
     }
     return this.pagesManifestPromise;
+  }
+
+  async getServerSideProps() {
+    const dom = await this.loadDom();
+    const state = createRuntimeState({ dom });
+    return cleanUndefinedProperties({ props: { state } });
+  }
+
+  createApiHandler({ base }: CreateApiHandlerParams): RequestHandler {
+    const runtimeRpcServer = createRpcServer(this);
+    const handler = createRpcHandler(runtimeRpcServer);
+    const app = express();
+    app.use(base, handler);
+    return (req, res) => app(req, res);
   }
 }
 

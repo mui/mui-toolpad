@@ -1,8 +1,14 @@
 import { createMethod, MethodResolvers } from './rpc';
-import type { ToolpadProject } from './localMode';
+import type FunctionsManager from './FunctionsManager';
+import type DataManager from './DataManager';
+
+interface IToolpadProject {
+  functionsManager: FunctionsManager;
+  dataManager: DataManager;
+}
 
 // Methods exposed to the Toolpad Studio runtime
-export function createRpcServer(project: ToolpadProject) {
+export function createRpcServer(project: IToolpadProject) {
   return {
     introspectDataProvider: createMethod<typeof project.functionsManager.introspectDataProvider>(
       ({ params }) => {

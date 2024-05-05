@@ -5,10 +5,10 @@ import { Emitter } from '@toolpad/utils/events';
 import chalk from 'chalk';
 import { truncate } from '@toolpad/utils/strings';
 import { Awaitable } from '@toolpad/utils/types';
-import { ProjectEvents, ToolpadProjectOptions } from '../types';
+import { ProjectEvents } from '../types';
 
 interface IToolpadProject {
-  options: ToolpadProjectOptions;
+  options: { dev: boolean };
   events: Emitter<ProjectEvents>;
   getRoot(): string;
 }

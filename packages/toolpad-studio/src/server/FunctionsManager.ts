@@ -20,7 +20,7 @@ import * as url from 'node:url';
 import type { GridRowId } from '@mui/x-data-grid';
 import invariant from 'invariant';
 import { Awaitable } from '@toolpad/utils/types';
-import { ProjectEvents, ToolpadProjectOptions } from '../types';
+import { ProjectEvents } from '../types';
 import * as functionsRuntime from './functionsRuntime';
 import type { ExtractTypesParams, IntrospectionResult } from './functionsTypesWorker';
 import { format } from '../utils/prettier';
@@ -99,7 +99,7 @@ function formatError(esbuildError: esbuild.Message): Error {
 }
 
 interface IToolpadProject {
-  options: ToolpadProjectOptions;
+  options: { dev: boolean };
   events: Emitter<ProjectEvents>;
   getRoot(): string;
   getOutputFolder(): string;

@@ -24,6 +24,16 @@ import { AuthContext } from './useAuth';
 import productIconDark from '../../public/product-icon-dark.svg';
 import productIconLight from '../../public/product-icon-light.svg';
 
+function interopNextImg(img: any) {
+  if (typeof img.src === 'string') {
+    return img.src;
+  }
+  return img;
+}
+
+const productIconDarkSrc = interopNextImg(productIconDark);
+const productIconLightSrc = interopNextImg(productIconLight);
+
 const TOOLPAD_DISPLAY_MODE_URL_PARAM = 'toolpad-display';
 
 // Url params that will be carried over to the next page
@@ -54,7 +64,7 @@ function AppPagesNavigation({
 
   const theme = useTheme();
 
-  const productIcon = theme.palette.mode === 'dark' ? productIconDark : productIconLight;
+  const productIcon = theme.palette.mode === 'dark' ? productIconDarkSrc : productIconLightSrc;
 
   return (
     <Drawer

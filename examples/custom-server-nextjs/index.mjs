@@ -11,8 +11,8 @@ const dev = process.env.NODE_ENV === 'development';
 const app = express();
 
 // Initialize the Toolpad Studio handler. Make sure to pass the base path
-const { handler } = await createHandler({ dev, base: '/my-toolpad-studio-app' });
-app.use('/my-toolpad-studio-app', handler);
+// const { handler } = await createHandler({ dev, base: '/my-toolpad-studio-app' });
+// app.use('/my-toolpad-studio-app', handler);
 
 // Initialize the Next.js app, basePath is set in next.config.mjs
 const nextApp = next({ dev, dir: currentDirectory });
