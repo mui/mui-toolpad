@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useRouter } from './nextCompatRouter';
 import { AppProviderNextApp } from './AppProviderNextApp';
 import { AppProviderNextPages } from './AppProviderNextPages';
-import { AppProviderProps } from '../AppProvider';
+import type { AppProviderProps } from '../AppProvider';
 
 /**
  * @ignore - internal component.

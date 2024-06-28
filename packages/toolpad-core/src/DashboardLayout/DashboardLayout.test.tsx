@@ -11,8 +11,9 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LayersIcon from '@mui/icons-material/Layers';
 import userEvent from '@testing-library/user-event';
+import { BrandingContext, NavigationContext } from '../shared/context';
+import type { Navigation } from '../AppProvider';
 import { DashboardLayout } from './DashboardLayout';
-import { BrandingContext, Navigation, NavigationContext } from '../AppProvider';
 
 describe('DashboardLayout', () => {
   test('renders content correctly', async () => {

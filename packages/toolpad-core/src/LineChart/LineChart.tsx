@@ -10,7 +10,7 @@ import {
 } from '@mui/x-charts';
 import { styled, useTheme } from '@mui/material';
 import { Datum, ResolvedDataProvider, useGetMany } from '../DataProvider';
-import { ErrorOverlay, LoadingOverlay } from '../shared';
+import { ErrorOverlay, LoadingOverlay } from '../shared/components';
 
 const LineChartRoot = styled('div')({
   position: 'relative',

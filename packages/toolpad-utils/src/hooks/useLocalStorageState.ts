@@ -1,5 +1,5 @@
 import * as React from 'react';
-import useStorageState from '@toolpad/utils/hooks/useStorageState';
+import useStorageState from './useStorageState';
 
 /**
  * Sync state to local storage so that it persists through a page refresh. Usage is

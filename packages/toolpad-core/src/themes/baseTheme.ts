@@ -1,11 +1,27 @@
-import { createTheme } from '@mui/material/styles';
+import { experimental_extendTheme as extendTheme } from '@mui/material/styles';
+import type {} from '@mui/material/themeCssVarsAugmentation';
 
-const defaultTheme = createTheme();
-
-export const baseTheme = createTheme(defaultTheme, {
-  palette: {
-    background: {
-      default: defaultTheme.palette.grey['50'],
+const baseTheme = extendTheme({
+  colorSchemes: {
+    light: {
+      palette: {
+        background: {
+          default: 'var(--mui-palette-grey-50)',
+          defaultChannel: 'var(--mui-palette-grey-50)',
+        },
+      },
+    },
+    dark: {
+      palette: {
+        background: {
+          default: 'var(--mui-palette-grey-900)',
+          defaultChannel: 'var(--mui-palette-grey-900)',
+        },
+        text: {
+          primary: 'var(--mui-palette-grey-200)',
+          primaryChannel: 'var(--mui-palette-grey-200)',
+        },
+      },
     },
   },
   typography: {
@@ -16,12 +32,20 @@ export const baseTheme = createTheme(defaultTheme, {
   components: {
     MuiAppBar: {
       styleOverrides: {
-        root: {
+        root: ({ theme }) => ({
+          backgroundColor: theme.vars.palette.background.paper,
           borderWidth: 0,
           borderBottomWidth: 1,
           borderStyle: 'solid',
-          borderColor: defaultTheme.palette.divider,
+          borderColor: theme.vars.palette.divider,
           boxShadow: 'none',
+        }),
+      },
+    },
+    MuiToolbar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'inherit',
         },
       },
     },
@@ -34,21 +58,24 @@ export const baseTheme = createTheme(defaultTheme, {
     },
     MuiIconButton: {
       styleOverrides: {
-        root: {
-          color: defaultTheme.palette.primary.dark,
+        root: ({ theme }) => ({
+          color: theme.vars.palette.primary.dark,
           padding: 8,
-        },
+        }),
       },
     },
     MuiListSubheader: {
       styleOverrides: {
-        root: {
-          color: defaultTheme.palette.grey['600'],
+        root: ({ theme }) => ({
+          color: theme.vars.palette.grey['600'],
           fontSize: 12,
           fontWeight: '700',
           height: 40,
           paddingLeft: 32,
-        },
+          [theme.getColorSchemeSelector('dark')]: {
+            color: theme.vars.palette.grey['500'],
+          },
+        }),
       },
     },
     MuiListItem: {
@@ -61,26 +88,26 @@ export const baseTheme = createTheme(defaultTheme, {
     },
     MuiListItemButton: {
       styleOverrides: {
-        root: {
+        root: ({ theme }) => ({
           borderRadius: 8,
           '&.Mui-selected': {
             '& .MuiListItemIcon-root': {
-              color: defaultTheme.palette.primary.dark,
+              color: theme.vars.palette.primary.dark,
             },
             '& .MuiTypography-root': {
-              color: defaultTheme.palette.primary.dark,
+              color: theme.vars.palette.primary.dark,
             },
             '& .MuiSvgIcon-root': {
-              color: defaultTheme.palette.primary.dark,
+              color: theme.vars.palette.primary.dark,
             },
             '& .MuiTouchRipple-child': {
-              backgroundColor: defaultTheme.palette.primary.dark,
+              backgroundColor: theme.vars.palette.primary.dark,
             },
           },
           '& .MuiSvgIcon-root': {
-            color: defaultTheme.palette.action.active,
+            color: theme.vars.palette.action.active,
           },
-        },
+        }),
       },
     },
     MuiListItemText: {
@@ -110,3 +137,5 @@ export const baseTheme = createTheme(defaultTheme, {
     },
   },
 });
+
+export { baseTheme };

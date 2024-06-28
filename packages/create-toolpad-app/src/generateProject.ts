@@ -29,7 +29,7 @@ export default function generateProject(
   
   export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {      
     return (
-      <html lang="en">
+      <html lang="en" data-mui-color-scheme="light">
         <body>
           <AppRouterCacheProvider options={{ enableCssLayer: true }}>
             <AppProvider theme={theme} navigation={NAVIGATION}>

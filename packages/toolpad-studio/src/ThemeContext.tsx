@@ -3,8 +3,8 @@ import { PaletteMode, ScopedCssBaseline } from '@mui/material';
 import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
 import { deepmerge } from '@mui/utils';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import useLocalStorageState from '@toolpad/utils/hooks/useLocalStorageState';
 import { getDesignTokens, getMetaThemeColor, getThemedComponents } from './theme';
-import useLocalStorageState from './utils/useLocalStorageState';
 
 interface ThemeProviderProps {
   children?: React.ReactNode;

@@ -36,7 +36,7 @@ import invariant from 'invariant';
 import { useNonNullableContext } from '@toolpad/utils/react';
 import { errorFrom } from '@toolpad/utils/errors';
 import RowsLoadingOverlay from './LoadingOverlay';
-import { ErrorOverlay, LoadingOverlay } from '../shared';
+import { ErrorOverlay, LoadingOverlay } from '../shared/components';
 import {
   ResolvedDataProvider,
   ResolvedField,

@@ -1,11 +1,12 @@
 'use client';
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { ThemeProvider, Theme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import { CssVarsTheme, Theme } from '@mui/material/styles';
 import { baseTheme } from '../themes';
 import { NotificationsProvider } from '../useNotifications';
 import { DialogsProvider } from '../useDialogs';
+import { BrandingContext, NavigationContext, RouterContext } from '../shared/context';
+import { AppThemeProvider } from './AppThemeProvider';
 
 export interface NavigateOptions {
   history?: 'auto' | 'push' | 'replace';
@@ -50,23 +51,16 @@ export type NavigationItem = NavigationPageItem | NavigationSubheaderItem | Navi
 
 export type Navigation = NavigationItem[];
 
-// TODO: hide these contexts from public API
-export const BrandingContext = React.createContext<Branding | null>(null);
-
-export const NavigationContext = React.createContext<Navigation>([]);
-
-export const RouterContext = React.createContext<Router | null>(null);
-
 export interface AppProviderProps {
   /**
    * The content of the app provider.
    */
   children: React.ReactNode;
   /**
-   * [Theme](https://mui.com/material-ui/customization/theming/) used by the app.
+   * [Theme](https://mui.com/material-ui/customization/theming/) to be used by the app in light/dark mode.
    * @default baseTheme
    */
-  theme?: Theme;
+  theme?: Theme | { light: Theme; dark: Theme } | CssVarsTheme;
   /**
    * Branding options for the app.
    * @default null
@@ -101,8 +95,7 @@ function AppProvider(props: AppProviderProps) {
 
   return (
     <RouterContext.Provider value={router}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+      <AppThemeProvider theme={theme}>
         <NotificationsProvider>
           <DialogsProvider>
             <BrandingContext.Provider value={branding}>
@@ -110,7 +103,7 @@ function AppProvider(props: AppProviderProps) {
             </BrandingContext.Provider>
           </DialogsProvider>
         </NotificationsProvider>
-      </ThemeProvider>
+      </AppThemeProvider>
     </RouterContext.Provider>
   );
 }
@@ -175,7 +168,7 @@ AppProvider.propTypes /* remove-proptypes */ = {
     searchParams: PropTypes.instanceOf(URLSearchParams),
   }),
   /**
-   * [Theme](https://mui.com/material-ui/customization/theming/) used by the app.
+   * [Theme](https://mui.com/material-ui/customization/theming/) to be used by the app in light/dark mode.
    * @default baseTheme
    */
   theme: PropTypes.object,

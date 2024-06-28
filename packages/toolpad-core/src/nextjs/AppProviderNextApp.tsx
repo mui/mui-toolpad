@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { usePathname, useSearchParams, useRouter } from './nextNavigation';
-import { AppProvider, AppProviderProps, Navigate, Router } from '../AppProvider';
+import { AppProvider } from '../AppProvider';
+import type { AppProviderProps, Navigate, Router } from '../AppProvider';
 
 /**
  * @ignore - internal component.

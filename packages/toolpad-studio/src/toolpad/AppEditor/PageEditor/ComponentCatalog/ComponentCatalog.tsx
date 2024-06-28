@@ -17,12 +17,12 @@ import InputAdornment from '@mui/material/InputAdornment';
 import AccountCircle from '@mui/icons-material/Search';
 import { uncapitalize } from '@toolpad/utils/strings';
 import * as appDom from '@toolpad/studio-runtime/appDom';
+import useLocalStorageState from '@toolpad/utils/hooks/useLocalStorageState';
 import ComponentCatalogItem from './ComponentCatalogItem';
 import CreateCodeComponentNodeDialog from '../../PagesExplorer/CreateCodeComponentNodeDialog';
 import { useAppState } from '../../../AppState';
 import { usePageEditorApi } from '../PageEditorProvider';
 import { useToolpadComponents } from '../../toolpadComponents';
-import useLocalStorageState from '../../../../utils/useLocalStorageState';
 import HelpTooltipIcon from '../../../../components/HelpTooltipIcon';
 
 interface FutureComponentSpec {

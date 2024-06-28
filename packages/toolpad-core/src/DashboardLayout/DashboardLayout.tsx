@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material';
@@ -7,6 +8,7 @@ import Collapse from '@mui/material/Collapse';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -15,16 +17,19 @@ import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
+import LightModeIcon from '@mui/icons-material/LightMode';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   BrandingContext,
-  Navigation,
   NavigationContext,
-  NavigationPageItem,
+  PaletteModeContext,
   RouterContext,
-} from '../AppProvider/AppProvider';
+} from '../shared/context';
+import type { Navigation, NavigationPageItem } from '../AppProvider';
 import { ToolpadLogo } from './ToolpadLogo';
 
 const DRAWER_WIDTH = 320;
@@ -122,7 +127,7 @@ function DashboardSidebarSubNavigation({
           return (
             <Divider
               key={`divider-${depth}-${navigationItemIndex}`}
-              sx={{ mt: 1, mb: nextItem.kind === 'header' ? 0 : 1 }}
+              sx={{ mt: 1, mb: nextItem?.kind === 'header' ? 0 : 1 }}
             />
           );
         }
@@ -204,6 +209,16 @@ function DashboardLayout(props: DashboardLayoutProps) {
 
   const branding = React.useContext(BrandingContext);
   const navigation = React.useContext(NavigationContext);
+  const { paletteMode, setPaletteMode, isDualTheme } = React.useContext(PaletteModeContext);
+
+  const [hasMounted, setHasMounted] = React.useState(false);
+  React.useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  const toggleMode = React.useCallback(() => {
+    setPaletteMode(paletteMode === 'dark' ? 'light' : 'dark');
+  }, [paletteMode, setPaletteMode]);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -220,12 +235,25 @@ function DashboardLayout(props: DashboardLayoutProps) {
               <Box sx={{ mr: 1 }}>
                 <LogoContainer>{branding?.logo ?? <ToolpadLogo size={40} />}</LogoContainer>
               </Box>
-              <Typography variant="h6" sx={{ color: (theme) => theme.palette.primary.main }}>
+              <Typography
+                variant="h6"
+                sx={{ color: (theme) => (theme.vars ?? theme).palette.primary.main }}
+              >
                 {branding?.title ?? 'Toolpad'}
               </Typography>
             </Stack>
           </a>
           <Box sx={{ flexGrow: 1 }} />
+          {hasMounted && isDualTheme ? (
+            <Tooltip title={`${paletteMode === 'dark' ? 'Light' : 'Dark'} mode`} enterDelay={500}>
+              <IconButton
+                aria-label={`Switch to ${paletteMode === 'dark' ? 'light' : 'dark'} mode`}
+                onClick={toggleMode}
+              >
+                {paletteMode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
+              </IconButton>
+            </Tooltip>
+          ) : null}
         </Toolbar>
       </AppBar>
       <Drawer
