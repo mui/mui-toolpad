@@ -1,7 +1,7 @@
 {
   "props": {},
   "name": "DialogsProvider",
-  "imports": ["import { DialogsProvider } from '@toolpad-core/useDialogs';"],
+  "imports": ["import { DialogsProvider } from '@toolpad/core/useDialogs';"],
   "classes": [],
   "spread": true,
   "themeDefaultProps": false,

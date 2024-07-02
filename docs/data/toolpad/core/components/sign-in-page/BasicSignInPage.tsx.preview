@@ -1,0 +1,4 @@
+<SignInPage
+  signIn={(provider) => alert(`Signing in with "${provider.name}"`)}
+  providers={providers}
+/>

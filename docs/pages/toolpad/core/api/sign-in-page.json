@@ -1,0 +1,16 @@
+{
+  "props": {},
+  "name": "SignInPage",
+  "imports": [
+    "import { SignInPage } from '@toolpad/core/SignInPage';",
+    "import { SignInPage } from '@toolpad/core';"
+  ],
+  "classes": [],
+  "spread": true,
+  "themeDefaultProps": false,
+  "muiName": "SignInPage",
+  "filename": "/packages/toolpad-core/src/SignInPage/SignInPage.tsx",
+  "inheritance": null,
+  "demos": "<ul><li><a href=\"/toolpad/core/react-sign-in-page/\">Sign In Page</a></li></ul>",
+  "cssComponent": false
+}

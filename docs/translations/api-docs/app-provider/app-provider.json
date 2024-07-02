@@ -1,10 +1,12 @@
 {
   "componentDescription": "",
   "propDescriptions": {
+    "authentication": { "description": "Authentication methods." },
     "branding": { "description": "Branding options for the app." },
     "children": { "description": "The content of the app provider." },
-    "navigation": { "description": "Navigation definition for the app." },
+    "navigation": { "description": "Navigation definition        for the app." },
     "router": { "description": "Router implementation used inside Toolpad components." },
+    "session": { "description": "Session info about the current user." },
     "theme": {
       "description": "<a href=\"https://mui.com/material-ui/customization/theming/\">Theme</a> used by the app."
     }

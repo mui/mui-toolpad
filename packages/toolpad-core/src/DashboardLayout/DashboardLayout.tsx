@@ -18,6 +18,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Account } from '../Account';
 import {
   BrandingContext,
   Navigation,
@@ -226,6 +227,7 @@ function DashboardLayout(props: DashboardLayoutProps) {
             </Stack>
           </a>
           <Box sx={{ flexGrow: 1 }} />
+          <Account />
         </Toolbar>
       </AppBar>
       <Drawer

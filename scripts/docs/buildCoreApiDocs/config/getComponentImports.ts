@@ -24,16 +24,16 @@ export function getComponentImports(name: string, filename: string) {
     const hasNextJsVersion = fs.existsSync(`${nextjsRelativePath}/${name}.tsx`);
 
     return [
-      `import { ${name} } from '@toolpad-core/${name}';${
+      `import { ${name} } from '@toolpad/core/${name}';${
         hasNextJsVersion
-          ? `\nimport { ${name} } from '@toolpad-core/nextjs/${name}'; // Next.js`
+          ? `\nimport { ${name} } from '@toolpad/core/nextjs/${name}'; // Next.js`
           : ''
       }`,
-      `import { ${name} } from '@toolpad-core';${
-        hasNextJsVersion ? `\nimport { ${name} } from '@toolpad-core/nextjs'; // Next.js` : ''
+      `import { ${name} } from '@toolpad/core';${
+        hasNextJsVersion ? `\nimport { ${name} } from '@toolpad/core/nextjs'; // Next.js` : ''
       }`,
     ];
   }
 
-  return [`import { ${name} } from '@toolpad-core/${componentDirectory}';`];
+  return [`import { ${name} } from '@toolpad/core/${componentDirectory}';`];
 }

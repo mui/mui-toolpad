@@ -9,8 +9,8 @@
   },
   "name": "LineChart",
   "imports": [
-    "import { LineChart } from '@toolpad-core/LineChart';",
-    "import { LineChart } from '@toolpad-core';"
+    "import { LineChart } from '@toolpad/core/LineChart';",
+    "import { LineChart } from '@toolpad/core';"
   ],
   "classes": [],
   "spread": true,

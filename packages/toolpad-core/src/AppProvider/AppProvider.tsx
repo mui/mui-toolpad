@@ -50,12 +50,30 @@ export type NavigationItem = NavigationPageItem | NavigationSubheaderItem | Navi
 
 export type Navigation = NavigationItem[];
 
+export interface Session {
+  user?: {
+    id?: string | null;
+    name?: string | null;
+    image?: string | null;
+    email?: string | null;
+  };
+}
+
+export interface Authentication {
+  signIn: () => void;
+  signOut: () => void;
+}
+
 // TODO: hide these contexts from public API
 export const BrandingContext = React.createContext<Branding | null>(null);
 
 export const NavigationContext = React.createContext<Navigation>([]);
 
 export const RouterContext = React.createContext<Router | null>(null);
+
+export const SessionContext = React.createContext<Session | null>(null);
+
+export const AuthenticationContext = React.createContext<Authentication | null>(null);
 
 export interface AppProviderProps {
   /**
@@ -73,7 +91,7 @@ export interface AppProviderProps {
    */
   branding?: Branding | null;
   /**
-   * Navigation definition for the app.
+   * Navigation definition        for the app.
    * @default []
    */
   navigation?: Navigation;
@@ -83,6 +101,16 @@ export interface AppProviderProps {
    * @default null
    */
   router?: Router;
+  /**
+   * Session info about the current user.
+   * @default null
+   */
+  session?: Session | null;
+  /**
+   * Authentication methods.
+   * @default null
+   */
+  authentication?: Authentication | null;
 }
 
 /**
@@ -97,21 +125,35 @@ export interface AppProviderProps {
  * - [AppProvider API](https://mui.com/toolpad/core/api/app-provider)
  */
 function AppProvider(props: AppProviderProps) {
-  const { children, theme = baseTheme, branding = null, navigation = [], router = null } = props;
+  const {
+    children,
+    theme = baseTheme,
+    branding = null,
+    navigation = [],
+    router = null,
+    session = null,
+    authentication = null,
+  } = props;
 
   return (
-    <RouterContext.Provider value={router}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <NotificationsProvider>
-          <DialogsProvider>
-            <BrandingContext.Provider value={branding}>
-              <NavigationContext.Provider value={navigation}>{children}</NavigationContext.Provider>
-            </BrandingContext.Provider>
-          </DialogsProvider>
-        </NotificationsProvider>
-      </ThemeProvider>
-    </RouterContext.Provider>
+    <AuthenticationContext.Provider value={authentication}>
+      <SessionContext.Provider value={session}>
+        <RouterContext.Provider value={router}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <NotificationsProvider>
+              <DialogsProvider>
+                <BrandingContext.Provider value={branding}>
+                  <NavigationContext.Provider value={navigation}>
+                    {children}
+                  </NavigationContext.Provider>
+                </BrandingContext.Provider>
+              </DialogsProvider>
+            </NotificationsProvider>
+          </ThemeProvider>
+        </RouterContext.Provider>
+      </SessionContext.Provider>
+    </AuthenticationContext.Provider>
   );
 }
 
@@ -120,6 +162,14 @@ AppProvider.propTypes /* remove-proptypes */ = {
   // │ These PropTypes are generated from the TypeScript type definitions. │
   // │ To update them, edit the TypeScript types and run `pnpm proptypes`. │
   // └─────────────────────────────────────────────────────────────────────┘
+  /**
+   * Authentication methods.
+   * @default null
+   */
+  authentication: PropTypes.shape({
+    signIn: PropTypes.func.isRequired,
+    signOut: PropTypes.func.isRequired,
+  }),
   /**
    * Branding options for the app.
    * @default null
@@ -133,7 +183,7 @@ AppProvider.propTypes /* remove-proptypes */ = {
    */
   children: PropTypes.node,
   /**
-   * Navigation definition for the app.
+   * Navigation definition        for the app.
    * @default []
    */
   navigation: PropTypes.arrayOf(
@@ -173,6 +223,18 @@ AppProvider.propTypes /* remove-proptypes */ = {
     navigate: PropTypes.func.isRequired,
     pathname: PropTypes.string.isRequired,
     searchParams: PropTypes.instanceOf(URLSearchParams),
+  }),
+  /**
+   * Session info about the current user.
+   * @default null
+   */
+  session: PropTypes.shape({
+    user: PropTypes.shape({
+      email: PropTypes.string,
+      id: PropTypes.string,
+      image: PropTypes.string,
+      name: PropTypes.string,
+    }),
   }),
   /**
    * [Theme](https://mui.com/material-ui/customization/theming/) used by the app.

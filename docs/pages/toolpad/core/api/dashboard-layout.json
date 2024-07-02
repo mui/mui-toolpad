@@ -2,8 +2,8 @@
   "props": { "children": { "type": { "name": "node" }, "required": true } },
   "name": "DashboardLayout",
   "imports": [
-    "import { DashboardLayout } from '@toolpad-core/DashboardLayout';",
-    "import { DashboardLayout } from '@toolpad-core';"
+    "import { DashboardLayout } from '@toolpad/core/DashboardLayout';",
+    "import { DashboardLayout } from '@toolpad/core';"
   ],
   "classes": [],
   "spread": true,

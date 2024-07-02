@@ -16,3 +16,4 @@ build
 
 .generated
 .github
+.coverage

@@ -1,7 +1,7 @@
 {
   "props": {},
   "name": "NotificationsProvider",
-  "imports": ["import { NotificationsProvider } from '@toolpad-core/useNotifications';"],
+  "imports": ["import { NotificationsProvider } from '@toolpad/core/useNotifications';"],
   "slots": [
     {
       "name": "snackbar",

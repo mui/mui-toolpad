@@ -2,7 +2,7 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    setupFiles: ['../../test/setupVitest.ts'],
+    setupFiles: ['../../test/setupVitest.ts', '@testing-library/jest-dom/vitest'],
     browser: {
       enabled: false, // enabled through CLI
       name: 'chromium',

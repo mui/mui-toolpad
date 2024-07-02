@@ -1,0 +1,16 @@
+{
+  "props": {},
+  "name": "Account",
+  "imports": [
+    "import { Account } from '@toolpad/core/Account';",
+    "import { Account } from '@toolpad/core';"
+  ],
+  "classes": [],
+  "spread": true,
+  "themeDefaultProps": false,
+  "muiName": "Account",
+  "filename": "/packages/toolpad-core/src/Account/Account.tsx",
+  "inheritance": null,
+  "demos": "<ul><li><a href=\"/toolpad/core/react-account/\">Account</a></li>\n<li><a href=\"/toolpad/core/react-dashboard-layout/\">Dashboard Layout</a></li>\n<li><a href=\"/toolpad/core/react-sign-in-page/\">Sign In Page</a></li></ul>",
+  "cssComponent": false
+}

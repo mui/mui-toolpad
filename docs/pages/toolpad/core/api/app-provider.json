@@ -1,6 +1,10 @@
 {
   "props": {
     "children": { "type": { "name": "node" }, "required": true },
+    "authentication": {
+      "type": { "name": "shape", "description": "{ signIn: func, signOut: func }" },
+      "default": "null"
+    },
     "branding": {
       "type": { "name": "shape", "description": "{ logo?: node, title?: string }" },
       "default": "null"
@@ -19,12 +23,19 @@
       },
       "default": "null"
     },
+    "session": {
+      "type": {
+        "name": "shape",
+        "description": "{ user?: { email?: string, id?: string, image?: string, name?: string } }"
+      },
+      "default": "null"
+    },
     "theme": { "type": { "name": "object" }, "default": "baseTheme" }
   },
   "name": "AppProvider",
   "imports": [
-    "import { AppProvider } from '@toolpad-core/AppProvider';\nimport { AppProvider } from '@toolpad-core/nextjs/AppProvider'; // Next.js",
-    "import { AppProvider } from '@toolpad-core';\nimport { AppProvider } from '@toolpad-core/nextjs'; // Next.js"
+    "import { AppProvider } from '@toolpad/core/AppProvider';\nimport { AppProvider } from '@toolpad/core/nextjs/AppProvider'; // Next.js",
+    "import { AppProvider } from '@toolpad/core';\nimport { AppProvider } from '@toolpad/core/nextjs'; // Next.js"
   ],
   "classes": [],
   "spread": true,

@@ -1,7 +1,7 @@
 ---
 productId: toolpad-core
 title: Dashboard Layout
-components: AppProvider, DashboardLayout
+components: AppProvider, DashboardLayout, Account
 ---
 
 # Dashboard Layout

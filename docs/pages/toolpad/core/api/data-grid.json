@@ -10,8 +10,8 @@
   },
   "name": "DataGrid",
   "imports": [
-    "import { DataGrid } from '@toolpad-core/DataGrid';",
-    "import { DataGrid } from '@toolpad-core';"
+    "import { DataGrid } from '@toolpad/core/DataGrid';",
+    "import { DataGrid } from '@toolpad/core';"
   ],
   "classes": [
     {
