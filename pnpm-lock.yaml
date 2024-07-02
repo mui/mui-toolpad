@@ -650,8 +650,8 @@ importers:
   packages/toolpad-studio:
     dependencies:
       '@auth/core':
-        specifier: 0.31.0
-        version: 0.31.0
+        specifier: 0.34.1
+        version: 0.34.1
       '@emotion/cache':
         specifier: 11.11.0
         version: 11.11.0
@@ -1057,8 +1057,8 @@ importers:
   packages/toolpad-studio-runtime:
     dependencies:
       '@auth/core':
-        specifier: 0.31.0
-        version: 0.31.0
+        specifier: 0.34.1
+        version: 0.34.1
       '@mui/material':
         specifier: 5.15.21
         version: 5.15.21(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@emotion/styled@11.11.5(@emotion/react@11.11.4(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react@18.3.1))(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1345,8 +1345,8 @@ packages:
     resolution: {integrity: sha512-wnsNQOjcNfxOi8cHWSv8+GhzUeIitDJgjhuSNR9zrfHB0Y3nDVI57S/mHRo+EMAaWwghfbrxW1ypRCXVseN0GA==}
     engines: {node: '>=18.0.0'}
 
-  '@auth/core@0.31.0':
-    resolution: {integrity: sha512-UKk3psvA1cRbk4/c9CkpWB8mdWrkKvzw0DmEYRsWolUQytQ2cRqx+hYuV6ZCsngw/xbj9hpmkZmAZEyq2g4fMg==}
+  '@auth/core@0.34.1':
+    resolution: {integrity: sha512-tuYU2VIbI8rFbkSwP710LmybB2FXJsPN7j3sjRVfN9SXVQBK2ej6LdewQaofpBGp4Mk+cC2UeiGNH0or4tgaeA==}
     peerDependencies:
       '@simplewebauthn/browser': ^9.0.1
       '@simplewebauthn/server': ^9.0.2
@@ -10041,7 +10041,7 @@ snapshots:
 
   '@argos-ci/util@2.0.0': {}
 
-  '@auth/core@0.31.0':
+  '@auth/core@0.34.1':
     dependencies:
       '@panva/hkdf': 1.2.0
       '@types/cookie': 0.6.0
