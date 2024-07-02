@@ -13,9 +13,7 @@ export default function OrdersPage() {
         alignItems: 'center',
       }}
     >
-      <Typography variant="h4" component="h1" sx={{ mb: 2 }}>
-        Welcome to the Toolpad orders!
-      </Typography>
+      <Typography sx={{ mb: 2 }}>Welcome to the Toolpad orders!</Typography>
     </Box>
   );
 }

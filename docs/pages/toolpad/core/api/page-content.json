@@ -1,0 +1,14 @@
+{
+  "props": {},
+  "name": "PageContent",
+  "imports": [
+    "import { PageContent } from '@toolpad-core/PageContent';",
+    "import { PageContent } from '@toolpad-core';"
+  ],
+  "classes": [],
+  "muiName": "PageContent",
+  "filename": "/packages/toolpad-core/src/PageContent/PageContent.tsx",
+  "inheritance": null,
+  "demos": "<ul><li><a href=\"/toolpad/core/react-page-content/\">Page Content</a></li></ul>",
+  "cssComponent": false
+}

@@ -3,7 +3,7 @@
     "composite": true,
     "tsBuildInfoFile": "./build/tsconfig.json.tsbuildinfo",
     "module": "esnext",
-    "target": "es5",
+    "target": "es2022",
     "lib": ["es2022", "dom"],
     "jsx": "preserve",
     "moduleResolution": "bundler",

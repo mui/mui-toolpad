@@ -4,7 +4,6 @@ import { styled } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
-import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -18,14 +17,15 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { BrandingContext, RouterContext } from '../AppProvider/AppProvider';
+import { ToolpadLogo } from './ToolpadLogo';
+import { Link } from '../shared/Link';
 import {
-  BrandingContext,
   Navigation,
   NavigationContext,
   NavigationPageItem,
-  RouterContext,
-} from '../AppProvider/AppProvider';
-import { ToolpadLogo } from './ToolpadLogo';
+  isPageItem,
+} from '../contexts/NavigationContext';
 
 const DRAWER_WIDTH = 320;
 
@@ -61,15 +61,15 @@ function DashboardSidebarSubNavigation({
         }))
         .filter(
           ({ navigationItem }) =>
-            (!navigationItem.kind || navigationItem.kind === 'page') &&
+            isPageItem(navigationItem) &&
             navigationItem.children &&
             navigationItem.children.some((nestedNavigationItem) => {
-              const navigationItemFullPath = `${basePath}${(nestedNavigationItem as NavigationPageItem).slug ?? ''}`;
+              if (!isPageItem(nestedNavigationItem)) {
+                return false;
+              }
+              const navigationItemFullPath = `${basePath}/${nestedNavigationItem.slug ?? ''}`;
 
-              return (
-                (!nestedNavigationItem.kind || nestedNavigationItem.kind === 'page') &&
-                navigationItemFullPath === pathname
-              );
+              return navigationItemFullPath === pathname;
             }),
         )
         .map(
@@ -94,17 +94,6 @@ function DashboardSidebarSubNavigation({
     [],
   );
 
-  const handleLinkClick = React.useMemo(() => {
-    if (!routerContext) {
-      return undefined;
-    }
-    return (event: React.MouseEvent<HTMLAnchorElement>) => {
-      event.preventDefault();
-      const url = new URL(event.currentTarget.href);
-      routerContext.navigate(url.pathname, { history: 'push' });
-    };
-  }, [routerContext]);
-
   return (
     <List sx={{ mb: depth === 0 ? 4 : 1, pl: 2 * depth }}>
       {subNavigation.map((navigationItem, navigationItemIndex) => {
@@ -127,7 +116,7 @@ function DashboardSidebarSubNavigation({
           );
         }
 
-        const navigationItemFullPath = `${basePath}${navigationItem.slug ?? ''}`;
+        const navigationItemFullPath = `${basePath}/${navigationItem.slug ?? ''}`;
 
         const navigationItemId = `${navigationItem.title}-${depth}-${navigationItemIndex}`;
 
@@ -142,6 +131,12 @@ function DashboardSidebarSubNavigation({
         const listItem = (
           <ListItem>
             <ListItemButton
+              {...(typeof navigationItem.slug === 'string' && !navigationItem.children
+                ? {
+                    component: Link,
+                    href: navigationItemFullPath,
+                  }
+                : {})}
               selected={pathname === navigationItemFullPath}
               onClick={handleSidebarItemClick(navigationItemId)}
             >
@@ -154,17 +149,7 @@ function DashboardSidebarSubNavigation({
 
         return (
           <React.Fragment key={navigationItemId}>
-            {navigationItem.slug && !navigationItem.children ? (
-              <a
-                href={navigationItemFullPath}
-                onClick={handleLinkClick}
-                style={{ color: 'inherit', textDecoration: 'none' }}
-              >
-                {listItem}
-              </a>
-            ) : (
-              listItem
-            )}
+            {listItem}
 
             {navigationItem.children ? (
               <Collapse in={isNestedNavigationExpanded} timeout="auto" unmountOnExit>
@@ -249,7 +234,7 @@ function DashboardLayout(props: DashboardLayoutProps) {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1 }}>
         <Toolbar />
-        <Container maxWidth="lg">{children}</Container>
+        <div>{children}</div>
       </Box>
     </Box>
   );
