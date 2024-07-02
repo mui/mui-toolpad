@@ -1,0 +1,8 @@
+<Select
+  value={value ?? 'foo'}
+  onChange={(event) => setValue(event.target.value as SchemaType)}
+>
+  <MenuItem value="foo">Foo</MenuItem>
+  <MenuItem value="bar">Bar</MenuItem>
+  <MenuItem value="baz">Baz</MenuItem>
+</Select>

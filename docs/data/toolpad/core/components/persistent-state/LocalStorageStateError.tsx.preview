@@ -1,0 +1,10 @@
+const CODEC_JSON: Codec<unknown> = {
+  parse: (value) => {
+    try {
+      return JSON.parse(value);
+    } catch {
+      return { _error: 'parse failed' };
+    }
+  },
+  stringify: (value) => JSON.stringify(value),
+};

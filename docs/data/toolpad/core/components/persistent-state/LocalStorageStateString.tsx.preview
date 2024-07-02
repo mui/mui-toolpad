@@ -1,0 +1,1 @@
+const [value, setValue] = useLocalStorageState('string-value', 'Initial Value');

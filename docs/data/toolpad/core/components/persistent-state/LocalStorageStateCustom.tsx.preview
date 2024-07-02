@@ -1,0 +1,10 @@
+const DAYJS_CODEC: Codec<Dayjs> = {
+  parse: (dateString) => dayjs(dateString),
+  stringify: (date) => date.toISOString(),
+};
+
+export default function LocalStorageStateCustom() {
+  const [value, setValue] = useLocalStorageState('custom-value', null, {
+    codec: DAYJS_CODEC,
+  });
+  // ...
