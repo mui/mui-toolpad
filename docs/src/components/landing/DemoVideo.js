@@ -2,9 +2,6 @@ import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
 import PauseRoundedIcon from '@mui/icons-material/PauseRounded';
-import FullScreenRoundedIcon from '@mui/icons-material/FullscreenRounded';
-import VolumeOffRoundedIcon from '@mui/icons-material/VolumeOffRounded';
-import VolumeUpRoundedIcon from '@mui/icons-material/VolumeUpRounded';
 import { styled, alpha } from '@mui/material/styles';
 
 const VideoContainer = styled('div')(({ theme }) => [
@@ -76,33 +73,6 @@ const videoMainControls = (theme) => ({
   },
 });
 
-const videoSecondaryControls = (theme) => ({
-  position: 'absolute',
-  width: 34,
-  height: 34,
-  background: (theme.vars || theme).palette.primary[50],
-  borderRadius: 99,
-  border: '1px solid',
-  borderColor: (theme.vars || theme).palette.primary[200],
-  boxShadow: `0 4px 6px ${alpha(theme.palette.grey[400], 0.2)}`,
-  transition: theme.transitions.create(['scale', 'box-shadow', 'opacity'], {
-    duration: theme.transitions.duration.shortest,
-  }),
-  opacity: 1,
-  zIndex: 10,
-  '&:hover': {
-    scale: '1.03',
-    borderColor: (theme.vars || theme).palette.primary[300],
-    boxShadow: `0 4px 8px ${alpha(theme.palette.grey[500], 0.4)}`,
-    background: `linear-gradient(120deg, ${(theme.vars || theme).palette.primary[50]} 0%, ${
-      (theme.vars || theme).palette.primary[100]
-    } 150%)`,
-  },
-  ...theme.applyDarkStyles({
-    borderColor: (theme.vars || theme).palette.primary[200],
-  }),
-});
-
 const PlayButton = styled(IconButton)(({ theme }) => [
   {
     ...videoMainControls(theme),
@@ -116,50 +86,45 @@ const PauseButton = styled(IconButton)(({ theme }) => [
   },
 ]);
 
-const FullScreenButton = styled(IconButton)(({ theme }) => [
-  {
-    ...videoSecondaryControls(theme),
-    bottom: 28,
-    right: 28,
-  },
-]);
-
-const MuteButton = styled(IconButton)(({ theme }) => [
-  {
-    ...videoSecondaryControls(theme),
-    bottom: 28,
-    right: 72,
-  },
-]);
-
 export default function DemoVideo() {
+  /** @type {React.MutableRefObject<HTMLVideoElement>} */
   const videoRef = React.useRef();
-  const [isPaused, setIsPaused] = React.useState(true);
-  const [isMuted, setIsMuted] = React.useState(false);
+  const [isPlaying, setIsPlaying] = React.useState(false);
+
+  React.useEffect(() => {
+    const video = videoRef.current;
+    if (!video) {
+      throw new Error('videoRef should be attached to a video');
+    }
+
+    const handlePlayEvent = () => {
+      setIsPlaying(true);
+      if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'toolpad_video', {
+          event_label: 'Video Start',
+          event_category: 'toolpad_landing',
+        });
+      }
+    };
+
+    const handlePauseEvent = () => {
+      setIsPlaying(false);
+    };
+
+    video.addEventListener('play', handlePlayEvent);
+    video.addEventListener('pause', handlePauseEvent);
+    return () => {
+      video.removeEventListener('play', handlePlayEvent);
+      video.removeEventListener('pause', handlePauseEvent);
+    };
+  }, []);
 
   const handlePlay = () => {
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'toolpad_video', {
-        event_label: 'Video Start',
-        event_category: 'toolpad_landing',
-      });
-    }
     videoRef.current.play();
-    setIsPaused(videoRef.current.paused);
   };
 
   const handlePause = () => {
     videoRef.current.pause();
-    setIsPaused(videoRef.current.paused);
-  };
-
-  const handleFullScreen = () => {
-    videoRef.current.requestFullscreen();
-  };
-
-  const handleMuteToggle = () => {
-    videoRef.current.muted = !videoRef.current.muted;
-    setIsMuted(videoRef.current.muted);
   };
 
   const milestonesComplete = React.useRef(new Set([]));
@@ -190,36 +155,23 @@ export default function DemoVideo() {
 
   return (
     <VideoContainer>
-      {isPaused ? (
-        <PlayButton type="button" onClick={handlePlay} color="primary">
-          <PlayArrowRoundedIcon sx={{ color: '#FFF' }} />
-        </PlayButton>
-      ) : null}
-
-      {!isPaused ? (
+      {isPlaying ? (
         <PauseButton className="MuiToolpadHero-pauseButton" type="button" onClick={handlePause}>
           <PauseRoundedIcon sx={{ color: '#FFF' }} />
         </PauseButton>
-      ) : null}
-
-      <FullScreenButton type="button" onClick={handleFullScreen} color="primary">
-        <FullScreenRoundedIcon color="primary" sx={{ fontSize: 24 }} />
-      </FullScreenButton>
-
-      <MuteButton type="button" onClick={handleMuteToggle} color="primary">
-        {isMuted ? (
-          <VolumeOffRoundedIcon color="primary" sx={{ fontSize: 24 }} />
-        ) : (
-          <VolumeUpRoundedIcon color="primary" sx={{ fontSize: 24 }} />
-        )}
-      </MuteButton>
+      ) : (
+        <PlayButton type="button" onClick={handlePlay} color="primary">
+          <PlayArrowRoundedIcon sx={{ color: '#FFF' }} />
+        </PlayButton>
+      )}
 
       <Video
-        poster="/static/toolpad/marketing/index-hero-video-poster.png"
+        poster="/static/toolpad/marketing/index-hero-video-poster-2.png"
         ref={videoRef}
+        controls
         onTimeUpdate={handleTimeUpdate}
       >
-        <source src="/static/toolpad/marketing/index-hero-demo-video.mp4" type="video/mp4" />
+        <source src="/static/toolpad/marketing/index-hero-demo-video-2.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </Video>
     </VideoContainer>
