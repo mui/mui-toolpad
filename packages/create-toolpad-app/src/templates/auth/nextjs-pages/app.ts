@@ -1,7 +1,8 @@
-import * as React from 'react';
+const app: TemplateFile = {
+  content: `import * as React from 'react';
 import { AppProvider } from '@toolpad/core/nextjs';
-import { PageContainer } from '@toolpad/core/PageContainer';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
+import { PageContainer } from '@toolpad/core/PageContainer';
 import Head from 'next/head';
 import { AppCacheProvider } from '@mui/material-nextjs/v14-pagesRouter';
 import DashboardIcon from '@mui/icons-material/Dashboard';
@@ -27,6 +28,7 @@ const NAVIGATION: Navigation = [
     title: 'Main items',
   },
   {
+    segment: '',
     title: 'Dashboard',
     icon: <DashboardIcon />,
   },
@@ -104,3 +106,7 @@ export default function App(props: AppPropsWithLayout) {
     </AppCacheProvider>
   );
 }
+`,
+};
+
+export default app;

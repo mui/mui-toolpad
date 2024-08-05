@@ -4,7 +4,7 @@ import * as fs from 'fs/promises';
 import { constants as fsConstants } from 'fs';
 import path from 'path';
 import yargs from 'yargs';
-import { input } from '@inquirer/prompts';
+import { input, confirm, select, checkbox } from '@inquirer/prompts';
 import chalk from 'chalk';
 import { errorFrom } from '@toolpad/utils/errors';
 import { execa } from 'execa';
@@ -12,12 +12,13 @@ import { satisfies } from 'semver';
 import { readJsonFile } from '@toolpad/utils/fs';
 import invariant from 'invariant';
 import { bashResolvePath } from '@toolpad/utils/cli';
-import { PackageJson } from './packageType';
-import generateProject from './generateProject';
+import generateProject, { GenerateProjectOptions } from './generateProject';
+import generateStudioProject from './generateStudioProject';
 import writeFiles from './writeFiles';
 import { downloadAndExtractExample } from './examples';
+import type { PackageJson } from './templates/packageType';
+import type { SupportedRouter, SupportedAuthProvider, PackageManager } from './types';
 
-type PackageManager = 'npm' | 'pnpm' | 'yarn';
 declare global {
   interface Error {
     code?: unknown;
@@ -119,30 +120,8 @@ const scaffoldStudioProject = async (absolutePath: string, installFlag: boolean)
   // eslint-disable-next-line no-console
   console.log();
 
-  const packageJson: PackageJson = {
-    name: path.basename(absolutePath),
-    version: '0.1.0',
-    scripts: {
-      dev: 'toolpad-studio dev',
-      build: 'toolpad-studio build',
-      start: 'toolpad-studio start',
-    },
-    dependencies: {
-      '@toolpad/studio': 'latest',
-    },
-  };
-
-  const DEFAULT_GENERATED_GITIGNORE_FILE = '.gitignore';
-  // eslint-disable-next-line no-console
-  console.log(`${chalk.cyan('info')} - Initializing package.json file`);
-  await fs.writeFile(path.join(absolutePath, 'package.json'), JSON.stringify(packageJson, null, 2));
-
-  // eslint-disable-next-line no-console
-  console.log(`${chalk.cyan('info')} - Initializing .gitignore file`);
-  await fs.copyFile(
-    path.resolve(__dirname, `./gitignoreTemplate`),
-    path.join(absolutePath, DEFAULT_GENERATED_GITIGNORE_FILE),
-  );
+  const files = generateStudioProject(packageManager, path.basename(absolutePath));
+  await writeFiles(absolutePath, files);
 
   if (installFlag) {
     // eslint-disable-next-line no-console
@@ -161,30 +140,30 @@ const scaffoldStudioProject = async (absolutePath: string, installFlag: boolean)
   }
 };
 
-const scaffoldCoreProject = async (absolutePath: string): Promise<void> => {
+const scaffoldCoreProject = async (options: GenerateProjectOptions): Promise<void> => {
   // eslint-disable-next-line no-console
   console.log();
   // eslint-disable-next-line no-console
   console.log(
-    `${chalk.cyan('info')} - Creating Toolpad Core project in ${chalk.cyan(absolutePath)}`,
+    `${chalk.cyan('info')} - Creating Toolpad Core project in ${chalk.cyan(options.absolutePath)}`,
   );
   // eslint-disable-next-line no-console
   console.log();
-  const files = generateProject({ name: path.basename(absolutePath) });
-  await writeFiles(absolutePath, files);
+  const files = generateProject(options);
+  await writeFiles(options.absolutePath, files);
 
   // eslint-disable-next-line no-console
   console.log(`${chalk.cyan('info')} - Installing dependencies`);
   // eslint-disable-next-line no-console
   console.log();
 
-  await execa(packageManager, ['install'], { stdio: 'inherit', cwd: absolutePath });
+  await execa(packageManager, ['install'], { stdio: 'inherit', cwd: options.absolutePath });
 
   // eslint-disable-next-line no-console
   console.log();
   // eslint-disable-next-line no-console
   console.log(
-    `${chalk.green('success')} - Created Toolpad Core project at ${chalk.cyan(absolutePath)}`,
+    `${chalk.green('success')} - Created Toolpad Core project at ${chalk.cyan(options.absolutePath)}`,
   );
   // eslint-disable-next-line no-console
   console.log();
@@ -264,26 +243,41 @@ const run = async () => {
   // If the user has provided an example, download and extract it
   if (args.example) {
     await downloadAndExtractExample(absolutePath, args.example);
-
-    if (installFlag) {
-      // eslint-disable-next-line no-console
-      console.log(`${chalk.cyan('info')} - Installing dependencies`);
-      // eslint-disable-next-line no-console
-      console.log();
-      await execa(packageManager, ['install'], { stdio: 'inherit', cwd: absolutePath });
-      // eslint-disable-next-line no-console
-      console.log();
-      // eslint-disable-next-line no-console
-      console.log(
-        `${chalk.green('success')} - Installed "${args.example}" at ${chalk.cyan(absolutePath)}`,
-      );
-      // eslint-disable-next-line no-console
-      console.log();
-    }
   }
   // If the core flag is set, create a new project with Toolpad Core
   else if (coreFlag) {
-    await scaffoldCoreProject(absolutePath);
+    const routerOption: SupportedRouter = await select({
+      message: 'Which router would you like to use?',
+      default: 'nextjs-app',
+      choices: [
+        { name: 'Next.js App Router', value: 'nextjs-app' },
+        { name: 'Next.js Pages Router', value: 'nextjs-pages' },
+      ],
+    });
+    const authFlag = await confirm({
+      message: 'Would you like to enable authentication?',
+      default: true,
+    });
+    let authProviderOptions: SupportedAuthProvider[] = [];
+    if (authFlag) {
+      authProviderOptions = await checkbox({
+        message: 'Select authentication providers to enable:',
+        required: true,
+        choices: [
+          { name: 'Username/Password', value: 'Credentials' },
+          { name: 'Google', value: 'Google' },
+          { name: 'GitHub', value: 'GitHub' },
+        ],
+      });
+    }
+    const options = {
+      name: path.basename(absolutePath),
+      absolutePath,
+      router: routerOption,
+      auth: authFlag,
+      authProviders: authProviderOptions,
+    };
+    await scaffoldCoreProject(options);
   } else {
     // Otherwise, create a new project with Toolpad Studio
     await scaffoldStudioProject(absolutePath, installFlag);

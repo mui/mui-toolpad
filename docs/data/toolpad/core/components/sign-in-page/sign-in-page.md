@@ -53,13 +53,30 @@ The component is composable with any authentication library you might want to us
 
 #### Setting up
 
-If you're using the default [Next.js app directory example](https://github.com/mui/mui-toolpad/tree/master/examples/core-auth-nextjs/), Auth.js is already installed. Otherwise, follow the [installation instructions](https://authjs.dev/getting-started/installation).
+If you're using [`create-toolpad-app`](/toolpad/core/installation/), or the [Next.js app directory example](https://github.com/mui/mui-toolpad/tree/master/examples/core-auth-nextjs/), Auth.js is already installed. To proceed, add `AUTH_SECRET` to the environment variables by running:
+
+```bash
+npx auth secret
+```
+
+Otherwise, follow the detailed [Auth.js installation instructions](https://authjs.dev/getting-started/installation).
 
 ##### GitHub configuration
 
 To get the required credentials, create an application in the GitHub developer settings. Read this [guide on Auth.js](https://authjs.dev/guides/configuring-github#adding-environment-variables) on how to obtain those.
 
+If you already have a `CLIENT_ID` and `CLIENT_SECRET`, you can skip this step and add them to the environment variables, like so:
+
+```bash title=".env.local"
+GITHUB_CLIENT_ID=<your-client-id>
+GITHUB_CLIENT_SECRET=<your-client-secret>
+```
+
 ##### Server Configuration
+
+If you're using [`create-toolpad-app`](/toolpad/core/installation/), or the default [Next.js app directory example](https://github.com/mui/mui-toolpad/tree/master/examples/core-auth-nextjs/), this server configuration is already set up for you.
+
+Otherwise, follow the [custom sign in page instructions](https://authjs.dev/guides/pages/signin) to set up the server configuration.
 
 The `SignInPage` component can slot in as a custom sign in page inside Auth.js:
 
@@ -74,7 +91,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 // ...
 ```
 
-You can then have a fully built GitHub sign in page appear at `/auth/signin` by adding `SignInPage` to `page.tsx`:
+To have a fully built "Sign in with GitHub" page appear at the `/auth/signin` route, add `SignInPage` to `page.tsx`:
 
 ```tsx title="./app/auth/signin/page.tsx"
 // ...
@@ -125,10 +142,6 @@ export default function SignIn() {
   );
 }
 ```
-
-:::info
-If you're using the default [Next.js app directory example](https://github.com/mui/mui-toolpad/tree/master/examples/core-auth-nextjs/), all of this is already configured for you. Otherwise, follow the [custom sign in page instructions](https://authjs.dev/guides/pages/signin).
-:::
 
 ## Customization
 

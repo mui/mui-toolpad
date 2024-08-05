@@ -1,379 +1,155 @@
-import path from 'path';
-import { PackageJson } from './packageType';
+import theme from './templates/theme';
+import eslintConfig from './templates/eslintConfig';
+import nextConfig from './templates/nextConfig';
+import nextTypes from './templates/nextTypes';
+import tsConfig from './templates/tsConfig';
+import packageJson from './templates/packageJson';
+import readme from './templates/readme';
+import gitignore from './templates/gitignore';
 
-interface GenerateProjectOptions {
+import rootLayout from './templates/rootLayout';
+import rootPage from './templates/rootPage';
+import NavigateButton from './templates/navigateButton';
+import dashboardLayout from './templates/dashboardLayout';
+import dashboardPage from './templates/dashboardPage';
+
+import indexPage from './templates/nextjs-pages/indexPage';
+import ordersPage from './templates/nextjs-pages/ordersPage';
+import app from './templates/nextjs-pages/app';
+import document from './templates/nextjs-pages/document';
+
+import providerImport from './templates/auth/providerImport';
+import credentialsProvider from './templates/auth/credentialsProvider';
+import oAuthProvider from './templates/auth/oAuthProvider';
+import providerSetup from './templates/auth/providerSetup';
+import callbacks from './templates/auth/callbacks';
+import providerMap from './templates/auth/providerMap';
+import authImport from './templates/auth/import';
+import authEnv from './templates/auth/env';
+import authProviderEnv from './templates/auth/providerEnv';
+import middleware from './templates/auth/middleware';
+
+import routeHandler from './templates/auth/nextjs-app/route';
+import signInPage from './templates/auth/nextjs-app/signInPage';
+import packageJsonAuth from './templates/auth/packageJson';
+import dashboardPageAuthApp from './templates/auth/nextjs-app/dashboardPage';
+import rootLayoutAuthApp from './templates/auth/nextjs-app/rootLayout';
+
+import appAuthPages from './templates/auth/nextjs-pages/app';
+import signInPagePagesRouter from './templates/auth/nextjs-pages/signIn';
+
+import { SupportedAuthProvider, SupportedRouter } from './types';
+
+export interface GenerateProjectOptions {
   name: string;
+  absolutePath: string;
+  router: SupportedRouter;
+  auth: boolean;
+  authProviders: SupportedAuthProvider[];
+}
+
+function generateAuthContent(authProviders: SupportedAuthProvider[]) {
+  // Add additional specific to authentication
+  let providerImports = '';
+  let providerContent = '';
+  let envProviderContent = '';
+
+  authProviders.forEach((provider) => {
+    providerImports += providerImport(provider).content;
+    if (provider === 'Credentials') {
+      providerContent += credentialsProvider.content;
+      envProviderContent += '';
+    } else {
+      providerContent += oAuthProvider(provider).content;
+      envProviderContent += authProviderEnv(provider).content;
+    }
+  });
+
+  const authCallbacksContent = authProviders.includes('Credentials') ? callbacks : { content: '' };
+
+  const authContent = `${authImport.content}${providerImports}${providerSetup.content}${providerContent}${providerMap.content}${authCallbacksContent.content}});        
+  `;
+  const envContent = `${authEnv.content}${envProviderContent}`;
+
+  return {
+    authContent,
+    envContent,
+    authCallbacksContent,
+  };
 }
 
 export default function generateProject(
   options: GenerateProjectOptions,
 ): Map<string, { content: string }> {
-  const rootLayoutContent = `  
-  import { AppProvider } from "@toolpad/core/nextjs";
-  import DashboardIcon from "@mui/icons-material/Dashboard";
-  import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
-  import type { Navigation } from "@toolpad/core";
-  import theme from '../theme';
+  // Add app name to package.json
+  const packageJsonContent = packageJson(options.name);
 
-  const NAVIGATION: Navigation = [
-    {
-      kind: 'header',
-      title: 'Main items',
-    },
-    {
-      segment: 'page',
-      title: 'Page',
-      icon: <DashboardIcon />,
-    },
-  ];
-  
-  export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {      
-    return (
-      <html lang="en" data-toolpad-color-scheme="light">
-        <body>
-          <AppRouterCacheProvider options={{ enableCssLayer: true }}>
-            <AppProvider theme={theme} navigation={NAVIGATION}>
-              {children}
-            </AppProvider>
-          </AppRouterCacheProvider>
-        </body>
-      </html>
-    );
-  }
-    `;
-
-  const dashboardLayoutContent = `import * as React from 'react';
-  import { DashboardLayout } from '@toolpad/core/DashboardLayout';
-  import { PageContainer } from '@toolpad/core/PageContainer';
-  
-  export default function Layout(props: { children: React.ReactNode }) {
-    return (
-      <DashboardLayout>
-        <PageContainer>{props.children}</PageContainer>
-      </DashboardLayout>
-    );
-  }  
-  `;
-
-  const rootPageContent = `import Link from 'next/link';
-  import { Container, Typography, Box } from '@mui/material';
-  import NavigateButton from './NavigateButton';
-  
-  export default function Home() {
-    return (
-      <Container>
-        <Box sx={{ my: 4 }}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Welcome to <Link href="https://mui.com/toolpad/core/introduction">Toolpad Core!</Link>
-          </Typography>
-  
-          <Typography variant="body1">
-            Get started by editing <code>(dashboard)/page/page.tsx</code>
-          </Typography>
-          <NavigateButton />
-        </Box>
-      </Container>
-    );
-  }  
-  `;
-
-  const navigateButtonContent = `'use client';
-import * as React from 'react';
-import Link from 'next/link';
-import { LoadingButton } from '@mui/lab';
-import { Box } from '@mui/material';
-
-export default function NavigateButton() {
-  const [loading, setLoading] = React.useState(false);
-  return (
-    <Box sx={{ mt: 2 }}>
-      <Link href="/page">
-        <LoadingButton
-          variant="contained"
-          color="primary"
-          loading={loading}
-          onClick={() => setLoading(true)}
-        >
-          Go to Page
-        </LoadingButton>
-      </Link>
-    </Box>
-  );
-}
-`;
-
-  const dashboardPageContent = `
-  import { Typography } from "@mui/material";
-
-  export default function Home() {
-    return (
-      <main>
-        <Typography variant="h6" color="grey.800">
-          Hello world!
-        </Typography>
-      </main>
-    );
-  }
-  `;
-
-  const themeContent = `
-  "use client";
-  import { extendTheme } from '@mui/material/styles';
-  import type {} from '@mui/material/themeCssVarsAugmentation';
-
-  const theme = extendTheme({
-    colorSchemes: {
-      light: {
-        palette: {
-          background: {
-            default: 'var(--mui-palette-grey-50)',
-            defaultChannel: 'var(--mui-palette-grey-50)',
-          },
-        },
-      },
-      dark: {
-        palette: {
-          background: {
-            default: 'var(--mui-palette-grey-900)',
-            defaultChannel: 'var(--mui-palette-grey-900)',
-          },
-          text: {
-            primary: 'var(--mui-palette-grey-200)',
-            primaryChannel: 'var(--mui-palette-grey-200)',
-          },
-        },
-      },
-    },
-  });
-
-  export default theme;
-  `;
-
-  const eslintConfigContent = `{    
-    "extends": "next/core-web-vitals"        
-  }
-  `;
-
-  const nextTypesContent = `/// <reference types="next" />
-/// <reference types="next/image-types/global" />
-
-// NOTE: This file should not be edited
-// see https://nextjs.org/docs/basic-features/typescript for more information.
-  `;
-
-  const nextConfigContent = `
-  /** @type {import('next').NextConfig} */
-  const nextConfig = {};
-  export default nextConfig;
-  `;
-
-  const tsConfigContent = `{
-    "compilerOptions": {
-      "lib": ["dom", "dom.iterable", "esnext"],
-      "allowJs": true,
-      "skipLibCheck": true,
-      "strict": true,
-      "noEmit": true,
-      "esModuleInterop": true,
-      "module": "esnext",
-      "moduleResolution": "bundler",
-      "resolveJsonModule": true,
-      "isolatedModules": true,
-      "jsx": "preserve",
-      "incremental": true,
-      "plugins": [
-        {
-          "name": "next"
-        }
-      ],
-      "paths": {
-        "@/*": ["./*"]
-      }
-    },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-    "exclude": ["node_modules"]
-  }
-  `;
-
-  const packageJson: PackageJson = {
-    name: path.basename(options.name),
-    version: '0.1.0',
-    scripts: {
-      dev: 'next dev',
-      build: 'next build',
-      start: 'next start',
-      lint: 'next lint',
-    },
-    dependencies: {
-      react: '^18',
-      'react-dom': '^18',
-      next: '^14',
-      '@toolpad/core': 'latest',
-      '@mui/material': 'next',
-      '@mui/material-nextjs': 'next',
-      '@mui/icons-material': 'next',
-      '@emotion/react': '^11',
-      '@emotion/styled': '^11',
-      '@emotion/cache': '^11',
-    },
-    devDependencies: {
-      typescript: '^5',
-      '@types/node': '^20',
-      '@types/react': '^18',
-      '@types/react-dom': '^18',
-      eslint: '^8',
-      'eslint-config-next': '^14',
-    },
-  };
-
-  const gitignoreTemplate = `
-  # Logs
-  logs
-  *.log
-  npm-debug.log*
-  yarn-debug.log*
-  yarn-error.log*
-  lerna-debug.log*
-  .pnpm-debug.log*
-  
-  # Diagnostic reports (https://nodejs.org/api/report.html)
-  report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-  
-  # Runtime data
-  pids
-  *.pid
-  *.seed
-  *.pid.lock
-  
-  # Directory for instrumented libs generated by jscoverage/JSCover
-  lib-cov
-  
-  # Coverage directory used by tools like istanbul
-  coverage
-  *.lcov
-  
-  # nyc test coverage
-  .nyc_output
-  
-  # Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
-  .grunt
-  
-  # Bower dependency directory (https://bower.io/)
-  bower_components
-  
-  # node-waf configuration
-  .lock-wscript
-  
-  # Compiled binary addons (https://nodejs.org/api/addons.html)
-  build/Release
-  
-  # Dependency directories
-  node_modules/
-  jspm_packages/
-  
-  # Snowpack dependency directory (https://snowpack.dev/)
-  web_modules/
-  
-  # TypeScript cache
-  *.tsbuildinfo
-  
-  # Optional npm cache directory
-  .npm
-  
-  # Optional eslint cache
-  .eslintcache
-  
-  # Optional stylelint cache
-  .stylelintcache
-  
-  # Microbundle cache
-  .rpt2_cache/
-  .rts2_cache_cjs/
-  .rts2_cache_es/
-  .rts2_cache_umd/
-  
-  # Optional REPL history
-  .node_repl_history
-  
-  # Output of 'npm pack'
-  *.tgz
-  
-  # Yarn Integrity file
-  .yarn-integrity
-  
-  # dotenv environment variable files
-  .env
-  .env.development.local
-  .env.test.local
-  .env.production.local
-  .env.local
-  
-  # parcel-bundler cache (https://parceljs.org/)
-  .cache
-  .parcel-cache
-  
-  # Next.js build output
-  .next
-  out
-  
-  # Nuxt.js build / generate output
-  .nuxt
-  dist
-  
-  # Gatsby files
-  .cache/
-  # Comment in the public line in if your project uses Gatsby and not Next.js
-  # https://nextjs.org/blog/next-9-1#public-directory-support
-  # public
-  
-  # vuepress build output
-  .vuepress/dist
-  
-  # vuepress v2.x temp and cache directory
-  .temp
-  .cache
-  
-  # Docusaurus cache and generated files
-  .docusaurus
-  
-  # Serverless directories
-  .serverless/
-  
-  # FuseBox cache
-  .fusebox/
-  
-  # DynamoDB Local files
-  .dynamodb/
-  
-  # TernJS port file
-  .tern-port
-  
-  # Stores VSCode versions used for testing VSCode extensions
-  .vscode-test
-  
-  # yarn v2
-  .yarn/cache
-  .yarn/unplugged
-  .yarn/build-state.yml
-  .yarn/install-state.gz
-  `;
-
-  // Define all files to be created up front
-  return new Map([
-    ['app/api/auth/[...nextAuth]/route.ts', { content: '' }],
-    ['app/auth/[...path]/page.tsx', { content: '' }],
-    ['app/(dashboard)/page/page.tsx', { content: dashboardPageContent }],
-    ['app/(dashboard)/layout.tsx', { content: dashboardLayoutContent }],
-    ['app/layout.tsx', { content: rootLayoutContent }],
-    ['app/NavigateButton.tsx', { content: navigateButtonContent }],
-    ['app/page.tsx', { content: rootPageContent }],
-    ['theme.ts', { content: themeContent }],
-    ['next-env.d.ts', { content: nextTypesContent }],
-    ['next.config.mjs', { content: nextConfigContent }],
-    ['.eslintrc.json', { content: eslintConfigContent }],
-    ['tsconfig.json', { content: tsConfigContent }],
-    ['package.json', { content: JSON.stringify(packageJson, null, 2) }],
-    ['.gitignore', { content: gitignoreTemplate }],
-    // ...
+  // Default files, common to all apps
+  const files = new Map<string, { content: string }>([
+    ['theme.ts', { content: theme.content }],
+    ['next-env.d.ts', { content: nextTypes.content }],
+    ['next.config.mjs', { content: nextConfig.content }],
+    ['.eslintrc.json', { content: eslintConfig.content }],
+    ['tsconfig.json', { content: tsConfig.content }],
+    ['package.json', { content: JSON.stringify(packageJsonContent, null, 2) }],
+    ['README.md', { content: readme.content }],
+    ['.gitignore', { content: gitignore.content }],
   ]);
+
+  switch (options.router) {
+    case 'nextjs-pages': {
+      const nextJsPagesRouterStarter = new Map([
+        ['pages/index.tsx', { content: indexPage.content }],
+        ['pages/orders/index.tsx', { content: ordersPage.content }],
+        ['pages/_app.tsx', { content: app.content }],
+        ['pages/_document.tsx', { content: document.content }],
+      ]);
+      if (options.auth) {
+        const { authContent, envContent } = generateAuthContent(options.authProviders);
+        const packageJsonAuthContent = packageJsonAuth(options.name);
+        const authFiles = new Map([
+          ['auth.ts', { content: authContent }],
+          ['.env.local', { content: envContent }],
+          ['middleware.ts', { content: middleware.content }],
+          ['app/api/auth/[...nextAuth]/route.ts', { content: routeHandler.content }],
+          ['pages/auth/signin.tsx', { content: signInPagePagesRouter.content }],
+          ['package.json', { content: JSON.stringify(packageJsonAuthContent, null, 2) }],
+          ['pages/_app.tsx', { content: appAuthPages.content }],
+        ]);
+        return new Map([...files, ...nextJsPagesRouterStarter, ...authFiles]);
+      }
+      return new Map([...files, ...nextJsPagesRouterStarter]);
+    }
+    case 'nextjs-app':
+    default: {
+      const nextJsAppRouterStarter = new Map([
+        ['app/(dashboard)/layout.tsx', { content: dashboardLayout.content }],
+        ['app/layout.tsx', { content: rootLayout.content }],
+        ['app/page.tsx', { content: rootPage.content }],
+        ['app/NavigateButton.tsx', { content: NavigateButton.content }],
+        ['app/(dashboard)/page/page.tsx', { content: dashboardPage.content }],
+      ]);
+      if (options.auth) {
+        const { authContent, envContent } = generateAuthContent(options.authProviders);
+        const packageJsonAuthContent = packageJsonAuth(options.name);
+
+        const authFiles = new Map([
+          ['auth.ts', { content: authContent }],
+          ['.env.local', { content: envContent }],
+          ['middleware.ts', { content: middleware.content }],
+          ['app/api/auth/[...nextAuth]/route.ts', { content: routeHandler.content }],
+          ['app/auth/signin/page.tsx', { content: signInPage.content }],
+          ['package.json', { content: JSON.stringify(packageJsonAuthContent, null, 2) }],
+          ['app/(dashboard)/page.tsx', { content: dashboardPageAuthApp.content }],
+          ['app/layout.tsx', { content: rootLayoutAuthApp.content }],
+        ]);
+
+        nextJsAppRouterStarter.delete('app/page.tsx');
+        nextJsAppRouterStarter.delete('app/(dashboard)/page/page.tsx');
+
+        return new Map([...files, ...nextJsAppRouterStarter, ...authFiles]);
+      }
+      return new Map([...files, ...nextJsAppRouterStarter]);
+    }
+  }
 }
