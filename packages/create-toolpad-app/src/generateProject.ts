@@ -121,14 +121,10 @@ export default function NavigateButton() {
   "use client";
   import { createTheme } from '@mui/material/styles';
 
-  const lightTheme = createTheme();
-  
-  const darkTheme = createTheme({ palette: { mode: 'dark' } });
-
-  const theme = {
-    light: lightTheme,
-    dark: darkTheme
-  };
+  const theme = createTheme({
+    colorSchemes: { light: true, dark: true },
+    colorSchemeSelector: 'data-toolpad-color-scheme',
+  });
 
   export default theme;
   `;
@@ -193,9 +189,9 @@ export default function NavigateButton() {
       'react-dom': '^18',
       next: '^14',
       '@toolpad/core': options.version ?? 'latest',
-      '@mui/material': '^5',
-      '@mui/material-nextjs': '^5',
-      '@mui/icons-material': '^5',
+      '@mui/material': '^6',
+      '@mui/material-nextjs': '^6',
+      '@mui/icons-material': '^6',
       '@emotion/react': '^11',
       '@emotion/styled': '^11',
       '@emotion/cache': '^11',

@@ -79,9 +79,11 @@ export default function ParametersEditor({
                 )
               }
               sx={{ [`& .${inputLabelClasses.root}`]: { fontSize: 12 } }}
-              inputProps={{ sx: { fontSize: 12 } }}
               error={!isValidFieldName[index]}
               disabled={disabled}
+              slotProps={{
+                htmlInput: { sx: { fontSize: 12 } },
+              }}
             />
             <BindableEditor
               liveBinding={liveBinding}
@@ -119,9 +121,11 @@ export default function ParametersEditor({
             onChange([...value, [event.target.value, null]]);
           }}
           sx={{ [`& .${inputLabelClasses.root}`]: { fontSize: 12 } }}
-          inputProps={{ sx: { fontSize: 12 } }}
           autoFocus={autoFocus}
           disabled={disabled}
+          slotProps={{
+            htmlInput: { sx: { fontSize: 12 } },
+          }}
         />
       </form>
     </Box>

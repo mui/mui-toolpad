@@ -261,7 +261,9 @@ export default function BodyEditor({
             [`& .${inputBaseClasses.root}`]: { fontSize: 12 },
             width: 200,
           }}
-          inputProps={{ sx: { fontSize: 12 } }}
+          slotProps={{
+            htmlInput: { sx: { fontSize: 12 } },
+          }}
         >
           <MenuItem value="raw">raw</MenuItem>
           <MenuItem value="urlEncoded">x-www-form-urlencoded</MenuItem>

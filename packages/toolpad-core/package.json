@@ -54,8 +54,8 @@
   },
   "dependencies": {
     "@mui/base": "5.0.0-beta.40",
-    "@mui/lab": "5.0.0-alpha.173",
-    "@mui/utils": "6.0.0-dev.20240529-082515-213b5e33ab",
+    "@mui/lab": "next",
+    "@mui/utils": "next",
     "@toolpad/utils": "workspace:*",
     "client-only": "^0.0.1",
     "invariant": "2.2.4",

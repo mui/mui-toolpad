@@ -270,29 +270,32 @@ function DataProviderSelector({ value, onChange }: EditorProps<string>) {
         renderInput={(params) => (
           <TextField
             {...params}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <React.Fragment>
-                  {fileName ? (
-                    <OpenCodeEditorButton
-                      className={classes.editButton}
-                      filePath={fileName}
-                      fileType="resource"
-                      iconButton
-                    />
-                  ) : null}
-                  {params.InputProps.endAdornment}
-                </React.Fragment>
-              ),
-            }}
             label="Data Provider"
             placeholder="Click to create or select a data provider"
             error={!!errorMessage}
             helperText={errorMessage}
+            slotProps={{
+              input: {
+                ...params.InputProps,
+                endAdornment: (
+                  <React.Fragment>
+                    {fileName ? (
+                      <OpenCodeEditorButton
+                        className={classes.editButton}
+                        filePath={fileName}
+                        fileType="resource"
+                        iconButton
+                      />
+                    ) : null}
+                    {params.InputProps.endAdornment}
+                  </React.Fragment>
+                ),
+              },
+
+              inputLabel: {
+                shrink: true,
+              },
+            }}
           />
         )}
         filterOptions={(unfilteredOptions, params) => {

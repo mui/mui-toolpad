@@ -71,7 +71,6 @@ function Checkbox(props: Props) {
           label={props.label}
           checked={props.checked ?? false}
           labelPlacement={props.labelPlacement}
-          componentsProps={props.componentsProps}
           control={
             <CheckboxControl
               onChange={handleChange}
@@ -84,6 +83,7 @@ function Checkbox(props: Props) {
               checked={props.checked ?? false}
             />
           }
+          slotProps={props.componentsProps}
         />
       </FormGroup>
       <FormHelperText>{formInputError?.message || ''}</FormHelperText>

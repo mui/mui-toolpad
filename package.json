@@ -33,7 +33,7 @@
     "test:browser": "FORCE_COLOR=1 pnpm run -r test:browser",
     "test:argos": "node ./scripts/pushArgos.mjs",
     "test": "lerna run test --stream",
-    "check-types": "lerna run check-types",
+    "check-types": "lerna run --concurrency 1 check-types",
     "toolpad-studio": "node --enable-source-maps packages/toolpad-studio/cli.mjs",
     "jsonSchemas": "tsx ./scripts/docs/generateJsonSchemas.ts",
     "update-monorepo": "tsx ./scripts/updateMonorepo.ts",

@@ -187,15 +187,17 @@ export default function ComponentCatalog({ className }: ComponentCatalogProps) {
                   placeholder="Search components..."
                   value={searchTerm}
                   onChange={(event) => setSearchTerm(event.target.value)}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <AccountCircle />
-                      </InputAdornment>
-                    ),
-                  }}
                   onFocus={() => setSearchFocused(true)}
                   onBlur={() => setSearchFocused(false)}
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AccountCircle />
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
                 />
               </Box>
               <Box

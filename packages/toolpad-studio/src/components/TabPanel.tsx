@@ -1,7 +1,11 @@
-import { TabPanel as MuiTabPanel } from '@mui/lab';
+import { TabPanel as MuiTabPanel, TabPanelProps as MuiTabPanelProps } from '@mui/lab';
 import { styled } from '@mui/material';
 
-const TabPanel = styled(MuiTabPanel, {
+interface TabPanelProps extends MuiTabPanelProps {
+  disableGutters?: boolean;
+}
+
+const TabPanel: React.ComponentType<TabPanelProps> = styled(MuiTabPanel, {
   shouldForwardProp: (prop) => prop !== 'disableGutters',
 })<{
   disableGutters?: boolean;

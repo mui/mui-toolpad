@@ -122,6 +122,8 @@ jobs:
       - run:
           name: Check Typescript types
           command: pnpm check-types
+          environment:
+            NODE_OPTIONS: --max-old-space-size=3584
   test_static:
     <<: *default-job
     steps:
@@ -163,6 +165,8 @@ jobs:
       - run:
           name: 'Build packages'
           command: pnpm release:build
+          environment:
+            NODE_OPTIONS: --max-old-space-size=3584
       - run:
           name: Tests fake browser
           command: pnpm test
@@ -182,6 +186,8 @@ jobs:
       - run:
           name: 'Build packages'
           command: pnpm release:build
+          environment:
+            NODE_OPTIONS: --max-old-space-size=3584
       - run:
           name: Tests real browser
           command: pnpm test:browser
@@ -203,6 +209,8 @@ jobs:
       - run:
           name: 'Build packages'
           command: pnpm release:build
+          environment:
+            NODE_OPTIONS: --max-old-space-size=3584
       - run:
           name: Tests real browser
           command: pnpm test:integration

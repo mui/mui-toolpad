@@ -72,12 +72,14 @@ function FilePicker({ multiple, value, onChange, isRequired, ...rest }: FilePick
       type="file"
       value={undefined}
       onChange={handleChange}
-      inputProps={{ multiple }}
-      InputLabelProps={{ shrink: true }}
       {...(formInputError && {
         error: Boolean(formInputError),
         helperText: formInputError.message || '',
       })}
+      slotProps={{
+        htmlInput: { multiple },
+        inputLabel: { shrink: true },
+      }}
     />,
   );
 }

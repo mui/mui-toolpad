@@ -80,21 +80,23 @@ export default function ExplorerHeader({
           hiddenLabel
           value={searchTerm}
           onChange={handleSearchChange}
-          InputProps={{
-            startAdornment: hasPersistentSearch ? (
-              <InputAdornment position="start">
-                <SearchIcon fontSize="small" sx={{ mt: '-4px' }} />
-              </InputAdornment>
-            ) : null,
-            sx: {
-              fontSize: 14,
-              borderRadius: 0,
-            },
-          }}
           variant="standard"
           fullWidth
           size="small"
           placeholder={`${searchLabelText}…`}
+          slotProps={{
+            input: {
+              startAdornment: hasPersistentSearch ? (
+                <InputAdornment position="start">
+                  <SearchIcon fontSize="small" sx={{ mt: '-4px' }} />
+                </InputAdornment>
+              ) : null,
+              sx: {
+                fontSize: 14,
+                borderRadius: 0,
+              },
+            },
+          }}
         />
       ) : (
         <React.Fragment>

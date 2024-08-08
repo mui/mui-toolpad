@@ -7,7 +7,7 @@ import { TabContext, TabList } from '@mui/lab';
 import { useBrowserJsRuntime } from '@toolpad/studio-runtime/jsBrowserRuntime';
 import { errorFrom } from '@toolpad/utils/errors';
 import { useQuery } from '@tanstack/react-query';
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid2';
 import TabPanel from '../../components/TabPanel';
 import { ClientDataSource, QueryEditorProps } from '../../types';
 import { LocalPrivateApi, LocalQuery, LocalConnectionParams } from './types';

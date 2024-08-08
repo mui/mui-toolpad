@@ -135,9 +135,6 @@ function QuerySettingsTab({
               Set refetch interval:
             </Typography>
             <TextField
-              InputProps={{
-                startAdornment: <InputAdornment position="start">s</InputAdornment>,
-              }}
               sx={{
                 [`& .${inputLabelClasses.root}`]: { fontSize: 12 },
                 [`& .${inputBaseClasses.root}`]: { fontSize: 12 },
@@ -147,6 +144,11 @@ function QuerySettingsTab({
               label="Refetch interval"
               value={refetchIntervalInSeconds(draft?.attributes?.refetchInterval) ?? ''}
               onChange={handleRefetchIntervalChange}
+              slotProps={{
+                input: {
+                  startAdornment: <InputAdornment position="start">s</InputAdornment>,
+                },
+              }}
             />
             <Typography fontSize={12} sx={{ alignSelf: 'center' }}>
               Set query enabled/disabled:

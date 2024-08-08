@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "@auth/core": "0.31.0",
-    "@mui/material": "5.16.6",
+    "@mui/material": "next",
     "@tanstack/react-query": "5.51.21",
     "@toolpad/utils": "workspace:*",
     "@types/json-schema": "7.0.15",
