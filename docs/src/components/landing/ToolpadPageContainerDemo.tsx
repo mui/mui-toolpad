@@ -26,7 +26,7 @@ const PlaceHolder = styled('div')<{ height: number }>(({ theme, height }) => ({
   borderRadius: theme.shape.borderRadius,
 }));
 
-function PageContainerDemp() {
+function PageContainerDemo() {
   const router = useDemoRouter('/orders');
   const theme = useTheme();
   const demoTheme = React.useMemo(
@@ -87,7 +87,7 @@ export default function ToolpadPageContainerDemo() {
             onResetDemoClick={NOOP}
             productId="toolpad-core"
           >
-            <PageContainerDemp />
+            <PageContainerDemo />
           </DemoSandbox>
         </Paper>
       </Frame.Demo>

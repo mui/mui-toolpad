@@ -112,7 +112,7 @@ function CssVarsThemeProvider(props: CssVarsThemeProviderProps) {
     <ThemeProvider
       theme={theme}
       documentNode={appWindow?.document}
-      colorSchemeNode={appWindow?.document?.body}
+      colorSchemeNode={appWindow?.document.documentElement}
       disableNestedContext
       colorSchemeStorageKey={COLOR_SCHEME_STORAGE_KEY}
       modeStorageKey={MODE_STORAGE_KEY}

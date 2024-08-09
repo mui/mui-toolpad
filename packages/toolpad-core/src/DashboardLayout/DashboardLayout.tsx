@@ -52,6 +52,7 @@ const AppBar = styled(MuiAppBar)(({ theme }) => ({
   borderStyle: 'solid',
   borderColor: (theme.vars ?? theme).palette.divider,
   boxShadow: 'none',
+  // TODO: Temporary fix to issue reported in https://github.com/mui/material-ui/issues/43244
   left: 0,
   zIndex: theme.zIndex.drawer + 1,
 }));
@@ -362,10 +363,8 @@ function DashboardLayout(props: DashboardLayoutProps) {
     setIsMobileNavigationOpen((previousOpen) => !previousOpen);
   }, []);
 
-  const handleNavigationItemClick = React.useCallback((item: NavigationPageItem) => {
-    if (!item.children) {
-      setIsMobileNavigationOpen(false);
-    }
+  const handleNavigationItemClick = React.useCallback(() => {
+    setIsMobileNavigationOpen(false);
   }, []);
 
   // If useEffect was used, the reset would also happen on the client render after SSR which we don't need
@@ -392,7 +391,10 @@ function DashboardLayout(props: DashboardLayoutProps) {
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar color="inherit" position="fixed">
-        <Toolbar sx={{ backgroundColor: 'inherit', width: '100vw' }}>
+        {
+          // TODO: (minWidth: 100vw) Temporary fix to issue reported in https://github.com/mui/material-ui/issues/43244
+        }
+        <Toolbar sx={{ backgroundColor: 'inherit', minWidth: '100vw' }}>
           <Box sx={{ display: { xs: 'block', md: 'none' } }}>
             <Tooltip
               title={`${isMobileNavigationOpen ? 'Close' : 'Open'} menu`}
@@ -476,9 +478,16 @@ function DashboardLayout(props: DashboardLayoutProps) {
       >
         {drawerContent}
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1 }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          // TODO: Temporary fix to issue reported in https://github.com/mui/material-ui/issues/43244
+          minWidth: { xs: isMobileNavigationOpen ? '100vw' : 'auto', md: 'auto' },
+        }}
+      >
         <Toolbar />
-        <div>{children}</div>
+        {children}
       </Box>
     </Box>
   );

@@ -1,17 +1,21 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { createTheme } from '@mui/material/styles';
-import DescriptionIcon from '@mui/icons-material/Description';
+import { extendTheme } from '@mui/material/styles';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
-import type { Router } from '@toolpad/core';
+import type { Session, Router, Navigation } from '@toolpad/core';
 
-const demoTheme = createTheme({
-  cssVariables: {
-    colorSchemeSelector: 'data-toolpad-color-scheme',
+const NAVIGATION: Navigation = [
+  {
+    segment: 'dashboard',
+    title: 'Dashboard',
+    icon: <DashboardIcon />,
   },
-  colorSchemes: { light: true, dark: true },
+];
+
+const demoTheme = extendTheme({
   breakpoints: {
     values: {
       xs: 0,
@@ -47,10 +51,35 @@ interface DemoProps {
   window?: () => Window;
 }
 
-export default function DashboardLayoutNavigationLinks(props: DemoProps) {
+export default function DashboardLayoutAccount(props: DemoProps) {
   const { window } = props;
 
-  const [pathname, setPathname] = React.useState('/home');
+  const [session, setSession] = React.useState<Session | null>({
+    user: {
+      name: 'Bharat Kashyap',
+      email: 'bharatkashyap@outlook.com',
+      image: 'https://avatars.githubusercontent.com/u/19550456',
+    },
+  });
+
+  const authentication = React.useMemo(() => {
+    return {
+      signIn: () => {
+        setSession({
+          user: {
+            name: 'Bharat Kashyap',
+            email: 'bharatkashyap@outlook.com',
+            image: 'https://avatars.githubusercontent.com/u/19550456',
+          },
+        });
+      },
+      signOut: () => {
+        setSession(null);
+      },
+    };
+  }, []);
+
+  const [pathname, setPathname] = React.useState('/dashboard');
 
   const router = React.useMemo<Router>(() => {
     return {
@@ -66,18 +95,9 @@ export default function DashboardLayoutNavigationLinks(props: DemoProps) {
   return (
     // preview-start
     <AppProvider
-      navigation={[
-        {
-          segment: 'home',
-          title: 'Home',
-          icon: <DescriptionIcon />,
-        },
-        {
-          segment: 'about',
-          title: 'About Us',
-          icon: <DescriptionIcon />,
-        },
-      ]}
+      session={session}
+      authentication={authentication}
+      navigation={NAVIGATION}
       router={router}
       theme={demoTheme}
       window={demoWindow}
