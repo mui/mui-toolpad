@@ -40,9 +40,9 @@
     "url": "https://github.com/mui/mui-toolpad/issues"
   },
   "dependencies": {
-    "@mui/icons-material": "5.16.6",
+    "@mui/icons-material": "5.16.7",
     "@mui/lab": "5.0.0-alpha.173",
-    "@mui/material": "5.16.6",
+    "@mui/material": "5.16.7",
     "@mui/x-charts": "7.12.1",
     "@mui/x-data-grid-premium": "7.12.1",
     "@mui/x-date-pickers": "7.12.1",
