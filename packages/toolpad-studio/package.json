@@ -137,7 +137,7 @@
     "react-router-dom": "6.26.2",
     "semver": "7.6.3",
     "serialize-javascript": "6.0.2",
-    "superjson": "2.0.0",
+    "superjson": "2.2.1",
     "typescript": "5.5.4",
     "vite": "5.4.8",
     "vm-browserify": "1.1.2",
