@@ -364,11 +364,34 @@ describe('DashboardLayout', () => {
     const desktopNavigation = screen.queryByRole('navigation', { name: 'Desktop' });
     const navigationToggle = screen.queryByLabelText('Collapse menu');
 
-    // Expect that the navigation and toggle button are not rendered
+    // Expect that navigation and menu button are not rendered
     expect(desktopNavigation).toBeNull();
     expect(navigationToggle).toBeNull();
 
-    // Ensure the main content is still rendered
+    // Ensure that main content is still rendered
+    expect(screen.getByText('Hello world')).toBeTruthy();
+  });
+
+  test('renders without default collapsed navigation on desktop', async () => {
+    const NAVIGATION: Navigation = [
+      {
+        title: 'Dashboard',
+        segment: 'dashboard',
+        icon: <DashboardIcon />,
+      },
+    ];
+
+    render(
+      <AppProvider navigation={NAVIGATION}>
+        <DashboardLayout defaultSidebarCollapsed>Hello world</DashboardLayout>
+      </AppProvider>,
+    );
+
+    // Expect that menu button has expand action
+    expect(screen.getAllByLabelText('Expand menu')).toBeTruthy();
+    expect(screen.queryByLabelText('Collapse menu')).toBeNull();
+
+    // Ensure that main content is still rendered
     expect(screen.getByText('Hello world')).toBeTruthy();
   });
 });

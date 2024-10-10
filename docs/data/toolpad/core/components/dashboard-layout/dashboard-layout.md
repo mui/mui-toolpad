@@ -109,7 +109,13 @@ The layout sidebar is collapsible to a mini-drawer (with icons only) in desktop 
 
 {{"demo": "DashboardLayoutNoMiniSidebar.js", "height": 400, "iframe": true}}
 
-### Hiding the sidebar
+### Start with mini-drawer on desktop
+
+The layout sidebar can default to a collapsed mini-drawer on desktop viewport sizes with the `defaultSidebarCollapsed` prop.
+
+{{"demo": "DashboardLayoutSidebarCollapsed.js", "height": 400, "iframe": true}}
+
+### Hiding navigation sidebar
 
 The layout sidebar can be hidden if needed with the `hideNavigation` prop.
 

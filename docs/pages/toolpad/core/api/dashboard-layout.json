@@ -1,6 +1,7 @@
 {
   "props": {
     "children": { "type": { "name": "node" }, "required": true },
+    "defaultSidebarCollapsed": { "type": { "name": "bool" }, "default": "false" },
     "disableCollapsibleSidebar": { "type": { "name": "bool" }, "default": "false" },
     "hideNavigation": { "type": { "name": "bool" }, "default": "false" },
     "slotProps": {

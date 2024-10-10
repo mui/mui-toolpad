@@ -3,8 +3,29 @@ import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material/styles';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
+
+const NAVIGATION = [
+  {
+    segment: 'dashboard',
+    title: 'Dashboard',
+    icon: <DashboardIcon />,
+  },
+  {
+    segment: 'orders',
+    title: 'Orders',
+    icon: <ShoppingCartIcon />,
+  },
+  {
+    segment: 'reports',
+    title: 'Reports',
+    icon: <BarChartIcon />,
+  },
+];
 
 const demoTheme = createTheme({
   cssVariables: {
@@ -42,7 +63,7 @@ DemoPageContent.propTypes = {
   pathname: PropTypes.string.isRequired,
 };
 
-function DashboardLayoutSidebarHidden(props) {
+function DashboardLayoutSidebarCollapsed(props) {
   const { window } = props;
 
   const [pathname, setPathname] = React.useState('/dashboard');
@@ -59,15 +80,20 @@ function DashboardLayoutSidebarHidden(props) {
   const demoWindow = window !== undefined ? window() : undefined;
 
   return (
-    <AppProvider router={router} theme={demoTheme} window={demoWindow}>
-      <DashboardLayout hideNavigation>
+    <AppProvider
+      navigation={NAVIGATION}
+      router={router}
+      theme={demoTheme}
+      window={demoWindow}
+    >
+      <DashboardLayout defaultSidebarCollapsed>
         <DemoPageContent pathname={pathname} />
       </DashboardLayout>
     </AppProvider>
   );
 }
 
-DashboardLayoutSidebarHidden.propTypes = {
+DashboardLayoutSidebarCollapsed.propTypes = {
   /**
    * Injected by the documentation to work in an iframe.
    * Remove this when copying and pasting into your project.
@@ -75,4 +101,4 @@ DashboardLayoutSidebarHidden.propTypes = {
   window: PropTypes.func,
 };
 
-export default DashboardLayoutSidebarHidden;
+export default DashboardLayoutSidebarCollapsed;
