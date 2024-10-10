@@ -1,5 +1,8 @@
 import * as React from 'react';
+import { DocsContext as Docs } from '../shared/context';
 import { Router } from '../AppProvider';
+
+export const DocsContext = Docs;
 
 /**
  * Internal utility for demos

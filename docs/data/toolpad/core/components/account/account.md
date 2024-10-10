@@ -1,7 +1,7 @@
 ---
 productId: toolpad-core
 title: Account
-components: Account
+components: Account, AccountDetails
 ---
 
 # Account
@@ -40,6 +40,33 @@ Labels for the sign in and sign out buttons can be customized through the `local
 
 ### Slots
 
-You can pass in your own items to the `Account` menu through the `menuItems` slot to add additional menu items in the space between the user's account details and the sign out button, to create larger, more complex menus:
+You can pass in your own components to completely override the default components inside the `Account` popover through the `slots` prop.
 
-{{"demo": "AccountSlots.js", "bg": "gradient"}}
+#### Content
+
+Use the `content` slot to customize the content of the popover. You can use the `AccountDetails` component inside your custom account popover:
+
+```tsx
+import { AccountDetails } from '@toolpad/core';
+
+function CustomAccount() {
+  return (
+    <Stack direction="column">
+      <AccountDetails />
+      <MenuList dense disablePadding>
+        // ...
+      </MenuList>
+    </Stack>
+  );
+}
+```
+
+##### Account Switcher
+
+{{"demo": "AccountSlotsAccountSwitcher.js", "bg": "outlined"}}
+
+The `content` prop can take any React component, so you can use it to display information instead of adding menu items:
+
+##### Crypto Wallet
+
+{{"demo": "AccountSlotsInfo.js", "bg": "outlined" }}
