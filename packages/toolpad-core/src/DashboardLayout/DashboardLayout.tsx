@@ -335,6 +335,11 @@ export interface DashboardLayoutSlots {
    * @default Account
    */
   toolbarAccount?: React.JSXElementConstructor<AccountProps>;
+  /**
+   * Optional footer component used in the layout sidebar.
+   * @default null
+   */
+  sidebarFooter?: React.JSXElementConstructor<{}>;
 }
 
 export interface DashboardLayoutProps {
@@ -364,6 +369,7 @@ export interface DashboardLayoutProps {
   slotProps?: {
     toolbarActions?: {};
     toolbarAccount?: AccountProps;
+    sidebarFooter?: {};
   };
   /**
    * The system prop that allows defining system overrides as well as additional CSS styles.
@@ -501,6 +507,10 @@ function DashboardLayout(props: DashboardLayoutProps) {
   const hasDrawerTransitions =
     isOverSmViewport && (disableCollapsibleSidebar || !isUnderMdViewport);
 
+  const ToolbarActionsSlot = slots?.toolbarActions ?? ToolbarActions;
+  const ToolbarAccountSlot = slots?.toolbarAccount ?? Account;
+  const SidebarFooterSlot = slots?.sidebarFooter ?? null;
+
   const getDrawerContent = React.useCallback(
     (isMini: boolean, ariaLabel: string) => (
       <React.Fragment>
@@ -509,6 +519,10 @@ function DashboardLayout(props: DashboardLayoutProps) {
           component="nav"
           aria-label={ariaLabel}
           sx={{
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
             overflow: 'auto',
             pt: navigation[0]?.kind === 'header' && !isMini ? 0 : 2,
             ...(hasDrawerTransitions
@@ -524,10 +538,18 @@ function DashboardLayout(props: DashboardLayoutProps) {
             hasDrawerTransitions={hasDrawerTransitions}
             selectedItemId={selectedItemIdRef.current}
           />
+          {SidebarFooterSlot ? <SidebarFooterSlot {...slotProps?.sidebarFooter} /> : null}
         </Box>
       </React.Fragment>
     ),
-    [handleNavigationLinkClick, hasDrawerTransitions, isNavigationFullyExpanded, navigation],
+    [
+      SidebarFooterSlot,
+      handleNavigationLinkClick,
+      hasDrawerTransitions,
+      isNavigationFullyExpanded,
+      navigation,
+      slotProps?.sidebarFooter,
+    ],
   );
 
   const getDrawerSharedSx = React.useCallback(
@@ -550,9 +572,6 @@ function DashboardLayout(props: DashboardLayoutProps) {
     },
     [isNavigationExpanded],
   );
-
-  const ToolbarActionsSlot = slots?.toolbarActions ?? ToolbarActions;
-  const ToolbarAccountSlot = slots?.toolbarAccount ?? Account;
 
   const layoutRef = React.useRef<Element | null>(null);
 
@@ -728,6 +747,7 @@ DashboardLayout.propTypes /* remove-proptypes */ = {
    * @default {}
    */
   slotProps: PropTypes.shape({
+    sidebarFooter: PropTypes.object,
     toolbarAccount: PropTypes.shape({
       localeText: PropTypes.shape({
         signInLabel: PropTypes.string.isRequired,
@@ -751,6 +771,7 @@ DashboardLayout.propTypes /* remove-proptypes */ = {
    * @default {}
    */
   slots: PropTypes.shape({
+    sidebarFooter: PropTypes.elementType,
     toolbarAccount: PropTypes.elementType,
     toolbarActions: PropTypes.elementType,
   }),
