@@ -1,22 +1,36 @@
 <Account
-  localeText={{
-    signInLabel: 'Login',
-    signOutLabel: 'Logout',
-  }}
   slotProps={{
-    signInButton: {
+    userDetailsContainer: {
+      sx: {
+        p: 2,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        gap: 2,
+        '& .MuiStack-root': {
+          color: theme.palette.grey[700],
+        },
+        '& .MuiAvatar-root': {
+          border: `2px solid ${theme.palette.primary.contrastText}`,
+          boxShadow: theme.shadows[3],
+        },
+      },
+    },
+    signOutButton: {
       color: 'info',
       variant: 'outlined',
       sx: {
-        margin: 'auto',
         color: 'primaryDark',
         textTransform: 'capitalize',
         fontFamily: 'Inter',
         fontSize: '1em',
-        height: 'fit-content',
-        maxHeight: 'max-content',
       },
     },
-    signOutButton: { color: 'primary', variant: 'outlined' },
+    iconButton: {
+      sx: {
+        width: 'fit-content',
+        margin: 'auto',
+      },
+    },
   }}
 />

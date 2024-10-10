@@ -1,9 +1,19 @@
 import * as React from 'react';
-import { Menu, MenuItem, MenuList, Divider, ListItemIcon } from '@mui/material';
+import {
+  Menu,
+  MenuItem,
+  MenuList,
+  Divider,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+  Avatar,
+} from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import SettingsIcon from '@mui/icons-material/Settings';
-import AddIcon from '@mui/icons-material/Add';
 
-interface CustomSettingsMenuProps {
+interface AccountSwitcherProps {
   open: boolean;
   anchorEl: HTMLButtonElement | null;
   handleMenuClose: () => void;
@@ -11,7 +21,23 @@ interface CustomSettingsMenuProps {
   handleEnter: () => void;
 }
 
-function CustomSettingsMenu(props: CustomSettingsMenuProps) {
+// Function to generate a random color
+const getRandomColor = () => {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i += 1) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
+
+const accounts = [
+  { id: 1, name: 'John Doe', email: 'john@example.com', color: getRandomColor() },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com', color: getRandomColor() },
+  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', color: getRandomColor() },
+];
+
+function AccountSwitcher(props: AccountSwitcherProps) {
   const { open, anchorEl, handleMenuClose, handleEnter, handleLeave } = props;
 
   return (
@@ -31,16 +57,45 @@ function CustomSettingsMenu(props: CustomSettingsMenuProps) {
       }}
     >
       <MenuList
-        dense
+        sx={{
+          pointerEvents: 'auto',
+        }}
         disablePadding
-        sx={{ pointerEvents: 'auto' }}
         onMouseEnter={() => {
           handleEnter();
         }}
         onMouseLeave={handleLeave}
       >
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+        <Typography variant="body2" margin={1}>
+          Accounts
+        </Typography>
+        <Divider />
+        {accounts.map((account) => (
+          <MenuItem
+            key={account.id}
+            onClick={handleMenuClose}
+            sx={{ columnGap: '1.25rem' }}
+          >
+            <ListItemIcon>
+              <Avatar
+                sx={{
+                  width: 32,
+                  height: 32,
+                  fontSize: '0.95rem',
+                  bgcolor: account.color,
+                }}
+              >
+                {account.name.charAt(0)}
+              </Avatar>
+            </ListItemIcon>
+            <ListItemText
+              primary={account.name}
+              secondary={account.email}
+              primaryTypographyProps={{ variant: 'body2' }}
+              secondaryTypographyProps={{ variant: 'caption' }}
+            />
+          </MenuItem>
+        ))}
       </MenuList>
     </Menu>
   );
@@ -49,7 +104,7 @@ function CustomSettingsMenu(props: CustomSettingsMenuProps) {
 export default function CustomMenu() {
   const handleMenuNavigation = (route: string) => () => {
     console.log(
-      'Toolpad Core Account Demo --- CustomMenuItems --- handleMenuNavigation --- route: ',
+      'Toolpad Core Account Demo --- CustomContent --- handleMenuNavigation --- route: ',
       route,
     );
   };
@@ -96,8 +151,20 @@ export default function CustomMenu() {
   return (
     <MenuList dense disablePadding>
       <MenuItem
-        onMouseEnter={handleTriggerEnter}
-        onMouseLeave={handleTriggerLeave}
+        onClick={handleMenuNavigation('/profile')}
+        component="button"
+        sx={{
+          justifyContent: 'flex-start',
+          width: '100%',
+        }}
+      >
+        <ListItemIcon>
+          <PersonIcon />
+        </ListItemIcon>
+        Profile
+      </MenuItem>
+      <MenuItem
+        onClick={handleMenuNavigation('/settings')}
         component="button"
         sx={{
           justifyContent: 'flex-start',
@@ -110,7 +177,8 @@ export default function CustomMenu() {
         Settings
       </MenuItem>
       <MenuItem
-        onClick={handleMenuNavigation('/add-account')}
+        onMouseEnter={handleTriggerEnter}
+        onMouseLeave={handleTriggerLeave}
         component="button"
         sx={{
           justifyContent: 'flex-start',
@@ -118,13 +186,13 @@ export default function CustomMenu() {
         }}
       >
         <ListItemIcon>
-          <AddIcon />
+          <ExitToAppIcon />
         </ListItemIcon>
-        Add another account
+        Switch Account
       </MenuItem>
 
       <Divider />
-      <CustomSettingsMenu
+      <AccountSwitcher
         open={subMenuOpen}
         anchorEl={subMenuAnchorEl}
         handleEnter={handleSubMenuEnter}

@@ -7,13 +7,13 @@
     "slotProps": {
       "type": {
         "name": "shape",
-        "description": "{ iconButton?: object, signInButton?: object, signOutButton?: object }"
+        "description": "{ iconButton?: object, signInButton?: object, signOutButton?: object, userDetailsContainer?: object }"
       }
     },
     "slots": {
       "type": {
         "name": "shape",
-        "description": "{ menuItems?: elementType, signInButton?: elementType, signOutButton?: elementType }"
+        "description": "{ content?: elementType, signInButton?: elementType, signOutButton?: elementType, userDetailsContainer?: elementType }"
       },
       "additionalInfo": { "slotsApi": true }
     }
@@ -33,13 +33,19 @@
     {
       "name": "signOutButton",
       "description": "The component used for the sign out button.",
-      "default": "MenuItem",
+      "default": "Button",
       "class": null
     },
     {
-      "name": "menuItems",
-      "description": "The component used for the custom menu items.",
+      "name": "content",
+      "description": "The component used for custom content in the account popover",
       "default": "null",
+      "class": null
+    },
+    {
+      "name": "userDetailsContainer",
+      "description": "The component used for the user details section in the account popover",
+      "default": "Box",
       "class": null
     }
   ],

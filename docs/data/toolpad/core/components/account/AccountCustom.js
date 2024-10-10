@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
+import useTheme from '@mui/material/styles/useTheme';
 import { Account, AuthenticationContext, SessionContext } from '@toolpad/core';
 
 const demoSession = {
@@ -13,6 +14,7 @@ const demoSession = {
 export default function AccountCustom() {
   const [session, setSession] = React.useState(demoSession);
   const [signedOutSession, setSignedOutSession] = React.useState(null);
+  const theme = useTheme();
 
   const authenticationSignedIn = React.useMemo(() => {
     return {
@@ -60,12 +62,25 @@ export default function AccountCustom() {
           Signed in
         </Typography>
         <SessionContext.Provider value={session}>
+          {/* preview-start */}
           <Account
-            localeText={{
-              signInLabel: 'Login',
-              signOutLabel: 'Logout',
-            }}
             slotProps={{
+              userDetailsContainer: {
+                sx: {
+                  p: 2,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  gap: 2,
+                  '& .MuiStack-root': {
+                    color: theme.palette.grey[700],
+                  },
+                  '& .MuiAvatar-root': {
+                    border: `2px solid ${theme.palette.primary.contrastText}`,
+                    boxShadow: theme.shadows[3],
+                  },
+                },
+              },
               signOutButton: {
                 color: 'info',
                 variant: 'outlined',
@@ -84,6 +99,7 @@ export default function AccountCustom() {
               },
             }}
           />
+          {/* preview-end */}
         </SessionContext.Provider>
 
         <Typography
@@ -95,12 +111,7 @@ export default function AccountCustom() {
       </AuthenticationContext.Provider>
       <AuthenticationContext.Provider value={authenticationSignedOut}>
         <SessionContext.Provider value={signedOutSession}>
-          {/* preview-start */}
           <Account
-            localeText={{
-              signInLabel: 'Login',
-              signOutLabel: 'Logout',
-            }}
             slotProps={{
               signInButton: {
                 color: 'info',
@@ -118,7 +129,6 @@ export default function AccountCustom() {
               signOutButton: { color: 'primary', variant: 'outlined' },
             }}
           />
-          {/* preview-end */}
         </SessionContext.Provider>
       </AuthenticationContext.Provider>
     </div>

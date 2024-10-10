@@ -2,7 +2,7 @@
   <SessionContext.Provider value={session}>
     <Account
       slots={{
-        menuItems: CustomMenuItems,
+        content: CustomMenu,
       }}
     />
   </SessionContext.Provider>

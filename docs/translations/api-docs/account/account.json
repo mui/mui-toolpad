@@ -7,8 +7,9 @@
   },
   "classDescriptions": {},
   "slotDescriptions": {
-    "menuItems": "The component used for the custom menu items.",
+    "content": "The component used for custom content in the account popover",
     "signInButton": "The component used for the sign in button.",
-    "signOutButton": "The component used for the sign out button."
+    "signOutButton": "The component used for the sign out button.",
+    "userDetailsContainer": "The component used for the user details section in the account popover"
   }
 }

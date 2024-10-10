@@ -1,31 +1,17 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import Popover from '@mui/material/Popover';
 import Divider from '@mui/material/Divider';
+import Stack from '@mui/material/Stack';
 import Button, { ButtonProps } from '@mui/material/Button';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
-import { Typography } from '@mui/material';
+import { Box, BoxProps, Typography } from '@mui/material';
 import { SessionAvatar } from './SessionAvatar';
 import { SessionContext, AuthenticationContext } from '../AppProvider/AppProvider';
 import DEFAULT_LOCALE_TEXT from '../shared/locales/en';
-
-const AccountInfoContainer = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  padding: theme.spacing(2),
-  gap: theme.spacing(2),
-}));
-
-const SignOutContainer = styled('div')(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'row',
-  padding: theme.spacing(1),
-  justifyContent: 'flex-end',
-}));
 
 export interface AccountSlots {
   /**
@@ -35,14 +21,19 @@ export interface AccountSlots {
   signInButton?: React.ElementType;
   /**
    * The component used for the sign out button.
-   * @default MenuItem
+   * @default Button
    */
   signOutButton?: React.ElementType;
   /**
-   * The component used for the custom menu items.
+   * The component used for custom content in the account popover
    * @default null
    */
-  menuItems?: React.ElementType;
+  content?: React.ElementType;
+  /**
+   * The component used for the user details section in the account popover
+   * @default Box
+   */
+  userDetailsContainer?: React.ElementType;
 }
 
 export interface AccountProps {
@@ -57,6 +48,7 @@ export interface AccountProps {
     signInButton?: ButtonProps;
     signOutButton?: ButtonProps;
     iconButton?: IconButtonProps;
+    userDetailsContainer?: BoxProps;
   };
   /**
    * The labels for the account component.
@@ -78,6 +70,7 @@ export interface AccountProps {
  */
 function Account(props: AccountProps) {
   const { slots, slotProps, localeText = DEFAULT_LOCALE_TEXT } = props;
+  const theme = useTheme();
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
   const session = React.useContext(SessionContext);
   const authentication = React.useContext(AuthenticationContext);
@@ -166,19 +159,39 @@ function Account(props: AccountProps) {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <AccountInfoContainer>
-          <SessionAvatar session={session} sx={{ height: 48, width: 48 }} />
-          <div>
-            <Typography fontWeight="bolder">{session.user.name}</Typography>
-            <Typography variant="caption">{session.user.email}</Typography>
-          </div>
-        </AccountInfoContainer>
+        {slots?.userDetailsContainer ? (
+          <slots.userDetailsContainer session={session} />
+        ) : (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              padding: theme.spacing(2),
+              gap: theme.spacing(2),
+            }}
+            {...slotProps?.userDetailsContainer}
+          >
+            <SessionAvatar session={session} sx={{ height: 48, width: 48 }} />
+            <Stack>
+              <Typography fontWeight="bolder">{session.user.name}</Typography>
+              <Typography variant="caption">{session.user.email}</Typography>
+            </Stack>
+          </Box>
+        )}
         <Divider sx={{ mb: 1 }} />
-        {slots?.menuItems ? <slots.menuItems /> : null}
+        {slots?.content ? <slots.content /> : null}
         {slots?.signOutButton ? (
           <slots.signOutButton onClick={authentication?.signOut} />
         ) : (
-          <SignOutContainer>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              padding: theme.spacing(1),
+              justifyContent: 'flex-end',
+            }}
+          >
             <Button
               disabled={!authentication}
               variant="outlined"
@@ -199,7 +212,7 @@ function Account(props: AccountProps) {
             >
               {localeText?.signOutLabel}
             </Button>
-          </SignOutContainer>
+          </Box>
         )}
       </Popover>
     </React.Fragment>
@@ -226,14 +239,16 @@ Account.propTypes /* remove-proptypes */ = {
     iconButton: PropTypes.object,
     signInButton: PropTypes.object,
     signOutButton: PropTypes.object,
+    userDetailsContainer: PropTypes.object,
   }),
   /**
    * The components used for each slot inside.
    */
   slots: PropTypes.shape({
-    menuItems: PropTypes.elementType,
+    content: PropTypes.elementType,
     signInButton: PropTypes.elementType,
     signOutButton: PropTypes.elementType,
+    userDetailsContainer: PropTypes.elementType,
   }),
 } as any;
 
