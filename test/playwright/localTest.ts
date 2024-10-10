@@ -328,7 +328,7 @@ const test = baseTest.extend<
         await use(projectDir);
       });
     },
-    { scope: 'worker', timeout: 60000 },
+    { scope: 'worker', timeout: 120000 },
   ],
   customServer: [
     async ({ projectDir, customServerConfig }, use) => {
