@@ -1370,7 +1370,7 @@ const DataGridComponent = React.forwardRef(function DataGridComponent(
 
 export default createBuiltin(DataGridComponent, {
   helperText:
-    'The [MUI X Data Grid](https://mui.com/toolpad/studio/components/data-grid/) component.\n\nThe datagrid lets users display tabular data in a flexible grid.',
+    'The [MUI X Data Grid](https://mui.com/x/react-data-grid/) component.\n\nThe datagrid lets users display tabular data in a flexible grid.',
   errorProp: 'error',
   loadingPropSource: ['rows', 'columns'],
   loadingProp: 'loading',

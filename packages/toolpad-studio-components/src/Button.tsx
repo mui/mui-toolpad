@@ -13,7 +13,7 @@ function Button({ content, ...rest }: ButtonProps) {
 
 export default createBuiltin(Button, {
   helperText:
-    'The Material UI [Button](https://mui.com/toolpad/studio/components/button/) component.\n\nButtons allow users to take actions, and make choices, with a single tap.',
+    'The Material UI [Button](https://mui.com/material-ui/react-button/) component.\n\nButtons allow users to take actions, and make choices, with a single tap.',
   layoutDirection: 'both',
   argTypes: {
     onClick: {

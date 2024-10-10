@@ -155,7 +155,7 @@ export default createBuiltin(FormWrappedAutocomplete, {
       default: 'Search…',
     },
     fullWidth: {
-      helperText: 'If true, the autocomplete will take up the full width of its container.',
+      helperText: 'If true, the autocomplete takes up the full width of its container.',
       type: 'boolean',
     },
     size: {
@@ -165,11 +165,11 @@ export default createBuiltin(FormWrappedAutocomplete, {
       default: 'small',
     },
     loading: {
-      helperText: 'If true, the autocomplete will display a loading indicator.',
+      helperText: 'If true, the autocomplete displays a loading indicator.',
       type: 'boolean',
     },
     disabled: {
-      helperText: 'If true, the autocomplete will be disabled.',
+      helperText: 'If true, the autocomplete is disabled.',
       type: 'boolean',
     },
     ...FORM_INPUT_ARG_TYPES,
