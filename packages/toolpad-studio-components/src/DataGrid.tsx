@@ -500,7 +500,7 @@ export function parseColumns(columns: SerializableGridColumns): GridColDef[] {
   return columns.map(({ type: colType, ...column }) => {
     const isIdColumn = column.field === 'id';
 
-    let baseColumn: Omit<GridColDef, 'field'> = { editable: true };
+    let baseColumn: Omit<GridColDef, 'field'> = {};
 
     if (isIdColumn) {
       baseColumn = {
@@ -1151,6 +1151,9 @@ const DataGridComponent = React.forwardRef(function DataGridComponent(
     setActionResult,
   );
 
+  const useDataProvider = useNonNullableContext(UseDataProviderContext);
+  const { dataProvider } = useDataProvider(dataProviderId || null);
+
   const nodeRuntime = useNode<ToolpadDataGridProps>();
 
   const handleResize = React.useMemo(
@@ -1252,6 +1255,11 @@ const DataGridComponent = React.forwardRef(function DataGridComponent(
     [selection?.id],
   );
 
+  const isRowUpdateModelAvailable = React.useMemo(
+    () => !!dataProvider?.updateRecord,
+    [dataProviderProps],
+  );
+
   const columns: GridColDef[] = React.useMemo(
     () => (columnsProp ? parseColumns(columnsProp) : []),
     [columnsProp],
@@ -1279,7 +1287,18 @@ const DataGridComponent = React.forwardRef(function DataGridComponent(
   }, [nodeRuntime, rows]);
 
   const renderedColumns = React.useMemo<GridColDef[]>(() => {
-    const result = [...columns];
+    const mapEditableToColumns = columns.map((column) => {
+      // Don't touch the existing columns with `editable` value, example: `id` column
+      if (column.editable || column.editable === false) {
+        return column;
+      }
+
+      column.editable = isRowUpdateModelAvailable;
+
+      return column;
+    });
+
+    const result = [...mapEditableToColumns];
 
     if (getProviderActions) {
       result.push({
@@ -1293,7 +1312,7 @@ const DataGridComponent = React.forwardRef(function DataGridComponent(
     }
 
     return result;
-  }, [columns, getProviderActions]);
+  }, [columns, getProviderActions, isRowUpdateModelAvailable]);
 
   const appHost = useAppHost();
   const isProPlan = appHost.plan === 'pro';
