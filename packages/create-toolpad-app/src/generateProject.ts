@@ -12,7 +12,6 @@ import indexPage from './templates/indexPage';
 
 // App router specific files
 import rootLayout from './templates/nextjs-app/rootLayout';
-import NavigateButton from './templates/nextjs-app/navigateButton';
 import dashboardLayout from './templates/nextjs-app/dashboardLayout';
 
 // Pages router specific files
@@ -84,7 +83,6 @@ export default function generateProject(
       const nextJsAppRouterStarter = new Map([
         ['app/(dashboard)/layout.tsx', { content: dashboardLayout }],
         ['app/layout.tsx', { content: rootLayout(options) }],
-        ['app/NavigateButton.tsx', { content: NavigateButton }],
         ['app/(dashboard)/page.tsx', { content: indexPageContent }],
         ['app/(dashboard)/orders/page.tsx', { content: ordersPage }],
       ]);
