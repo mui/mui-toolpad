@@ -49,10 +49,22 @@ The following providers are supported and maintained by default:
 Find details on how to set up each provider in the [Auth.js documentation](https://authjs.dev/getting-started/authentication/oauth).
 :::
 
+## Passkey
+
+The `SignInPage` component can be set up to use [Passkeys](https://passkeys.dev) by passing in a provider with `passkey` as the `id`:
+
+{{"demo": "PasskeySignInPage.js", "iframe": true}}
+
+:::info
+The [Toolpad Core Passkey example app](https://github.com/mui/mui-toolpad/tree/master/examples/core-auth-nextjs-passkey/) comes with a working app using `next-auth/webauthn`, Prisma and PostgreSQL.
+:::
+
+{{"component": "modules/components/DocsImage.tsx", "src": "/static/toolpad/docs/core/auth-next-passkey.png", "srcDark": "/static/toolpad/docs/core/auth-next-passkey-dark.png", "alt": "Auth.js Passkeys & Next.js with Toolpad Core sign-in page", "caption": "Auth.js Passkeys & Next.js app router with Toolpad Core Sign-in page", "zoom": true,  "aspectRatio": "1.428" }}
+
 ## Credentials
 
 :::warning
-It is recommended to use the OAuth provider for more robust maintenance, support, and security.
+It is recommended to use the OAuth or Passkey provider for more robust maintenance, support, and security.
 :::
 
 To render a username password form, pass in a provider with `credentials` as the `id` property. The `signIn` function accepts a `formData` parameter in this case.

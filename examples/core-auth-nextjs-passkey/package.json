@@ -1,0 +1,32 @@
+{
+  "name": "core-auth-nextjs-passkey",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "next dev",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@auth/prisma-adapter": "2.4.2",
+    "@emotion/react": "11.13.3",
+    "@emotion/styled": "11.13.0",
+    "@mui/icons-material": "6.0.2",
+    "@mui/lab": "6.0.0-beta.9",
+    "@mui/material": "6.0.2",
+    "@mui/material-nextjs": "6.0.2",
+    "@prisma/client": "5.19.1",
+    "@simplewebauthn/browser": "9.0.1",
+    "@simplewebauthn/server": "9.0.3",
+    "@toolpad/core": "workspace:*",
+    "next": "14.2.7",
+    "next-auth": "5.0.0-beta.20",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.5.1",
+    "@types/react": "18.3.5",
+    "@types/react-dom": "18.3.0",
+    "eslint-config-next": "14.2.7",
+    "prisma": "5.19.1"
+  }
+}

@@ -15,6 +15,7 @@ import LoadingButton, { LoadingButtonProps } from '@mui/lab/LoadingButton';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import PasswordIcon from '@mui/icons-material/Password';
+import FingerprintIcon from '@mui/icons-material/Fingerprint';
 import AppleIcon from '@mui/icons-material/Apple';
 import Stack from '@mui/material/Stack';
 import { LinkProps } from '@mui/material/Link';
@@ -60,13 +61,14 @@ type SupportedOAuthProvider =
   | 'fusionauth'
   | 'microsoft-entra-id';
 
-export type SupportedAuthProvider = SupportedOAuthProvider | 'credentials';
+export type SupportedAuthProvider = SupportedOAuthProvider | 'credentials' | 'passkey';
 
 const IconProviderMap = new Map<SupportedAuthProvider, React.ReactNode>([
   ['github', <GitHubIcon key="github" />],
   ['credentials', <PasswordIcon key="credentials" />],
   ['google', <GoogleIcon key="google" />],
   ['facebook', <FacebookIcon key="facebook" />],
+  ['passkey', <FingerprintIcon key="passkey" />],
   ['twitter', <TwitterIcon key="twitter" />],
   ['apple', <AppleIcon key="apple" />],
   ['instagram', <InstagramIcon key="instagram" />],
@@ -162,7 +164,7 @@ export interface SignInPageProps {
     provider: AuthProvider,
     formData?: any,
     callbackUrl?: string,
-  ) => void | Promise<AuthResponse>;
+  ) => void | Promise<AuthResponse> | undefined;
   /**
    * The components used for each slot inside.
    * @default {}
@@ -201,6 +203,7 @@ function SignInPage(props: SignInPageProps) {
   const branding = React.useContext(BrandingContext);
   const docs = React.useContext(DocsContext);
   const router = React.useContext(RouterContext);
+  const passkeyProvider = providers?.find((provider) => provider.id === 'passkey');
   const credentialsProvider = providers?.find((provider) => provider.id === 'credentials');
   const [{ loading, selectedProviderId, error }, setFormStatus] = React.useState<{
     loading: boolean;
@@ -236,15 +239,15 @@ function SignInPage(props: SignInPageProps) {
           Sign in {branding?.title ? `to ${branding.title}` : null}
         </Typography>
         <Typography variant="body2" color="textSecondary" gutterBottom textAlign="center">
-          Welcome user, please sign in to continue
+          Welcome, please sign in to continue
         </Typography>
         <Box sx={{ mt: 2 }}>
           <Stack spacing={1}>
-            {error && selectedProviderId !== 'credentials' ? (
+            {error && selectedProviderId !== 'credentials' && selectedProviderId !== 'passkey' ? (
               <Alert severity="error">{error}</Alert>
             ) : null}
             {Object.values(providers ?? {}).map((provider) => {
-              if (provider.id === 'credentials') {
+              if (provider.id === 'credentials' || provider.id === 'passkey') {
                 return null;
               }
               return (
@@ -288,6 +291,88 @@ function SignInPage(props: SignInPageProps) {
               );
             })}
           </Stack>
+
+          {passkeyProvider ? (
+            <React.Fragment>
+              {singleProvider ? null : <Divider sx={{ mt: 2, mx: 0, mb: 1 }}>or</Divider>}
+              {error && selectedProviderId === 'passkey' ? (
+                <Alert sx={{ my: 2 }} severity="error">
+                  {error}
+                </Alert>
+              ) : null}
+              <Box
+                component="form"
+                onSubmit={async (event) => {
+                  setFormStatus({
+                    error: '',
+                    selectedProviderId: passkeyProvider.id,
+                    loading: true,
+                  });
+                  event.preventDefault();
+                  const formData = new FormData(event.currentTarget);
+                  const passkeyResponse = await signIn?.(passkeyProvider, formData, callbackUrl);
+                  setFormStatus((prev) => ({
+                    ...prev,
+                    loading: false,
+                    error: passkeyResponse?.error,
+                  }));
+                }}
+              >
+                {slots?.emailField ? (
+                  <slots.emailField {...slotProps?.emailField} />
+                ) : (
+                  <TextField
+                    margin="dense"
+                    required
+                    slotProps={{
+                      htmlInput: {
+                        sx: { paddingTop: '12px', paddingBottom: '12px' },
+                      },
+                      inputLabel: {
+                        sx: { lineHeight: '1rem' },
+                      },
+                    }}
+                    fullWidth
+                    id="email-passkey"
+                    label="Email Address"
+                    name="email"
+                    type="email"
+                    autoComplete="email-webauthn"
+                    autoFocus={docs ? false : singleProvider}
+                    {...slotProps?.emailField}
+                  />
+                )}
+
+                {slots?.submitButton ? (
+                  <slots.submitButton {...slotProps?.submitButton} />
+                ) : (
+                  <LoadingButton
+                    type="submit"
+                    fullWidth
+                    size="large"
+                    variant="contained"
+                    disableElevation
+                    startIcon={IconProviderMap.get(passkeyProvider.id)}
+                    color={singleProvider ? 'primary' : 'inherit'}
+                    loading={loading && selectedProviderId === passkeyProvider.id}
+                    sx={{
+                      mt: 3,
+                      mb: 2,
+                      textTransform: 'capitalize',
+                      filter: 'opacity(0.9)',
+                      transition: 'filter 0.2s ease-in',
+                      '&:hover': {
+                        filter: 'opacity(1)',
+                      },
+                    }}
+                    {...slotProps?.submitButton}
+                  >
+                    Sign in with {passkeyProvider.name || 'Passkey'}
+                  </LoadingButton>
+                )}
+              </Box>
+            </React.Fragment>
+          ) : null}
 
           {credentialsProvider ? (
             <React.Fragment>
@@ -446,6 +531,7 @@ SignInPage.propTypes /* remove-proptypes */ = {
         'linkedin',
         'microsoft-entra-id',
         'okta',
+        'passkey',
         'slack',
         'spotify',
         'tiktok',

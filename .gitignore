@@ -40,31 +40,39 @@ yarn-error.log*
 .sentryclirc
 
 # docs
-
 /docs/export
+
+# lerna
 
 lerna-debug.log
 
+# env
+
 .env
+
+# build output
 
 dist/
 build/
 
+# studio
 packages/toolpad-studio/public/web_modules
 packages/toolpad-studio/public/runtime
 packages/toolpad-studio/public/typings.json
-examples/*/yarn.lock
-
-test-results
 .toolpad-generated
 
-.yarn-playwright-cache
+# examples
+examples/*/yarn.lock
 
+
+# tests
+
+test-results
+.yarn-playwright-cache
 /test/regressions/screenshots/**
+.coverage
 
 # vale downloaded config
 .github/styles/Google
 .github/styles/MUI
 .github/styles/.vale-config
-
-.coverage

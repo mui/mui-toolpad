@@ -3,7 +3,7 @@
     "providers": {
       "type": {
         "name": "arrayOf",
-        "description": "Array&lt;{ id: 'apple'<br>&#124;&nbsp;'auth0'<br>&#124;&nbsp;'cognito'<br>&#124;&nbsp;'credentials'<br>&#124;&nbsp;'discord'<br>&#124;&nbsp;'facebook'<br>&#124;&nbsp;'fusionauth'<br>&#124;&nbsp;'github'<br>&#124;&nbsp;'gitlab'<br>&#124;&nbsp;'google'<br>&#124;&nbsp;'instagram'<br>&#124;&nbsp;'keycloak'<br>&#124;&nbsp;'line'<br>&#124;&nbsp;'linkedin'<br>&#124;&nbsp;'microsoft-entra-id'<br>&#124;&nbsp;'okta'<br>&#124;&nbsp;'slack'<br>&#124;&nbsp;'spotify'<br>&#124;&nbsp;'tiktok'<br>&#124;&nbsp;'twitch'<br>&#124;&nbsp;'twitter', name: string }&gt;"
+        "description": "Array&lt;{ id: 'apple'<br>&#124;&nbsp;'auth0'<br>&#124;&nbsp;'cognito'<br>&#124;&nbsp;'credentials'<br>&#124;&nbsp;'discord'<br>&#124;&nbsp;'facebook'<br>&#124;&nbsp;'fusionauth'<br>&#124;&nbsp;'github'<br>&#124;&nbsp;'gitlab'<br>&#124;&nbsp;'google'<br>&#124;&nbsp;'instagram'<br>&#124;&nbsp;'keycloak'<br>&#124;&nbsp;'line'<br>&#124;&nbsp;'linkedin'<br>&#124;&nbsp;'microsoft-entra-id'<br>&#124;&nbsp;'okta'<br>&#124;&nbsp;'passkey'<br>&#124;&nbsp;'slack'<br>&#124;&nbsp;'spotify'<br>&#124;&nbsp;'tiktok'<br>&#124;&nbsp;'twitch'<br>&#124;&nbsp;'twitter', name: string }&gt;"
       },
       "default": "[]"
     },
