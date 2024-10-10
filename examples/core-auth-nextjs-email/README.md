@@ -1,4 +1,4 @@
-# Toolpad Core Next.js App Router app with GitHub provider
+# Toolpad Core Next.js App Router app with email provider
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
@@ -17,28 +17,6 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Setting up
-
-The project requires an `.env.local` with the following variables:
-
-```bash
-AUTH_SECRET=
-GITHUB_CLIENT_ID=
-GITHUB_CLIENT_SECRET=
-```
-
-### AUTH_SECRET
-
-`AUTH_SECRET` is a random value used by the Auth.js to encrypt tokens and email verification hashes. (See [Deployment](https://authjs.dev/getting-started/deployment) to learn more). You can generate one via running:
-
-```bash
-npx auth secret
-```
-
-### GitHub configuration
-
-To get the required credentials from GitHub, we need to create an application in their developer settings. Read this [detailed guide on Auth.js](https://authjs.dev/guides/configuring-github) on how to obtain those.
 
 ## Learn More
 

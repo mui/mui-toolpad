@@ -22,7 +22,7 @@ The `SignInPage` component can be set up with an OAuth provider by passing in a 
 
 :::info
 
-The following providers are supported and maintained by default:
+The following OAuth providers are supported and maintained by default:
 
 - Google
 - GitHub
@@ -44,15 +44,86 @@ The following providers are supported and maintained by default:
 - Twitch
 - Discord
 - Keycloak
-- Credentials (username/password)
 
 Find details on how to set up each provider in the [Auth.js documentation](https://authjs.dev/getting-started/authentication/oauth).
+:::
+
+## Magic Link
+
+You can use the `SignInPage` component to quickly set up authentication via one-time verification links. It uses Nodemailer under the hood to send the verification link to the user's email address. See more details in the [Auth.js docs](https://authjs.dev/getting-started/providers/nodemailer/) on configuration and customization.
+
+To render a magic link form, pass in a provider with `nodemailer` as the `id` property.
+
+{{"demo": "MagicLinkSignInPage.js", "iframe": true, "height": 500}}
+
+### Alerts
+
+The `SignInPage` component can display a success alert if the email is sent successfully. You can enable this by passing a `success` property in the
+response object of the `signIn` prop.
+
+{{"demo": "MagicLinkAlertSignInPage.js", "iframe": true, "height": 500}}
+
+To get the magic link working, you need to add the following code to your custom sign-in page:
+
+```tsx title="app/auth/signin/page.tsx"
+import * as React from 'react';
+import { SignInPage } from '@toolpad/core/SignInPage';
+import { AuthError } from 'next-auth';
+import type { AuthProvider } from '@toolpad/core';
+import { signIn, providerMap } from '../../../auth';
+
+export default function SignIn() {
+  return (
+    <React.Fragment>
+      <SignInPage providers={providerMap} signIn={
+        async (provider: AuthProvider, formData: FormData, callbackUrl?: string) {
+          try {
+            return await signInAction(provider.id, {
+              ...(formData && {
+                email: formData.get('email'),
+                password: formData.get('password'),
+              }),
+              redirectTo: callbackUrl ?? '/',
+            });
+        } catch (error) {
+          if (error instanceof Error && error.message === 'NEXT_REDIRECT') {
+            if (provider.id === 'nodemailer' &&
+            (error as any).digest?.includes('verify-request')) {
+            return {
+              success: 'Check your email for a verification link.',
+            };
+          }
+          throw error;
+        }
+
+        if (error instanceof AuthError) {
+          return {
+            error:
+              error.type === 'CredentialsSignin'
+                ? 'Invalid credentials.'
+                : 'An error with Auth.js occurred.',
+            type: error.type,
+          };
+        }
+        return {
+          error: 'Something went wrong.',
+          type: 'UnknownError',
+        };
+      }
+    }} />;
+    </React.Fragment>
+  );
+}
+```
+
+:::info
+Check out the complete [Next.js App Router Nodemailer example](https://github.com/mui/mui-toolpad/tree/master/examples/core-auth-nextjs-email/) example for a working implementation of a magic link sign-in page with Auth.js, Nodemailer, Prisma and PostgreSQL.
 :::
 
 ## Credentials
 
 :::warning
-It is recommended to use the OAuth provider for more robust maintenance, support, and security.
+The Credentials provider is not the most secure way to authenticate users. We recommend using any of the other providers for a more robust solution.
 :::
 
 To render a username password form, pass in a provider with `credentials` as the `id` property. The `signIn` function accepts a `formData` parameter in this case.

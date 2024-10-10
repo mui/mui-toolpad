@@ -59,6 +59,7 @@ const auth: Template = (options) => {
   const providers = options.authProviders;
 
   return `import NextAuth from 'next-auth';
+  import { AuthProvider, SupportedAuthProvider } from '@toolpad/core';
   ${providers
     ?.map(
       (provider) =>
@@ -83,9 +84,9 @@ ${checkEnvironmentVariables(providers)}
 export const providerMap = providers.map((provider) => {
   if (typeof provider === 'function') {
     const providerData = provider();
-    return { id: providerData.id, name: providerData.name };
+      return { id: providerData.id as SupportedAuthProvider, name: providerData.name } satisfies AuthProvider;
   }
-  return { id: provider.id, name: provider.name };
+  return { id: provider.id as SupportedAuthProvider, name: provider.name } satisfies AuthProvider;
 });
 
 export const { handlers, auth, signIn, signOut } = NextAuth({

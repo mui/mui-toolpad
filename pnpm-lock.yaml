@@ -195,7 +195,7 @@ importers:
         version: 7.37.1(eslint@8.57.1)
       eslint-plugin-react-compiler:
         specifier: latest
-        version: 0.0.0-experimental-4c9207a-20241007(eslint@8.57.1)
+        version: 0.0.0-experimental-7c1344f-20241009(eslint@8.57.1)
       eslint-plugin-react-hooks:
         specifier: 4.6.2
         version: 4.6.2(eslint@8.57.1)
@@ -680,7 +680,7 @@ importers:
     dependencies:
       '@auth/core':
         specifier: 0.35.3
-        version: 0.35.3
+        version: 0.35.3(nodemailer@6.9.15)
       '@emotion/cache':
         specifier: 11.13.1
         version: 11.13.1
@@ -1093,7 +1093,7 @@ importers:
     dependencies:
       '@auth/core':
         specifier: 0.35.3
-        version: 0.35.3
+        version: 0.35.3(nodemailer@6.9.15)
       '@mui/material':
         specifier: 6.1.3
         version: 6.1.3(@emotion/react@11.13.3(@types/react@18.3.11)(react@18.3.1))(@emotion/styled@11.13.0(@emotion/react@11.13.3(@types/react@18.3.11)(react@18.3.1))(@types/react@18.3.11)(react@18.3.1))(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1233,7 +1233,7 @@ importers:
         version: 14.2.14(@babel/core@7.25.7)(@playwright/test@1.47.2)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-auth:
         specifier: 5.0.0-beta.22
-        version: 5.0.0-beta.22(next@14.2.14(@babel/core@7.25.7)(@playwright/test@1.47.2)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        version: 5.0.0-beta.22(next@14.2.14(@babel/core@7.25.7)(@playwright/test@1.47.2)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nodemailer@6.9.15)(react@18.3.1)
       react:
         specifier: 18.3.1
         version: 18.3.1
@@ -1275,7 +1275,7 @@ importers:
         version: 14.2.14(@babel/core@7.25.7)(@playwright/test@1.47.2)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       next-auth:
         specifier: 5.0.0-beta.22
-        version: 5.0.0-beta.22(next@14.2.14(@babel/core@7.25.7)(@playwright/test@1.47.2)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1)
+        version: 5.0.0-beta.22(next@14.2.14(@babel/core@7.25.7)(@playwright/test@1.47.2)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nodemailer@6.9.15)(react@18.3.1)
       react:
         specifier: 18.3.1
         version: 18.3.1
@@ -2136,7 +2136,7 @@ packages:
   '@docsearch/react@3.6.2':
     resolution: {integrity: sha512-rtZce46OOkVflCQH71IdbXSFK+S8iJZlUF56XBW5rIgx/eG5qoomC7Ag3anZson1bBac/JFQn7XOBfved/IMRA==}
     peerDependencies:
-      '@types/react': '>= 16.8.0 < 19.0.0'
+      '@types/react': ^18.3.11
       react: '>= 16.8.0 < 19.0.0'
       react-dom: '>= 16.8.0 < 19.0.0'
       search-insights: '>= 1 < 3'
@@ -6040,8 +6040,8 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
 
-  eslint-plugin-react-compiler@0.0.0-experimental-4c9207a-20241007:
-    resolution: {integrity: sha512-1NEoOWBeJfzfTLVrj5qsLELs9kEmTLAmTBbJb4XY8HmDblQkJjVOe0XRhI72SINGs4QFZ6EKbQ960PaI6viwcw==}
+  eslint-plugin-react-compiler@0.0.0-experimental-7c1344f-20241009:
+    resolution: {integrity: sha512-ZhUn6vMU5OJjP1kJhuGA+NDrVPy3pcbok5CblWJaRXH+JzD6bqh5hy1ieep/I92S3ikWTn/5I6KqcXchAYfL4g==}
     engines: {node: ^14.17.0 || ^16.0.0 || >= 18.0.0}
     peerDependencies:
       eslint: '>=7'
@@ -8024,6 +8024,10 @@ packages:
 
   node-releases@2.0.18:
     resolution: {integrity: sha512-d9VeXT4SJ7ZeOqGX6R5EM022wpL+eWPooLI+5UpWn2jCT1aosUQEhQP214x33Wkwx3JQMvIm+tIoVOdodFS40g==}
+
+  nodemailer@6.9.15:
+    resolution: {integrity: sha512-AHf04ySLC6CIfuRtRiEYtGEXgRfa6INgWGluDhnxTZhHSKvrBu7lc1VVchQ0d8nPc4cFaZoPq8vkyNoZr0TpGQ==}
+    engines: {node: '>=6.0.0'}
 
   nopt@7.2.1:
     resolution: {integrity: sha512-taM24ViiimT/XntxbPyJQzCG+p4EKOpgD3mxFwW38mGjVUrfERQOeY4EDHjdnptttfHuHQXFx+lTP08Q+mLa/w==}
@@ -10564,7 +10568,7 @@ snapshots:
 
   '@argos-ci/util@2.1.1': {}
 
-  '@auth/core@0.35.3':
+  '@auth/core@0.35.3(nodemailer@6.9.15)':
     dependencies:
       '@panva/hkdf': 1.2.1
       '@types/cookie': 0.6.0
@@ -10573,6 +10577,8 @@ snapshots:
       oauth4webapi: 2.17.0
       preact: 10.11.3
       preact-render-to-string: 5.2.3(preact@10.11.3)
+    optionalDependencies:
+      nodemailer: 6.9.15
 
   '@babel/cli@7.25.7(@babel/core@7.25.7)':
     dependencies:
@@ -15907,7 +15913,7 @@ snapshots:
       globals: 13.24.0
       rambda: 7.5.0
 
-  eslint-plugin-react-compiler@0.0.0-experimental-4c9207a-20241007(eslint@8.57.1):
+  eslint-plugin-react-compiler@0.0.0-experimental-7c1344f-20241009(eslint@8.57.1):
     dependencies:
       '@babel/core': 7.25.7
       '@babel/parser': 7.25.7
@@ -18191,11 +18197,13 @@ snapshots:
 
   nested-error-stacks@2.1.1: {}
 
-  next-auth@5.0.0-beta.22(next@14.2.14(@babel/core@7.25.7)(@playwright/test@1.47.2)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
+  next-auth@5.0.0-beta.22(next@14.2.14(@babel/core@7.25.7)(@playwright/test@1.47.2)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nodemailer@6.9.15)(react@18.3.1):
     dependencies:
-      '@auth/core': 0.35.3
+      '@auth/core': 0.35.3(nodemailer@6.9.15)
       next: 14.2.14(@babel/core@7.25.7)(@playwright/test@1.47.2)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react: 18.3.1
+    optionalDependencies:
+      nodemailer: 6.9.15
 
   next-router-mock@0.9.13(next@14.2.14(@babel/core@7.25.7)(@playwright/test@1.47.2)(babel-plugin-macros@3.1.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react@18.3.1):
     dependencies:
@@ -18282,6 +18290,9 @@ snapshots:
   node-machine-id@1.1.12: {}
 
   node-releases@2.0.18: {}
+
+  nodemailer@6.9.15:
+    optional: true
 
   nopt@7.2.1:
     dependencies:

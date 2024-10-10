@@ -3,13 +3,7 @@ import { AppProvider, SignInPage } from '@toolpad/core';
 import { useTheme } from '@mui/material/styles';
 
 // preview-start
-const providers = [
-  { id: 'github', name: 'GitHub' },
-  { id: 'google', name: 'Google' },
-  { id: 'facebook', name: 'Facebook' },
-  { id: 'twitter', name: 'Twitter' },
-  { id: 'linkedin', name: 'LinkedIn' },
-];
+const providers = [{ id: 'nodemailer', name: 'Email' }];
 
 // preview-end
 
@@ -23,7 +17,7 @@ const signIn = async (provider) => {
   return promise;
 };
 
-export default function OAuthSignInPage() {
+export default function MagicLinkSignInPage() {
   const theme = useTheme();
   return (
     // preview-start

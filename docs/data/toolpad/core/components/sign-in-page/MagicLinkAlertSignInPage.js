@@ -2,28 +2,23 @@ import * as React from 'react';
 import { AppProvider, SignInPage } from '@toolpad/core';
 import { useTheme } from '@mui/material/styles';
 
-// preview-start
-const providers = [
-  { id: 'github', name: 'GitHub' },
-  { id: 'google', name: 'Google' },
-  { id: 'facebook', name: 'Facebook' },
-  { id: 'twitter', name: 'Twitter' },
-  { id: 'linkedin', name: 'LinkedIn' },
-];
-
-// preview-end
+const providers = [{ id: 'nodemailer', name: 'Email' }];
 
 const signIn = async (provider) => {
   const promise = new Promise((resolve) => {
     setTimeout(() => {
       console.log(`Sign in with ${provider.id}`);
-      resolve();
+      // preview-start
+      resolve({
+        success: 'Check your email for a verification link.',
+      });
+      // preview-end
     }, 500);
   });
   return promise;
 };
 
-export default function OAuthSignInPage() {
+export default function MagicLinkAlertSignInPage() {
   const theme = useTheme();
   return (
     // preview-start

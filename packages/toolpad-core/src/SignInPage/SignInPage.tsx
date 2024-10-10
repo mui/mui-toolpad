@@ -60,7 +60,7 @@ type SupportedOAuthProvider =
   | 'fusionauth'
   | 'microsoft-entra-id';
 
-export type SupportedAuthProvider = SupportedOAuthProvider | 'credentials';
+export type SupportedAuthProvider = SupportedOAuthProvider | 'credentials' | 'nodemailer';
 
 const IconProviderMap = new Map<SupportedAuthProvider, React.ReactNode>([
   ['github', <GitHubIcon key="github" />],
@@ -110,10 +110,17 @@ export interface AuthResponse {
    */
   error?: string;
   /**
-   * The type of error that occurred.
+   * The type of error if the sign-in failed.
    * @default ''
    */
   type?: string;
+  /**
+   * The success notification if the sign-in was successful.
+   * @default ''
+   * Only used for magic link sign-in.
+   * @example 'Check your email for a magic link.'
+   */
+  success?: string;
 }
 
 export interface SignInPageSlots {
@@ -202,14 +209,17 @@ function SignInPage(props: SignInPageProps) {
   const docs = React.useContext(DocsContext);
   const router = React.useContext(RouterContext);
   const credentialsProvider = providers?.find((provider) => provider.id === 'credentials');
-  const [{ loading, selectedProviderId, error }, setFormStatus] = React.useState<{
+  const emailProvider = providers?.find((provider) => provider.id === 'nodemailer');
+  const [{ loading, selectedProviderId, error, success }, setFormStatus] = React.useState<{
     loading: boolean;
     selectedProviderId?: SupportedAuthProvider;
     error?: string;
+    success?: string;
   }>({
     selectedProviderId: undefined,
     loading: false,
     error: '',
+    success: '',
   });
 
   const callbackUrl = router?.searchParams.get('callbackUrl') ?? '/';
@@ -236,15 +246,16 @@ function SignInPage(props: SignInPageProps) {
           Sign in {branding?.title ? `to ${branding.title}` : null}
         </Typography>
         <Typography variant="body2" color="textSecondary" gutterBottom textAlign="center">
-          Welcome user, please sign in to continue
+          Welcome, please sign in to continue
         </Typography>
-        <Box sx={{ mt: 2 }}>
+        <Box sx={{ mt: 2, width: '100%' }}>
           <Stack spacing={1}>
-            {error && selectedProviderId !== 'credentials' ? (
+            {error &&
+            !(selectedProviderId === 'credentials' || selectedProviderId === 'nodemailer') ? (
               <Alert severity="error">{error}</Alert>
             ) : null}
             {Object.values(providers ?? {}).map((provider) => {
-              if (provider.id === 'credentials') {
+              if (provider.id === 'credentials' || provider.id === 'nodemailer') {
                 return null;
               }
               return (
@@ -412,6 +423,89 @@ function SignInPage(props: SignInPageProps) {
               </Box>
             </React.Fragment>
           ) : null}
+
+          {emailProvider ? (
+            <React.Fragment>
+              {singleProvider ? null : <Divider sx={{ mt: 2, mx: 0, mb: 1 }}>or</Divider>}
+              {error && selectedProviderId === 'nodemailer' ? (
+                <Alert sx={{ my: 2 }} severity="error">
+                  {error}
+                </Alert>
+              ) : null}
+              {success && selectedProviderId === 'nodemailer' ? (
+                <Alert sx={{ my: 2 }} severity="success">
+                  {success}
+                </Alert>
+              ) : null}
+              <Box
+                component="form"
+                onSubmit={async (event) => {
+                  event.preventDefault();
+                  setFormStatus({
+                    error: '',
+                    selectedProviderId: emailProvider.id,
+                    loading: true,
+                  });
+                  const formData = new FormData(event.currentTarget);
+                  const emailResponse = await signIn?.(emailProvider, formData, callbackUrl);
+                  setFormStatus((prev) => ({
+                    ...prev,
+                    loading: false,
+                    error: emailResponse?.error,
+                    success: emailResponse?.success,
+                  }));
+                }}
+              >
+                <TextField
+                  margin="dense"
+                  required
+                  fullWidth
+                  slotProps={{
+                    htmlInput: {
+                      sx: { paddingTop: '12px', paddingBottom: '12px' },
+                    },
+                    inputLabel: {
+                      sx: { lineHeight: '1rem' },
+                    },
+                  }}
+                  name="email"
+                  id="email-nodemailer"
+                  label="Email Address"
+                  type="email"
+                  autoComplete="email-nodemailer"
+                  autoFocus={docs ? false : singleProvider}
+                  {...slotProps?.emailField}
+                />
+                {slots?.submitButton ? (
+                  <slots.submitButton {...slotProps?.submitButton} />
+                ) : (
+                  <LoadingButton
+                    type="submit"
+                    fullWidth
+                    size="large"
+                    variant="contained"
+                    disableElevation
+                    id="submit-nodemailer"
+                    color={singleProvider ? 'primary' : 'inherit'}
+                    loading={loading && selectedProviderId === emailProvider.id}
+                    sx={{
+                      mt: 3,
+                      mb: 2,
+                      textTransform: 'capitalize',
+                      filter: 'opacity(0.9)',
+                      transition: 'filter 0.2s ease-in',
+                      '&:hover': {
+                        filter: 'opacity(1)',
+                      },
+                    }}
+                    {...slotProps?.submitButton}
+                  >
+                    Sign in with email
+                  </LoadingButton>
+                )}
+              </Box>
+            </React.Fragment>
+          ) : null}
         </Box>
       </Box>
     </Container>
@@ -445,6 +539,7 @@ SignInPage.propTypes /* remove-proptypes */ = {
         'line',
         'linkedin',
         'microsoft-entra-id',
+        'nodemailer',
         'okta',
         'slack',
         'spotify',

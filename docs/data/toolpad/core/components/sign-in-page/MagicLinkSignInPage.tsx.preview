@@ -1,0 +1,9 @@
+const providers: { id: SupportedAuthProvider; name: string }[] = [
+  { id: 'nodemailer', name: 'Email' },
+];
+
+// ...
+
+<AppProvider theme={theme}>
+  <SignInPage signIn={signIn} providers={providers} />
+</AppProvider>
