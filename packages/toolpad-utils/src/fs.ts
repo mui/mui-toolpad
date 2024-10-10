@@ -10,11 +10,17 @@ import { errorFrom } from './errors';
  * Formats a yaml source with `prettier`.
  */
 async function formatYaml(code: string, filePath: string): Promise<string> {
-  const readConfig = await prettier.resolveConfig(filePath);
-  return prettier.format(code, {
-    ...readConfig,
-    parser: 'yaml',
-  });
+  try {
+    const readConfig = await prettier.resolveConfig(filePath);
+    return prettier.format(code, {
+      ...readConfig,
+      parser: 'yaml',
+    });
+  } catch (rawError) {
+    const error = errorFrom(rawError);
+    console.error(error.message);
+    throw error;
+  }
 }
 
 export type Reviver = NonNullable<Parameters<typeof JSON.parse>[1]>;

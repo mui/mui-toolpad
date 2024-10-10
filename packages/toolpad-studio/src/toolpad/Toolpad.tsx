@@ -18,6 +18,7 @@ import FunctionsEditor from './FunctionsEditor';
 import { FEATURE_FLAG_GLOBAL_FUNCTIONS } from '../constants';
 import { ProjectProvider } from '../project';
 import AppAuthorizationDialog from './AppEditor/AppAuthorizationEditor';
+import AppformatPrettierDialog from './AppEditor/AppformatPrettierDialog';
 import { ToolpadAppRoutes } from '../runtime/ToolpadApp';
 import { RuntimeState } from '../runtime';
 
@@ -103,6 +104,18 @@ function EditorShell({ children }: EditorShellProps) {
     setFalse: handleAuthorizationDialogClose,
   } = useBoolean(false);
 
+  const {
+    value: appformatPrettierDialogOpenValue,
+    setTrue: appformatPrettierDialogOpen,
+    setFalse: appformatPrettierDialogClose,
+  } = useBoolean(false);
+
+  React.useEffect(() => {
+    if (appState.saveDomError) {
+      appformatPrettierDialogOpen();
+    }
+  });
+
   return (
     <ToolpadShell
       navigation={
@@ -132,6 +145,10 @@ function EditorShell({ children }: EditorShellProps) {
       <AppAuthorizationDialog
         open={authorizationDialogOpen}
         onClose={handleAuthorizationDialogClose}
+      />
+      <AppformatPrettierDialog
+        open={appformatPrettierDialogOpenValue}
+        onClose={appformatPrettierDialogClose}
       />
     </ToolpadShell>
   );

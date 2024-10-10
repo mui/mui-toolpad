@@ -111,6 +111,10 @@ export type AppStateAction =
   | {
       type: 'SET_HAS_UNSAVED_CHANGES';
       hasUnsavedChanges: boolean;
+    }
+  | {
+      type: 'IGNORE_FORMATTING_ERRORS';
+      ignoreFormattingErrors: boolean;
     };
 
 export function domReducer(dom: appDom.AppDom, action: AppStateAction): appDom.AppDom {
@@ -134,6 +138,7 @@ export interface AppState {
   undoStack: UndoRedoStackEntry[];
   redoStack: UndoRedoStackEntry[];
   hasUnsavedChanges: boolean;
+  ignoreFormattingErrors: boolean;
 }
 
 export interface UndoRedoStackEntry {
@@ -176,6 +181,12 @@ export function appStateReducer(state: AppState, action: AppStateAction): AppSta
       return update(state, {
         savingDom: false,
         saveDomError: action.error,
+      });
+    }
+    case 'IGNORE_FORMATTING_ERRORS': {
+      return update(state, {
+        savingDom: action.ignoreFormattingErrors,
+        ignoreFormattingErrors: action.ignoreFormattingErrors,
       });
     }
     case 'DOM_SERVER_UPDATE': {
@@ -909,6 +920,7 @@ export default function AppProvider({ appUrl, children }: DomContextProps) {
     unsavedDomChanges: 0,
     saveDomError: null,
     savedDom: dom,
+    ignoreFormattingErrors: false,
     // App state
     currentView: initialView,
     undoStack: [
@@ -980,7 +992,10 @@ export default function AppProvider({ appUrl, children }: DomContextProps) {
         dispatch({ type: 'DOM_SAVED', savedDom: domToSave });
       })
       .catch((err) => {
-        dispatch({ type: 'DOM_SAVING_ERROR', error: err.message });
+        console.error(`Failed to save the dom: ${err.message}`);
+        if (err.code === 'FPRMATTINGERRORS') {
+          dispatch({ type: 'DOM_SAVING_ERROR', error: err.message });
+        }
       });
   }, [projectApi, state]);
 
