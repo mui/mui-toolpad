@@ -71,7 +71,11 @@ You can also test the example apps to make sure they work as expected.
    pnpm --filter @toolpad/core dev
    ```
 
-3. Run the example app
+3. Install then run the example app
+
+   ```bash
+   pnpm --filter core-nextjs install
+   ```
 
    ```bash
    pnpm --filter core-nextjs dev

@@ -8,6 +8,7 @@ pnpm-lock.yaml
 /packages/toolpad-studio/public
 
 build
+dist
 
 /examples/*/toolpad.yml
 

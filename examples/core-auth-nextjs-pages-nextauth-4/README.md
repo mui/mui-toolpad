@@ -1,4 +1,4 @@
-# Toolpad Core Playground - Next.js Pages Router with Next Auth 4
+# Toolpad Core - Next.js Pages Router with Next Auth 4
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
