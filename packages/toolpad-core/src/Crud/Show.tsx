@@ -21,7 +21,7 @@ import { useLocaleText } from '../AppProvider/LocalizationProvider';
 import { CrudContext } from '../shared/context';
 import { DataSourceCache } from './cache';
 import { useCachedDataSource } from './useCachedDataSource';
-import type { DataField, DataModel, DataModelId, DataSource } from './types';
+import type { DataField, DataFieldFormValue, DataModel, DataModelId, DataSource } from './types';
 import { CRUD_DEFAULT_LOCALE_TEXT, type CRUDLocaleText } from './localeText';
 import { PageContainer, type PageContainerProps } from '../PageContainer';
 import { useActivePage } from '../useActivePage';
@@ -299,7 +299,15 @@ function Show<D extends DataModel>(props: ShowProps<D>) {
           {fields
             .filter(({ type }) => type !== 'actions' && type !== 'custom')
             .map((showField) => {
-              const { field, headerName } = showField;
+              const { field, headerName, renderShowField } = showField;
+
+              if (renderShowField) {
+                return renderShowField({
+                  value: (data?.[field] ?? null) as DataFieldFormValue,
+                  headerName,
+                  data,
+                });
+              }
 
               const renderedField = renderField(showField);
 

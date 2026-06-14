@@ -30,12 +30,23 @@ export type DataFieldRenderFormField<F extends DataFieldFormValue = DataFieldFor
   error: string | null;
 }) => React.ReactNode;
 
+export type DataFieldRenderShowField<F extends DataFieldFormValue = DataFieldFormValue> = ({
+  value,
+  headerName,
+  data,
+}: {
+  value: F;
+  headerName?: string;
+  data: DataModel;
+}) => React.ReactNode;
+
 export type DataField<F extends DataFieldFormValue = DataFieldFormValue> = RemappedOmit<
   GridColDef,
   'type'
 > & {
   type?: GridColType;
   renderFormField?: DataFieldRenderFormField<F>;
+  renderShowField?: DataFieldRenderShowField<F>;
 };
 
 export interface DataSource<D extends DataModel> {
