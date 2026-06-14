@@ -26,7 +26,7 @@ export interface CreateProps<D extends DataModel> {
   /**
    * Callback fired when the form is successfully submitted.
    */
-  onSubmitSuccess?: (formValues: Partial<OmitId<D>>) => void | Promise<void>;
+  onSubmitSuccess?: (formValues: OmitId<D>) => void | Promise<void>;
   /**
    * Whether the form fields should reset after the form is submitted.
    * @default false
@@ -118,7 +118,7 @@ function Create<D extends DataModel>(props: CreateProps<D>) {
           .filter(({ field, editable }) => field !== 'id' && editable !== false)
           .map(({ field, type }) => [
             field,
-            type === 'boolean' ? (initialValues[field] ?? false) : initialValues[field],
+            type === 'boolean' ? (initialValues?.[field] ?? false) : initialValues?.[field],
           ]),
       ),
       ...initialValues,
@@ -167,8 +167,31 @@ function Create<D extends DataModel>(props: CreateProps<D>) {
   }, [initialValues, setFormValues]);
 
   const handleFormSubmit = React.useCallback(async () => {
+    // Check if all required fields are present
+    const requiredFields = fields.filter(
+      ({ field, editable }) => field !== 'id' && editable !== false,
+    );
+    const missingFields = requiredFields.filter(
+      ({ field }) =>
+        formValues[field] === undefined || formValues[field] === null || formValues[field] === '',
+    );
+
+    if (missingFields.length > 0) {
+      const missingFieldErrors = Object.fromEntries(
+        missingFields.map(({ field, headerName }) => [
+          field as keyof D,
+          `${headerName || field} is required`,
+        ]),
+      ) as Partial<Record<keyof D, string>>;
+      setFormErrors(missingFieldErrors);
+      throw new Error('Required fields are missing');
+    }
+
+    // At this point, we know all required fields are present, so we can safely cast to OmitId<D>
+    const completeFormValues = formValues as unknown as OmitId<D>;
+
     if (validate) {
-      const { issues } = await validate(formValues);
+      const { issues } = await validate(completeFormValues);
       if (issues && issues.length > 0) {
         setFormErrors(Object.fromEntries(issues.map((issue) => [issue.path?.[0], issue.message])));
         throw new Error('Form validation failed');
@@ -177,14 +200,14 @@ function Create<D extends DataModel>(props: CreateProps<D>) {
     setFormErrors({});
 
     try {
-      await createOne(formValues);
+      await createOne(completeFormValues);
       notifications.show(localeText.createSuccessMessage, {
         severity: 'success',
         autoHideDuration: 3000,
       });
 
       if (onSubmitSuccess) {
-        await onSubmitSuccess(formValues);
+        await onSubmitSuccess(completeFormValues);
       }
 
       if (resetOnSubmit) {
@@ -199,6 +222,7 @@ function Create<D extends DataModel>(props: CreateProps<D>) {
     }
   }, [
     createOne,
+    fields,
     formValues,
     handleFormReset,
     localeText.createErrorMessage,

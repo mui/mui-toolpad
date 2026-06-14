@@ -46,13 +46,14 @@ export interface DataSource<D extends DataModel> {
     filterModel: GridFilterModel;
   }) => { items: D[]; itemCount: number } | Promise<{ items: D[]; itemCount: number }>;
   getOne?: (id: DataModelId) => D | Promise<D>;
-  createOne?: (data: Partial<OmitId<D>>) => D | Promise<D>;
+  createOne?: (data: OmitId<D>) => D | Promise<D>;
   updateOne?: (id: DataModelId, data: Partial<OmitId<D>>) => D | Promise<D>;
   deleteOne?: (id: DataModelId) => void | Promise<void>;
   /**
    * Function to validate form values. Follows the Standard Schema `validate` function format (https://standardschema.dev/).
+   * Can validate either complete records (for create) or partial records (for update).
    */
   validate?: (
-    value: Partial<OmitId<D>>,
-  ) => ReturnType<StandardSchemaV1<Partial<OmitId<D>>>['~standard']['validate']>;
+    value: OmitId<D> | Partial<OmitId<D>>,
+  ) => ReturnType<StandardSchemaV1<OmitId<D> | Partial<OmitId<D>>>['~standard']['validate']>;
 }

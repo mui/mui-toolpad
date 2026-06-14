@@ -73,7 +73,7 @@ export async function getEmployees(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export async function createEmployee(req: NextApiRequest, res: NextApiResponse) {
-  const body: Partial<OmitId<Employee>> = req.body;
+  const body: OmitId<Employee> = req.body;
 
   const employeesStore = getEmployeesStore();
 

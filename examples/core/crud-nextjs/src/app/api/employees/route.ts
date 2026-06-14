@@ -77,7 +77,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  const body: Partial<OmitId<Employee>> = await req.json();
+  const body: OmitId<Employee> = await req.json();
 
   const employeesStore = getEmployeesStore();
 
