@@ -4,7 +4,7 @@
 
 import * as React from 'react';
 import { describe, test, expect } from 'vitest';
-import { renderHook, within, screen } from '@testing-library/react';
+import { renderHook, within, screen, waitFor } from '@testing-library/react';
 import { userEvent } from '@testing-library/user-event';
 import { useNotifications } from './useNotifications';
 import { NotificationsProvider } from './NotificationsProvider';
@@ -35,6 +35,8 @@ describe('useNotifications', () => {
 
     rerender();
 
-    expect(screen.queryByRole('alert')).toBeNull();
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).toBeNull();
+    });
   });
 });

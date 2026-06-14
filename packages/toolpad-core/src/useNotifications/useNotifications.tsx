@@ -46,6 +46,15 @@ export interface CloseNotification {
   (key: string): void;
 }
 
+export interface RemoveNotification {
+  /**
+   * Remove a snackbar from the application state (after it has been closed).
+   *
+   * @param key The key of the notification to remove.
+   */
+  (key: string): void;
+}
+
 interface UseNotifications {
   show: ShowNotification;
   close: CloseNotification;
