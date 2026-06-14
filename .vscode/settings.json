@@ -1,15 +1,13 @@
 {
-  "typescript.preferences.importModuleSpecifier": "relative",
-  "editor.autoSurround": "never",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "eslint.format.enable": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
-  "editor.formatOnSave": true,
-  "files.associations": {
-    "**/docs/public/_redirects": "plaintext"
-  },
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": ["Toolpad"]
+  "files.trimTrailingWhitespace": true,
+
+  // Root workspace only
+  "typescript.surveys.enabled": false,
+  "grammarly.selectors": [
+    {
+      "language": "markdown",
+      "scheme": "file"
+    }
+  ]
 }
