@@ -354,6 +354,7 @@ DashboardSidebarPageItem.propTypes /* remove-proptypes */ = {
     icon: PropTypes.node,
     kind: PropTypes.oneOf(['page']),
     pattern: PropTypes.string,
+    searchParams: PropTypes.instanceOf(URLSearchParams),
     segment: PropTypes.string,
     title: PropTypes.string,
   }).isRequired,

@@ -46,6 +46,7 @@ export interface NavigationPageItem {
   pattern?: string;
   action?: React.ReactNode;
   children?: Navigation;
+  searchParams?: URLSearchParams;
 }
 
 export interface NavigationSubheaderItem {
@@ -244,6 +245,7 @@ AppProvider.propTypes /* remove-proptypes */ = {
         icon: PropTypes.node,
         kind: PropTypes.oneOf(['page']),
         pattern: PropTypes.string,
+        searchParams: PropTypes.instanceOf(URLSearchParams),
         segment: PropTypes.string,
         title: PropTypes.string,
       }),

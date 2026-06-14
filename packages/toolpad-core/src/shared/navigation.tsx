@@ -23,23 +23,42 @@ export const getItemTitle = (item: NavigationPageItem | NavigationSubheaderItem)
 function buildItemToPathMap(navigation: Navigation): Map<NavigationPageItem, string> {
   const map = new Map<NavigationPageItem, string>();
 
-  const visit = (item: NavigationItem, base: string) => {
+  const visit = (item: NavigationItem, base: string, parentSearchParams?: URLSearchParams) => {
     if (isPageItem(item)) {
       // Append segment to base path. Make sure to always have an initial slash, and slashes between segments.
-      const path =
+      const pathname =
         `${base.startsWith('/') ? base : `/${base}`}${base && base !== '/' && item.segment ? '/' : ''}${item.segment || ''}` ||
         '/';
+
+      // Merge parent searchParams with item's searchParams
+      // If item has searchParams defined (even if empty), it replaces parent params
+      let searchParams = parentSearchParams;
+      if (item.searchParams !== undefined) {
+        searchParams = new URLSearchParams(item.searchParams);
+        // If parent params exist and item params is not empty, merge them
+        if (parentSearchParams && item.searchParams.size > 0) {
+          for (const [key, value] of parentSearchParams.entries()) {
+            if (!searchParams.has(key)) {
+              searchParams.set(key, value);
+            }
+          }
+        }
+      }
+
+      const searchString = searchParams && searchParams.size > 0 ? `?${searchParams.toString()}` : '';
+      const path = pathname + searchString;
+
       map.set(item, path);
       if (item.children) {
         for (const child of item.children) {
-          visit(child, path);
+          visit(child, pathname, searchParams);
         }
       }
     }
   };
 
   for (const item of navigation) {
-    visit(item, '');
+    visit(item, '', undefined);
   }
 
   return map;
@@ -61,20 +80,22 @@ function getItemToPathMap(navigation: Navigation) {
 
 /**
  * Build a lookup map of paths to navigation items. This map is used to match paths against
- * to find the active page.
+ * to find the active page. Only pathname is used for matching, searchParams are ignored.
  */
 function buildItemLookup(navigation: Navigation) {
   const map = new Map<string | RegExp, NavigationPageItem>();
   const visit = (item: NavigationItem) => {
     if (isPageItem(item)) {
-      const path = getItemPath(navigation, item);
-      if (map.has(path)) {
-        console.warn(`Duplicate path in navigation: ${path}`);
+      const fullPath = getItemPath(navigation, item);
+      // Extract pathname without search params for matching
+      const pathname = fullPath.split('?')[0];
+      if (map.has(pathname)) {
+        console.warn(`Duplicate path in navigation: ${pathname}`);
       }
 
-      map.set(path, item);
+      map.set(pathname, item);
       if (item.pattern) {
-        const basePath = item.segment ? path.slice(0, -item.segment.length) : path;
+        const basePath = item.segment ? pathname.slice(0, -item.segment.length) : pathname;
         map.set(pathToRegexp(basePath + item.pattern), item);
       }
       if (item.children) {
@@ -101,16 +122,18 @@ function getItemLookup(navigation: Navigation) {
 
 /**
  * Matches a path against the navigation to find the active page. i.e. the page that should be
- * marked as selected in the navigation.
+ * marked as selected in the navigation. Only the pathname is matched, search params are ignored.
  */
 export function matchPath(navigation: Navigation, path: string): NavigationPageItem | null {
   const lookup = getItemLookup(navigation);
+  // Strip search params and hash from the path for matching
+  const pathname = path.split('?')[0].split('#')[0];
 
   for (const [key, item] of lookup.entries()) {
-    if (typeof key === 'string' && key === path) {
+    if (typeof key === 'string' && key === pathname) {
       return item;
     }
-    if (key instanceof RegExp && key.test(path)) {
+    if (key instanceof RegExp && key.test(pathname)) {
       return item;
     }
   }

@@ -29,7 +29,7 @@ export const DefaultLink = React.forwardRef(function Link(
     return (event: React.MouseEvent<HTMLAnchorElement>) => {
       event.preventDefault();
       const url = new URL(event.currentTarget.href);
-      routerContext.navigate(url.pathname, { history });
+      routerContext.navigate(url.pathname + url.search + url.hash, { history });
       onClick?.(event);
     };
   }, [routerContext, onClick, history]);

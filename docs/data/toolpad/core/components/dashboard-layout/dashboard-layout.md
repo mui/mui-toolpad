@@ -111,6 +111,44 @@ Some examples:
 
 {{"demo": "DashboardLayoutPattern.js", "height": 400, "iframe": true}}
 
+### Navigation with search parameters
+
+Navigation links have an optional `searchParams` prop to include URL search parameters in the navigation links.
+Child navigation items inherit parent search parameters by default, and can override or clear them.
+
+```tsx
+{
+  segment: 'reports',
+  title: 'Reports',
+  searchParams: new URLSearchParams({ view: 'summary' }),
+  children: [
+    {
+      segment: 'sales',
+      title: 'Sales',
+      // Inherits parent params: /reports/sales?view=summary
+    },
+    {
+      segment: 'inventory',
+      title: 'Inventory',
+      searchParams: new URLSearchParams({ view: 'detailed' }),
+      // Overrides parent param: /reports/inventory?view=detailed
+    },
+    {
+      segment: 'analytics',
+      title: 'Analytics',
+      searchParams: new URLSearchParams(),
+      // Clears inherited params: /reports/analytics
+    },
+  ],
+}
+```
+
+**Key behaviors:**
+- Child items inherit parent `searchParams` by default
+- Child `searchParams` override parent parameters with the same key
+- Empty `URLSearchParams()` clears all inherited parameters
+- Hash fragments in navigation links are preserved during navigation
+
 ### Disable collapsible sidebar
 
 The layout sidebar is collapsible to a mini-drawer (with icons only) in desktop and tablet viewports. This behavior can be disabled with the `disableCollapsibleSidebar` prop.
