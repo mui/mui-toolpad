@@ -185,7 +185,7 @@ function DashboardSidebarPageItem(props: DashboardSidebarPageItemProps) {
         disabled={disabled}
         sx={{
           px: 1.4,
-          height: isMini ? 60 : 48,
+          height: isMini ? 60 : undefined,
         }}
         {...(item.children && !isMini
           ? {
