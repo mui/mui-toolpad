@@ -174,6 +174,7 @@ function DashboardSidebarPageItem(props: DashboardSidebarPageItemProps) {
             },
           }
         : {})}
+      secondaryAction={item.action && !isMini && isSidebarFullyExpanded ? item.action : null}
       sx={{
         py: 0,
         px: 1,
@@ -275,7 +276,6 @@ function DashboardSidebarPageItem(props: DashboardSidebarPageItemProps) {
             }}
           />
         ) : null}
-        {item.action && !isMini && isSidebarFullyExpanded ? item.action : null}
         {item.children ? <ExpandMoreIcon sx={nestedNavigationCollapseSx} /> : null}
       </NavigationListItemButton>
       {item.children && isMini ? (
