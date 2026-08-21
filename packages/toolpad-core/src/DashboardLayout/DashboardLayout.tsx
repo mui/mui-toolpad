@@ -364,7 +364,7 @@ function DashboardLayout(props: DashboardLayoutProps) {
         position: 'relative',
         display: 'flex',
         overflow: 'hidden',
-        height: '100vh',
+        height: '100dvh',
         width: '100vw',
         ...sx,
       }}
